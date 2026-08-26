@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>老西门街道社群孵化项目 · 项目负责人总台</title>
+<style>
+:root{
+  --blue:#1565C0; --pink:#EC407A; --bg:#F5F8FD; --card:#fff;
+  --line:#E3E8F0; --sub:#5A6B82; --red:#D32F2F; --green:#2E7D32; --amber:#B26A00;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:#1F2A37;font-size:14px}
+header{background:linear-gradient(120deg,#0D47A1,#1565C0 55%,#EC407A);color:#fff;padding:20px 22px}
+header h1{margin:0;font-size:20px;letter-spacing:.5px}
+header .sub{margin-top:6px;opacity:.92;font-size:13px}
+.topbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:#fff;border-bottom:1px solid var(--line)}
+.topbar .ver{font-size:12px;color:var(--sub);margin-left:auto}
+.btn{border:1px solid var(--line);background:#fff;color:#1F2A37;border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--blue);color:var(--blue)}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn.ghost{background:#F2F6FC}
+.tabs{display:flex;gap:6px;padding:12px 16px 0;flex-wrap:wrap}
+.tab{padding:9px 16px;border-radius:10px 10px 0 0;background:#E9EEF6;color:var(--sub);cursor:pointer;font-size:14px;font-weight:600;border:1px solid transparent;border-bottom:none}
+.tab.active{background:var(--card);color:var(--blue);border-color:var(--line)}
+.page{display:none;padding:16px;max-width:1200px;margin:0 auto}
+.page.active{display:block}
+.hint{background:#EEF4FD;border:1px solid #D6E4F7;color:#274472;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;line-height:1.6}
+.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.filter-pill{padding:5px 13px;border:1px solid var(--line);border-radius:20px;background:#fff;cursor:pointer;font-size:13px;color:var(--sub)}
+.filter-pill.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.kpi{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.kpi .box{flex:1;min-width:130px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-align:center}
+.kpi .num{font-size:24px;font-weight:800;color:var(--blue)}
+.kpi .num.pink{color:var(--pink)}
+.kpi .num.green{color:var(--green)}
+.kpi .lbl{font-size:12px;color:var(--sub);margin-top:4px}
+.prog{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.prog h3{margin:0 0 10px;font-size:14px;color:var(--blue)}
+.prog-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+.prog-row .pname{width:90px;color:var(--sub);flex:none}
+.prog-bar{flex:1;height:14px;background:#EEF2F7;border-radius:8px;overflow:hidden}
+.prog-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--pink))}
+.prog-row .pcnt{width:74px;text-align:right;color:var(--sub);font-size:12px;flex:none}
+.phase-group{margin-bottom:18px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.phase-head{background:linear-gradient(90deg,#EAF1FB,#FCEBF2);padding:10px 16px;font-weight:700;color:var(--blue);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.phase-head .cnt{font-size:12px;color:var(--sub);font-weight:500}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px;padding:14px}
+.pcard{border:1px solid var(--line);border-radius:10px;padding:12px;background:#FCFEFF}
+.pcard.overdue{border-left:4px solid var(--red)}
+.pc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.pc-title{font-weight:700;font-size:14px;color:#16243A;line-height:1.4}
+.pc-badges{display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex:none}
+.pc-meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--sub);margin:6px 0}
+.pc-meta b{color:#33425A}
+.pc-detail{margin-top:8px;font-size:12.5px;color:#33425A;background:#FAFBFD;border:1px dashed var(--line);border-radius:8px;padding:10px 12px;line-height:1.7}
+.pc-detail div{margin:3px 0}
+.pc-detail b{color:var(--blue)}
+.badge{display:inline-block;padding:2px 9px;border-radius:12px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.b-pink{background:#FCE4EC;color:var(--pink)}
+.b-blue{background:#E3F2FD;color:var(--blue)}
+.b-done{background:#E6F4EA;color:var(--green)}
+.b-prep{background:#FFF4E0;color:var(--amber)}
+.b-na{background:#EEF2F7;color:var(--sub)}
+.b-stg{background:#EDE7F6;color:#5E35B1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.card .title{font-weight:700;font-size:15px;color:#16243A}
+.card .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--sub);margin:4px 0}
+.card .meta b{color:#33425A}
+.note{max-height:4.8em;overflow:hidden;font-size:12.5px;color:var(--sub);background:#FAFBFD;border:1px dashed var(--line);border-radius:8px;padding:8px 10px;white-space:pre-wrap;line-height:1.55;transition:.2s}
+.note.open{max-height:1400px}
+.ntg{margin-top:6px;border:1px solid var(--line);background:#fff;color:var(--blue);border-radius:7px;padding:4px 12px;font-size:12.5px;cursor:pointer}
+.photos{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.ph-body{margin-top:6px}
+.ph-title{font-size:12px;color:var(--sub);font-weight:600;margin:10px 0 4px}
+.ph-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.ph-grid a{display:block;border-radius:8px;overflow:hidden;border:1px solid var(--line);aspect-ratio:3/4;background:#f0f3f8}
+.ph-grid img{width:100%;height:100%;object-fit:cover;display:block}
+.comm-wrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;margin-bottom:18px}
+.sop-block{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.sop-block h3{margin:0 0 4px;font-size:15px;color:var(--pink)}
+.sop-item{border-left:3px solid var(--pink);background:#FFF7FA;border-radius:0 8px 8px 0;padding:9px 13px;margin:9px 0}
+.sop-item .no{font-weight:700;color:var(--pink);margin-right:6px}
+.sop-item .mod{font-size:12px;color:var(--sub);margin-left:8px}
+.sop-item .src{font-size:12px;color:#7A8AA0;margin-top:3px}
+.sop-item .st{font-size:11.5px;color:var(--amber);float:right}
+.empty{color:var(--sub);padding:30px;text-align:center;background:var(--card);border:1px dashed var(--line);border-radius:12px}
+.modal-mask{position:fixed;inset:0;background:rgba(20,30,50,.45);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-mask.show{display:flex}
+.modal{background:#fff;border-radius:14px;padding:20px;width:min(460px,96vw);max-height:90vh;overflow:auto}
+.modal h3{margin:0 0 14px;color:var(--blue)}
+.fld{margin-bottom:11px}
+.fld label{display:block;font-size:12px;color:var(--sub);margin-bottom:4px}
+.fld input,.fld select,.fld textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-size:13px;font-family:inherit}
+.fld textarea{resize:vertical;min-height:60px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:8px}
+</style>
+</head>
+<body>
+<header>
+  <h1>老西门街道社群孵化与社区共治培育项目 · 项目负责人总台</h1>
+  <div class="sub">灵魂手册 ｜ 总览驾驶舱 · 方案跟进(PDCA) · 活动台账 · 主理人双轨 · 社群档案+SOP库 ｜ 数据源自《项目进度融合跟进表 V5》</div>
+</header>
+<div class="topbar">
+  <button class="btn primary" onclick="resetToProgram()">同步最新 V5 数据</button>
+  <button class="btn ghost" onclick="exportJSON()">导出备份</button>
+  <button class="btn ghost" onclick="importJSON()">导入备份</button>
+  <span class="ver" id="verLabel"></span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('p0')">总览驾驶舱</div>
+  <div class="tab" onclick="switchTab('p1')">① 方案跟进</div>
+  <div class="tab" onclick="switchTab('p2')">② 活动台账</div>
+  <div class="tab" onclick="switchTab('p3')">③ 主理人双轨</div>
+  <div class="tab" onclick="switchTab('p4')">④ 社群档案</div>
+</div>
+
+<!-- 总览驾驶舱 -->
+<div class="page active" id="p0">
+  <div class="hint">项目负责人视角的总览：计划执行总盘、各阶段推进进度、活动开展与社群孵化情况。点击上方标签页进入各专项跟进。</div>
+  <div class="kpi" id="ovKpi"></div>
+  <div class="prog" id="ovProg"></div>
+</div>
+
+<!-- ① 方案跟进 -->
+<div class="page" id="p1">
+  <div class="hint">V5「活动全周期执行卡」全量 <strong id="planTotal">0</strong> 项，按<strong>阶段</strong>分组。点阶段标题可折叠；点每张卡片「查看目标/检查点/行动点」展开 PDCA 细节。状态 / 月份筛选作用于全部计划。</div>
+  <div class="filter-bar" id="planFilterBar">
+    <span style="font-size:12px;color:var(--sub)">状态：</span>
+    <span class="filter-pill active" onclick="setPlanFilter('all',this)">全部</span>
+    <span class="filter-pill" onclick="setPlanFilter('未启动',this)">未启动</span>
+    <span class="filter-pill" onclick="setPlanFilter('进行中',this)">进行中</span>
+    <span class="filter-pill" onclick="setPlanFilter('已完成',this)">已完成</span>
+    <span class="filter-pill" onclick="setPlanFilter('不适用',this)">不适用</span>
+    <span style="width:10px"></span>
+    <span style="font-size:12px;color:var(--sub)">月份(计划完成)：</span>
+    <span class="filter-pill active" onclick="setPlanFilterMonth('all',this)">全部</span>
+    <span class="filter-pill" onclick="setPlanFilterMonth('08',this)">8月</span>
+    <span class="filter-pill" onclick="setPlanFilterMonth('09',this)">9月</span>
+    <span class="filter-pill" onclick="setPlanFilterMonth('10',this)">10月</span>
+    <span class="filter-pill" onclick="setPlanFilterMonth('11',this)">11月</span>
+  </div>
+  <div id="planList"></div>
+</div>
+
+<!-- ② 活动台账 -->
+<div class="page" id="p2">
+  <div class="hint">实际已开展活动（与街道看板同源），含真实参与人次、小结与现场照片。街道看板仅展示此页内容，确保内外一致。</div>
+  <div class="kpi" id="actKpi"></div>
+  <div class="filter-bar" id="actFilterBar">
+    <span style="font-size:12px;color:var(--sub)">状态：</span>
+    <span class="filter-pill active" onclick="setActFilter('status','all',this)">全部</span>
+    <span class="filter-pill" onclick="setActFilter('status','已开展',this)">已开展</span>
+    <span class="filter-pill" onclick="setActFilter('status','已完成',this)">已完成</span>
+    <span style="width:14px"></span>
+    <span style="font-size:12px;color:var(--sub)">月份：</span>
+    <span class="filter-pill active" onclick="setActFilter('month','all',this)">全部</span>
+    <span class="filter-pill" onclick="setActFilter('month','08',this)">8月</span>
+    <span class="filter-pill" onclick="setActFilter('month','09',this)">9月</span>
+    <span class="filter-pill" onclick="setActFilter('month','10',this)">10月</span>
+    <span class="filter-pill" onclick="setActFilter('month','11',this)">11月</span>
+  </div>
+  <div class="grid" id="actList"></div>
+</div>
+
+<!-- ③ 主理人双轨 -->
+<div class="page" id="p3">
+  <div class="hint">V5「主理人培养与积分」表，按<strong>双轨</strong>展示（年长导师 + 数字运营官）。五大社群各设一组双轨主理人。</div>
+  <div id="hostList"></div>
+</div>
+
+<!-- ④ 社群档案 -->
+<div class="page" id="p4">
+  <div class="hint">五大社群基础档案 + SOP 方法论库（日常运营手册 / 反哺激励手册）。SOP 来源追溯至对应活动，便于沉淀可复用标准。</div>
+  <div class="comm-wrap" id="commList"></div>
+  <div id="sopList"></div>
+</div>
+
+<div class="modal-mask" id="modal">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script>
+const BUILD_VER='202608261533';
+const PROGRAM = {"plans":[{"id":"pl_1","name":"社群评估与适配方案设计","category":"一、社群矩阵搭建","community":"全体社群","phase":"社群启动","planStart":"2026-07-15","due":"2026-08-30","owner":"龚学群","coop":"孙佳鑫","status":"进行中","goal":"5类社群实地走访+项目计划书落地","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_2","name":"社群评估与适配方案设计 第1次","category":"一、社群矩阵搭建","community":"全体社群","phase":"社群启动","planStart":"2026-07-15","due":"2026-08-10","owner":"龚学群","coop":"孙佳鑫","status":"已完成","goal":"","note":"不适用","checkPoint":"","actionPoint":"","nextPlan":"","stage":"④复盘(S)"},{"id":"pl_3","name":"社群评估与适配方案设计 第2次","category":"一、社群矩阵搭建","community":"全体社群","phase":"社群启动","planStart":"2026-07-15","due":"2026-08-10","owner":"龚学群","coop":"孙佳鑫","status":"已完成","goal":"","note":"不适用","checkPoint":"","actionPoint":"","nextPlan":"","stage":"④复盘(S)"},{"id":"pl_4","name":"社群启动仪式活动","category":"一、社群矩阵搭建","community":"全体社群","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-24","owner":"龚学群、孙佳鑫","coop":"天韵项目团队、街道、居民区","status":"进行中","goal":"启动1场,5类社群集中亮相,≥100人参与（主持人：王彼得）","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"②前期准备"},{"id":"pl_5","name":"社群成员标识物品制作","category":"一、社群矩阵搭建","community":"全体社群","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-17","owner":"龚学群","coop":"天韵项目团队","status":"已完成","goal":"5类标识物各≥20人份发放到位","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"②前期准备"},{"id":"pl_6","name":"社群成员标识物品制作 第1次/5","category":"一、社群矩阵搭建","community":"里弄潮集社","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_7","name":"社群成员标识物品制作 第2次/5","category":"一、社群矩阵搭建","community":"吴侬软语坊","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_8","name":"社群成员标识物品制作 第3次/5","category":"一、社群矩阵搭建","community":"杏林守艺堂","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_9","name":"社群成员标识物品制作 第4次/5","category":"一、社群矩阵搭建","community":"指尖温度圈","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_10","name":"社群成员标识物品制作 第5次/5","category":"一、社群矩阵搭建","community":"邻里议事厅","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_11","name":"社群种子招募宣发设计","category":"二、社群种子招募","community":"邻里议事厅","phase":"社群启动","planStart":"2026-08-07","due":"2026-08-17","owner":"龚学群","coop":"天韵项目/新媒体团队","status":"已完成","goal":"5社群项目介绍易拉宝、招募台卡、项目手册（单页/电子版）","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"②前期准备"},{"id":"pl_12","name":"社群种子招募宣发设计 第1次/5","category":"二、社群种子招募","community":"里弄潮集社","phase":"社群启动","planStart":"2026-08-07","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_13","name":"社群种子招募宣发设计 第2次/5","category":"二、社群种子招募","community":"吴侬软语坊","phase":"社群启动","planStart":"2026-08-07","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_14","name":"社群种子招募宣发设计 第3次/5","category":"二、社群种子招募","community":"杏林守艺堂","phase":"社群启动","planStart":"2026-08-07","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_15","name":"社群种子招募宣发设计 第4次/5","category":"二、社群种子招募","community":"指尖温度圈","phase":"社群启动","planStart":"2026-08-07","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_16","name":"社群种子招募宣发设计 第5次/5","category":"二、社群种子招募","community":"邻里议事厅","phase":"社群启动","planStart":"2026-08-07","due":"2026-08-17","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"已完成","goal":"","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_17","name":"招募活动物料及场景设计","category":"二、社群种子招募","community":"邻里议事厅","phase":"社群启动","planStart":"2026-08-10","due":"2026-08-30","owner":"龚学群","coop":"天韵项目/新媒体团队","status":"进行中","goal":"5社群招募物料+招募展台布置","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"②前期准备"},{"id":"pl_18","name":"招募活动物料及场景设计 第1次/5","category":"二、社群种子招募","community":"里弄潮集社","phase":"社群启动","planStart":"2026-08-21","due":"2026-08-21","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"已完成","goal":"启动仪式同步开展社群开放日展位，进行招募","note":"✅ 已齐","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_19","name":"招募活动物料及场景设计 第2次/5","category":"二、社群种子招募","community":"吴侬软语坊","phase":"社群启动","planStart":"2026-08-21","due":"2026-08-21","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"未启动","goal":"启动仪式同步开展社群开放日展位，进行招募","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_20","name":"招募活动物料及场景设计 第3次/5","category":"二、社群种子招募","community":"杏林守艺堂","phase":"社群启动","planStart":"2026-08-21","due":"2026-08-21","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"未启动","goal":"启动仪式同步开展社群开放日展位，进行招募","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_21","name":"招募活动物料及场景设计 第4次/5","category":"二、社群种子招募","community":"指尖温度圈","phase":"社群启动","planStart":"2026-08-21","due":"2026-08-21","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"未启动","goal":"启动仪式同步开展社群开放日展位，进行招募","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_22","name":"招募活动物料及场景设计 第5次/5","category":"二、社群种子招募","community":"邻里议事厅","phase":"社群启动","planStart":"2026-08-21","due":"2026-08-21","owner":"孙佳鑫","coop":"天韵项目/新媒体团队","status":"未启动","goal":"启动仪式同步开展社群开放日展位，进行招募","note":"待收集","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_23","name":"种子用户招募","category":"二、社群种子招募","community":"邻里议事厅","phase":"社群启动","planStart":"2026-08-24","due":"2026-08-30","owner":"孙佳鑫","coop":"天韵项目团队、居民区","status":"未启动","goal":"每街区≥1场,种子成员入库≥60人","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_24","name":"新媒体运营","category":"二、社群种子招募","community":"邻里议事厅","phase":"全程","planStart":"2026-08-01","due":"2026-11-15","owner":"陈雯","coop":"天韵新媒体团队","status":"未启动","goal":"官微/视频号/公众号持续运营","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_25","name":"活动策划与设计","category":"三、社群孵化活动","community":"邻里议事厅","phase":"全程","planStart":"2026-07-15","due":"2026-11-15","owner":"龚学群、孙佳鑫","coop":"天韵项目团队","status":"未启动","goal":"5个月活动策划与视觉设计支撑","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_26","name":"活动物料","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-07-25","due":"2026-10-31","owner":"龚学群、孙佳鑫","coop":"天韵项目团队","status":"未启动","goal":"5社群活动物料采购与配送","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_27","name":"课程策划及材料","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-07-20","due":"2026-10-31","owner":"龚学群、孙佳鑫","coop":"天韵项目团队","status":"未启动","goal":"升阶课程材料包+活动策划","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_28","name":"治理类道具","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-08-01","due":"2026-10-31","owner":"龚学群、孙佳鑫","coop":"天韵项目团队","status":"未启动","goal":"巡逻队员/议事分享会/新就业群体赋能培训材料和制作","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_29","name":"升阶课程","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-09-01","due":"2026-11-05","owner":"天韵项目团队","coop":"各师资","status":"未启动","goal":"升阶课(沪语/国学/大师/中医/手作/研学)≥560人次","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_30","name":"国学研学与体验 第1次/4","category":"三、社群孵化活动","community":"里弄潮集社","phase":"运营深化","planStart":"2026-09-26","due":"2026-09-26","owner":"孔令韬（国学师资）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥4次研学,每次≥20人次","note":"待收集","checkPoint":"C:出勤率/亲子反馈","actionPoint":"A:优化主题,衔接老城厢漫游","nextPlan":"","stage":"①计划(P)"},{"id":"pl_31","name":"国学研学与体验 第2次/4","category":"三、社群孵化活动","community":"里弄潮集社","phase":"运营深化","planStart":"2026-10-17","due":"2026-10-17","owner":"孔令韬（国学师资）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥4次研学,每次≥20人次","note":"待收集","checkPoint":"C:出勤率/亲子反馈","actionPoint":"A:优化主题,衔接老城厢漫游","nextPlan":"","stage":"①计划(P)"},{"id":"pl_32","name":"国学研学与体验 第3次/4","category":"三、社群孵化活动","community":"里弄潮集社","phase":"运营深化","planStart":"2026-10-24","due":"2026-10-24","owner":"孔令韬（国学师资）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥4次研学,每次≥20人次","note":"待收集","checkPoint":"C:出勤率/亲子反馈","actionPoint":"A:优化主题,衔接老城厢漫游","nextPlan":"","stage":"①计划(P)"},{"id":"pl_33","name":"国学研学与体验 第4次/4","category":"三、社群孵化活动","community":"里弄潮集社","phase":"运营深化","planStart":"2026-10-31","due":"2026-10-31","owner":"孔令韬（国学师资）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥4次研学,每次≥20人次","note":"待收集","checkPoint":"C:出勤率/亲子反馈","actionPoint":"A:优化主题,衔接老城厢漫游","nextPlan":"","stage":"①计划(P)"},{"id":"pl_34","name":"老城厢漫游 第1场/2","category":"三、社群孵化活动","community":"里弄潮集社","phase":"运营深化","planStart":"2026-10-03","due":"2026-10-03","owner":"侯佳奇（漫游主理人）","coop":"天韵漫游团队/龙门邨","status":"未启动","goal":"≥2场,嵌入社区议事10分钟","note":"待收集","checkPoint":"C:意见条数/满意度","actionPoint":"A:转化微治理议题","nextPlan":"","stage":"①计划(P)"},{"id":"pl_35","name":"老城厢漫游 第2场/2","category":"三、社群孵化活动","community":"里弄潮集社","phase":"运营深化","planStart":"2026-10-04","due":"2026-10-04","owner":"侯佳奇（漫游主理人）","coop":"天韵漫游团队/龙门邨","status":"未启动","goal":"≥2场,嵌入社区议事10分钟","note":"待收集","checkPoint":"C:意见条数/满意度","actionPoint":"A:转化微治理议题","nextPlan":"","stage":"①计划(P)"},{"id":"pl_36","name":"沪语学堂 第1次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-09-11","due":"2026-09-11","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_37","name":"沪语学堂 第2次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-09-18","due":"2026-09-18","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_38","name":"沪语学堂 第3次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-09-24","due":"2026-09-24","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_39","name":"沪语学堂 第4次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-10-09","due":"2026-10-09","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_40","name":"沪语学堂 第5次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-10-16","due":"2026-10-16","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_41","name":"沪语学堂 第6次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-10-23","due":"2026-10-23","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_42","name":"沪语学堂 第7次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-10-30","due":"2026-10-30","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_43","name":"沪语学堂 第8次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-11-06","due":"2026-11-06","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_44","name":"沪语学堂 第9次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-11-13","due":"2026-11-13","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_45","name":"沪语学堂 第10次/10","category":"三、社群孵化活动","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-11-20","due":"2026-11-20","owner":"侯佳奇（沪语主理人）","coop":"天宇课程团队、街道（场地）","status":"未启动","goal":"≥10次课程,覆盖儿童/新上海人","note":"待收集","checkPoint":"C:学员出勤/口语测评","actionPoint":"A:优秀学员推歌谣创排","nextPlan":"","stage":"①计划(P)"},{"id":"pl_46","name":"文体社群大师课 第1次/4","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-12","due":"2026-10-31","owner":"龚学群","coop":"天韵文艺团队","status":"未启动","goal":"≥4次(合唱1/2)","note":"待收集","checkPoint":"C:编排/舞台提升","actionPoint":"A:推联合歌舞秀","nextPlan":"","stage":"①计划(P)"},{"id":"pl_47","name":"文体社群大师课 第2次/4","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-12","due":"2026-10-31","owner":"龚学群","coop":"天韵文艺团队","status":"未启动","goal":"≥4次(合唱2/2）","note":"待收集","checkPoint":"C:编排/舞台提升","actionPoint":"A:推联合歌舞秀","nextPlan":"","stage":"①计划(P)"},{"id":"pl_48","name":"文体社群大师课 第3次/4","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-12","due":"2026-10-31","owner":"龚学群","coop":"天韵文艺团队","status":"未启动","goal":"≥4次(健身操1/2)","note":"待收集","checkPoint":"C:编排/舞台提升","actionPoint":"A:推联合歌舞秀","nextPlan":"","stage":"①计划(P)"},{"id":"pl_49","name":"文体社群大师课 第4次/4","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-12","due":"2026-10-31","owner":"龚学群","coop":"天韵文艺团队","status":"未启动","goal":"≥4次(健身操2/2)","note":"待收集","checkPoint":"C:编排/舞台提升","actionPoint":"A:推联合歌舞秀","nextPlan":"","stage":"①计划(P)"},{"id":"pl_50","name":"中医非遗健康体验 第1次/6","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-16","due":"2026-09-16","owner":"张俊（三甲医生）","coop":"天韵非遗团队","status":"未启动","goal":"≥6次主题体验","note":"待收集","checkPoint":"C:居民健康反馈","actionPoint":"A:沉淀健康社群机制","nextPlan":"","stage":"①计划(P)"},{"id":"pl_51","name":"中医非遗健康体验 第2次/6","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-23","due":"2026-09-23","owner":"张俊（三甲医生）","coop":"天韵非遗团队","status":"未启动","goal":"≥6次主题体验","note":"待收集","checkPoint":"C:居民健康反馈","actionPoint":"A:沉淀健康社群机制","nextPlan":"","stage":"①计划(P)"},{"id":"pl_52","name":"中医非遗健康体验 第3次/6","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-30","due":"2026-09-30","owner":"张俊（三甲医生）","coop":"天韵非遗团队","status":"未启动","goal":"≥6次主题体验","note":"待收集","checkPoint":"C:居民健康反馈","actionPoint":"A:沉淀健康社群机制","nextPlan":"","stage":"①计划(P)"},{"id":"pl_53","name":"中医非遗健康体验 第4次/6","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-10-14","due":"2026-10-14","owner":"张俊（三甲医生）","coop":"天韵非遗团队","status":"未启动","goal":"≥6次主题体验","note":"待收集","checkPoint":"C:居民健康反馈","actionPoint":"A:沉淀健康社群机制","nextPlan":"","stage":"①计划(P)"},{"id":"pl_54","name":"中医非遗健康体验 第5次/6","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-10-21","due":"2026-10-21","owner":"张俊（三甲医生）","coop":"天韵非遗团队","status":"未启动","goal":"≥6次主题体验","note":"待收集","checkPoint":"C:居民健康反馈","actionPoint":"A:沉淀健康社群机制","nextPlan":"","stage":"①计划(P)"},{"id":"pl_55","name":"中医非遗健康体验 第6次/6","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-10-28","due":"2026-10-28","owner":"张俊（三甲医生）","coop":"天韵非遗团队","status":"未启动","goal":"≥6次主题体验","note":"待收集","checkPoint":"C:居民健康反馈","actionPoint":"A:沉淀健康社群机制","nextPlan":"","stage":"①计划(P)"},{"id":"pl_56","name":"跨社群联合歌舞秀","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-20","due":"2026-11-05","owner":"天韵活动团队","coop":"专业编导","status":"未启动","goal":"1支歌舞秀,结项汇演展示","note":"待收集","checkPoint":"C:舞台表现/协作","actionPoint":"A:结项汇演呈现","nextPlan":"","stage":"①计划(P)"},{"id":"pl_57","name":"亲子家庭健身操创编","category":"三、社群孵化活动","community":"杏林守艺堂","phase":"运营深化","planStart":"2026-09-12","due":"2026-10-31","owner":"天韵活动团队","coop":"社群主理人","status":"未启动","goal":"1支亲子健身操","note":"待收集","checkPoint":"C:年轻人参与","actionPoint":"A:纳入常态化","nextPlan":"","stage":"①计划(P)"},{"id":"pl_58","name":"非遗手作大师课 第1次/4","category":"三、社群孵化活动","community":"指尖温度圈","phase":"运营深化","planStart":"2026-09-15","due":"2026-09-15","owner":"何良贤","coop":"天韵非遗团队","status":"未启动","goal":"≥4次（串珠1/2）","note":"待收集","checkPoint":"C:作品质量","actionPoint":"A:推优秀作品义卖","nextPlan":"","stage":"①计划(P)"},{"id":"pl_59","name":"非遗手作大师课 第2次/4","category":"三、社群孵化活动","community":"指尖温度圈","phase":"运营深化","planStart":"2026-09-22","due":"2026-09-22","owner":"何良贤","coop":"天韵非遗团队","status":"未启动","goal":"≥4次（串珠2/2）","note":"待收集","checkPoint":"C:作品质量","actionPoint":"A:推优秀作品义卖","nextPlan":"","stage":"①计划(P)"},{"id":"pl_60","name":"非遗手作大师课 第3次/4","category":"三、社群孵化活动","community":"指尖温度圈","phase":"运营深化","planStart":"2026-09-29","due":"2026-09-29","owner":"何良贤","coop":"天韵非遗团队","status":"未启动","goal":"≥4次（编制1/2）","note":"待收集","checkPoint":"C:作品质量","actionPoint":"A:推优秀作品义卖","nextPlan":"","stage":"①计划(P)"},{"id":"pl_61","name":"非遗手作大师课 第4次/4","category":"三、社群孵化活动","community":"指尖温度圈","phase":"运营深化","planStart":"2026-10-13","due":"2026-10-13","owner":"何良贤","coop":"天韵非遗团队","status":"未启动","goal":"≥4次（编制2/2）","note":"待收集","checkPoint":"C:作品质量","actionPoint":"A:推优秀作品义卖","nextPlan":"","stage":"①计划(P)"},{"id":"pl_62","name":"社区议事10分钟分享会 第1场/2","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-09-15","due":"2026-10-31","owner":"侯佳奇（漫游主理人）","coop":"天韵漫游团队/龙门邨","status":"未启动","goal":"≥2场议事分享会（嵌入老城厢漫游）","note":"待收集","checkPoint":"C:问题协商条数","actionPoint":"A:形成微治理清单","nextPlan":"","stage":"①计划(P)"},{"id":"pl_63","name":"社区议事10分钟分享会 第2场/2","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-09-15","due":"2026-10-31","owner":"侯佳奇（漫游主理人）","coop":"天韵漫游团队/龙门邨","status":"未启动","goal":"≥2场议事分享会（嵌入老城厢漫游）","note":"待收集","checkPoint":"C:问题协商条数","actionPoint":"A:形成微治理清单","nextPlan":"","stage":"①计划(P)"},{"id":"pl_64","name":"租客职业技能赋能会 第1场/2","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-09-15","due":"2026-10-31","owner":"陈雯、杨晨","coop":"天韵课程团队","status":"未启动","goal":"≥2场(主题：短视频/直播)","note":"待收集","checkPoint":"C:租客连接度","actionPoint":"A:引导参与公共事务","nextPlan":"","stage":"①计划(P)"},{"id":"pl_65","name":"租客职业技能赋能会 第2场/2","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-09-15","due":"2026-10-31","owner":"陈雯、杨晨","coop":"天韵课程团队","status":"未启动","goal":"≥2场(主题：技能)","note":"待收集","checkPoint":"C:租客连接度","actionPoint":"A:引导参与公共事务","nextPlan":"","stage":"①计划(P)"},{"id":"pl_66","name":"【最美巡逻员】交流分享会","category":"三、社群孵化活动","community":"邻里议事厅","phase":"运营深化","planStart":"2026-10-15","due":"2026-10-31","owner":"天韵活动团队","coop":"社群、居民区、街道","status":"未启动","goal":"1次分享会+评选","note":"待收集","checkPoint":"C:荣誉感/稳定","actionPoint":"A:纳荣誉激励","nextPlan":"","stage":"①计划(P)"},{"id":"pl_67","name":"社群主理人赋能培训 第1期/2","category":"三、社群孵化活动","community":"全体社群","phase":"运营深化","planStart":"2026-09-05","due":"2026-09-30","owner":"龚学群","coop":"天韵课程团队","status":"未启动","goal":"2期培训,覆盖≥10人","note":"待收集","checkPoint":"C:能力提升测评","actionPoint":"A:复盘评优","nextPlan":"","stage":"①计划(P)"},{"id":"pl_68","name":"社群主理人赋能培训 第2期/2","category":"三、社群孵化活动","community":"全体社群","phase":"运营深化","planStart":"2026-10-08","due":"2026-10-30","owner":"龚学群","coop":"天韵课程团队","status":"未启动","goal":"2期培训,覆盖≥10人","note":"待收集","checkPoint":"C:能力提升测评","actionPoint":"A:复盘评优","nextPlan":"","stage":"①计划(P)"},{"id":"pl_69","name":"反哺机制","category":"四、社群项目支持与反哺","community":"全体社群","phase":"运营深化","planStart":"2026-08-01","due":"2026-11-30","owner":"天韵项目团队","coop":"社群主理人、居民区","status":"未启动","goal":"项目支持","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_70","name":"沪语歌谣创排","category":"四、社群项目支持与反哺","community":"吴侬软语坊","phase":"运营深化","planStart":"2026-09-10","due":"2026-11-05","owner":"龚学群","coop":"天韵新媒体团队","status":"未启动","goal":"1首【龙门谣】原创沪语歌谣","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_71","name":"大型市集","category":"四、社群项目支持与反哺","community":"里弄潮集社","phase":"运营深化","planStart":"2026-11-14","due":"2026-11-14","owner":"天韵活动团队","coop":"社群、居民区、街道","status":"未启动","goal":"1场市集","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_72","name":"城市沉浸拍摄","category":"四、社群项目支持与反哺","community":"吴侬、邻里","phase":"运营深化","planStart":"2026-09-01","due":"2026-10-31","owner":"陈雯","coop":"天韵项目团队","status":"未启动","goal":"≥1次沪语学堂主题拍摄，≥1次“城市守护人”拍摄","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_73","name":"节日关怀活动","category":"四、社群项目支持与反哺","community":"指尖温度圈","phase":"运营深化","planStart":"2026-09-01","due":"2026-10-31","owner":"天韵活动团队","coop":"居民区","status":"未启动","goal":"对居民区内老人进行节日关怀活动（中秋、重阳）","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_74","name":"社群建设物料及活动物料增补","category":"四、社群项目支持与反哺","community":"全体社群","phase":"运营深化","planStart":"2026-09-01","due":"2026-11-15","owner":"龚学群","coop":"天韵项目团队","status":"未启动","goal":"社群建设物料补充及活动物料配送增补","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_75","name":"双轨主理人选拔与组建","category":"机制建设","community":"全体社群","phase":"社群启动","planStart":"2026-08-01","due":"2026-09-15","owner":"龚学群","coop":"社群主理人","status":"未启动","goal":"5组双轨主理人(年长导师+数字运营官)到位","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_76","name":"主理人积分体系建立","category":"机制建设","community":"全体社群","phase":"社群启动","planStart":"2026-08-01","due":"2026-08-31","owner":"孙佳鑫","coop":"社群主理人","status":"未启动","goal":"积分规则+记录体系上线,月度公示","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_77","name":"SOP两本操作手册编制","category":"品牌输出","community":"全体社群","phase":"项目结项","planStart":"2026-10-01","due":"2026-11-15","owner":"孙佳鑫","coop":"天韵项目团队","status":"未启动","goal":"《日常运营手册》《反哺激励手册》V1.0各1本","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_78","name":"宣传矩阵执行","category":"品牌输出","community":"全体社群","phase":"全程","planStart":"2026-08-01","due":"2026-11-10","owner":"陈雯","coop":"天韵新媒体团队","status":"未启动","goal":"官媒2篇+公众号4板块+视频号1主题","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"},{"id":"pl_79","name":"项目结项验收","category":"品牌输出","community":"全体社群","phase":"项目结项","planStart":"2026-11-01","due":"2026-11-30","owner":"龚学群","coop":"天韵项目团队、街道","status":"未启动","goal":"结项报告+验收通过,11月30日前完成报告","note":"","checkPoint":"","actionPoint":"","nextPlan":"","stage":"①计划(P)"}],"acts":[{"title":"项目启动仪式&社群开放日","type":"仪式","date":"2026-08-24","place":"上海市黄浦区老西门肇周路55号3楼，悦西门·零距离家园","count":88,"owner":"龚学群","status":"已完成","note":"活动主题：\n“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目——社区启动仪式&社群开放日\n活动小结：\n8月24日下午，“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目正式启动。社群主理人和社区居民代表齐聚老西门悦西门零距离家园，在展示、体验与互动中共同开启老西门社群培育的新探索。\n今年，老西门街道启动“西门荟治·社群和鸣”项目，以“盘活存量、培育增量、激活能量”为思路，将居民兴趣、社区资源与公共参与进一步连接起来。\n启动仪式上，居民代表和主理人共同拼接“社群地图”，五大社群版图逐一点亮，标志着项目正式启幕。\n五大社群通过表演、作品展示和现场访谈等方式集中亮相。古韵悠扬舞蹈队通过舞蹈展现健康活力，手工作品传递指尖巧思，《龙门谣》讲述社区故事，沪剧《燕燕做媒》唱响吴侬软语，传统礼仪展示则带大家感受老城厢文化魅力。各具特色的展示，也让现场居民更直观地认识五大社群：“杏林守艺堂”聚焦健康生活与文体兴趣；“指尖温度圈”以手作连接公益与邻里关怀；“邻里议事厅”从社区安全、环境治理等身边事出发，推动居民参与；“吴侬软语社”以沪语和海派文化连接不同人群；“里弄潮集社”则依托老城厢文化资源，探索城市漫步、文化体验等更多玩法。\n现场同步发布“双轨主理人”机制，由有经验的社区骨干与青年力量协作参与社群运营。伴随着聘书和社群授名，一批主理人正式“上岗”，从兴趣活动的参与者、组织者，进一步成为连接社群成员的重要纽带。\n五大社群专属Logo、社群视觉物料及项目期间的特色活动也在现场集中亮相，让每个社群都有了更加鲜明的“身份标识”。\n仪式之后，现场变身“社群开放日”。五大社群展位同步开放，居民可以体验互动、盖下专属“社群护照章”，也可以扫码加入感兴趣的社群。“里弄潮集社”“吴侬软语社”还现场发布首场体验活动名额，向社区居民发出第一份“组队邀请”。\n从一次体验认识一群人，从共同兴趣形成稳定连接，再从社群参与逐步走向社区参与——接下来，“社群和鸣”还将通过主理人培育、社群共创和公益反哺等方式，让更多居民在老西门找到自己的兴趣伙伴，也找到参与社区共治的新方式。","feedback":"活动素材的提交颗粒度还需持续对齐。","group":"全体社群","line":"天韵项目团队","signPhotos":["assets/0824/thumbs/20260824180341.jpg?v=202608261533","assets/0824/thumbs/20260824180416.jpg?v=202608261533","assets/0824/thumbs/20260824180737.jpg?v=202608261533","assets/0824/thumbs/20260824180743.jpg?v=202608261533","assets/0824/thumbs/20260824180748.jpg?v=202608261533","assets/0824/thumbs/20260824180754.jpg?v=202608261533"],"actPhotos":["assets/0824/thumbs/0c1eaf668ce057d55b65492069bad4c.jpg?v=202608261533","assets/0824/thumbs/4550b3b3e539bc654b242a4e150a82d.jpg?v=202608261533","assets/0824/thumbs/5ef335951adac437e8c2a498cc9d5cd.jpg?v=202608261533","assets/0824/thumbs/a471977b5d5cf507b3b6154e68cd498.jpg?v=202608261533","assets/0824/thumbs/total.jpg?v=202608261533"],"source":"manual","id":"a_2026-08-24_0"},{"title":"家门口的小确幸-老西门幸福集市（社群招募）","type":"市集","date":"2026-08-21","place":"上海市黄浦区西藏南路686号，南六广场","count":24,"owner":"孙佳鑫","status":"已完成","note":"活动主题：\n“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目——社群开放日（“家门口的小确幸 老西门幸福集市）\n活动小结：\n8月21日下午，“西门荟治·社群和鸣”社群孵化培训工作项目组受邀参加“2026年老西门幸福集市”。\n在西藏南路肇周路路口的南六广场，项目组入驻“社区集市”摊位，为街道居民带来了丰富多彩的社群开放日体验活动。\n活动现场，居民积极参与“沪语学堂大转盘”活动，体验沪语学习。活动现场，居民踊跃咨询社群主题，工作人员也积极介绍和推广社群，为启动仪式预热。现场共招募到24名居民加入社群。\n加入社群的居民也非常期待，能在家门口参与到更多形式丰富的活动，增加凝聚力，为小区治理注入自己更多力量。","feedback":"无","group":"全体社群","line":"天韵项目团队","signPhotos":["assets/0821/thumbs/295815cca274a9c68d831a9d6f89e72.jpg?v=202608261533","assets/0821/thumbs/a1abd8b0100bb886725a4d96e2a4bd7.jpg?v=202608261533"],"actPhotos":["assets/0821/thumbs/f29604792b5e18ce19da501e264e729.jpg?v=202608261533"],"source":"manual","id":"a_2026-08-21_1"}],"hosts":[{"id":"h_0_m","community":"里弄潮集社","name":"年长导师(待定)","role":"年长导师","activity":"国学研学/老城厢漫游","selection":"待选拔","points":"0"},{"id":"h_0_o","community":"里弄潮集社","name":"数字运营官(待定)","role":"数字运营官","activity":"国学研学/老城厢漫游","selection":"待选拔","points":"0"},{"id":"h_1_m","community":"吴侬软语坊","name":"年长导师(待定)","role":"年长导师","activity":"沪语学堂/沪语歌谣","selection":"待选拔","points":"0"},{"id":"h_1_o","community":"吴侬软语坊","name":"数字运营官(待定)","role":"数字运营官","activity":"沪语学堂/沪语歌谣","selection":"待选拔","points":"0"},{"id":"h_2_m","community":"杏林守艺堂","name":"年长导师(待定)","role":"年长导师","activity":"大师课/健康/歌舞秀","selection":"待选拔","points":"0"},{"id":"h_2_o","community":"杏林守艺堂","name":"数字运营官(待定)","role":"数字运营官","activity":"大师课/健康/歌舞秀","selection":"待选拔","points":"0"},{"id":"h_3_m","community":"指尖温度圈","name":"年长导师(待定)","role":"年长导师","activity":"手作大师课/义卖","selection":"待选拔","points":"0"},{"id":"h_3_o","community":"指尖温度圈","name":"数字运营官(待定)","role":"数字运营官","activity":"手作大师课/义卖","selection":"待选拔","points":"0"},{"id":"h_4_m","community":"邻里议事厅","name":"年长导师(待定)","role":"年长导师","activity":"议事/巡逻/赋能","selection":"待选拔","points":"0"},{"id":"h_4_o","community":"邻里议事厅","name":"数字运营官(待定)","role":"数字运营官","activity":"议事/巡逻/赋能","selection":"待选拔","points":"0"}],"communities":[{"id":"c1","name":"里弄潮集社","direction":"邻里集市共创 / 城市漫步 / 文化体验","lead":"待定","note":""},{"id":"c2","name":"吴侬软语坊","direction":"沪语学堂 / 沪语歌谣 / 海派文化","lead":"侯佳奇","note":""},{"id":"c3","name":"杏林守艺堂","direction":"中医非遗 / 文体社群 / 歌舞秀","lead":"待定","note":""},{"id":"c4","name":"指尖温度圈","direction":"非遗手作 / 节日关怀 / 义卖","lead":"待定","note":""},{"id":"c5","name":"邻里议事厅","direction":"社区议事 / 租客赋能 / 巡逻","lead":"待定","note":""}],"sop":[{"no":"1","manual":"日常运营手册","module":"社群诊断评估五阶段流程","source":"社群评估与适配方案设计","content":"输出五维度评估框架","status":"待编写"},{"no":"2","manual":"日常运营手册","module":"活动标准化流程(签到-活动-复盘)","source":"社群启动仪式活动/各社群活动","content":"每次活动可复用SOP","status":"待编写"},{"no":"3","manual":"日常运营手册","module":"成员标识与身份管理","source":"社群成员标识物品制作","content":"","status":"待编写"},{"no":"4","manual":"日常运营手册","module":"种子招募与入库","source":"种子用户招募/宣发","content":"","status":"待编写"},{"no":"5","manual":"日常运营手册","module":"每周活动标准化流程","source":"升阶课程各子活动","content":"","status":"待编写"},{"no":"6","manual":"日常运营手册","module":"双轨主理人选培大纲与考核","source":"主理人赋能培训/选拔","content":"","status":"待编写"},{"no":"7","manual":"反哺激励手册","module":"义卖组织流程与物料清单","source":"大型市集/节日关怀","content":"","status":"待编写"},{"no":"8","manual":"反哺激励手册","module":"议事机制","source":"社区议事10分钟","content":"","status":"待编写"},{"no":"9","manual":"反哺激励手册","module":"优秀社群评选标准","source":"最美巡逻员分享会","content":"","status":"待编写"},{"no":"10","manual":"反哺激励手册","module":"积分记录与公示机制","source":"积分体系","content":"","status":"待编写"},{"no":"11","manual":"反哺激励手册","module":"宣传推广","source":"拍摄指导/短视频/歌谣","content":"","status":"待编写"},{"no":"12","manual":"反哺激励手册","module":"展演组织流程","source":"联合歌舞秀/汇演","content":"","status":"待编写"}],"dashActs":[{"id":"ev_2","title":"社群评估与适配方案设计 第1次","date":"2026-07-15","group":"一、社群矩阵搭建","type":"其他","owner":"龚学群","count":0,"place":"","status":"已完成","note":"不适用","signPhotos":[],"actPhotos":[],"source":"plan"},{"id":"ev_3","title":"社群评估与适配方案设计 第2次","date":"2026-07-15","group":"一、社群矩阵搭建","type":"其他","owner":"龚学群","count":0,"place":"","status":"已完成","note":"不适用","signPhotos":[],"actPhotos":[],"source":"plan"},{"id":"a_2026-08-21_1","title":"家门口的小确幸-老西门幸福集市（社群招募）","type":"市集","date":"2026-08-21","place":"上海市黄浦区西藏南路686号，南六广场","count":24,"owner":"孙佳鑫","status":"已完成","note":"活动主题：\n“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目——社群开放日（“家门口的小确幸 老西门幸福集市）\n活动小结：\n8月21日下午，“西门荟治·社群和鸣”社群孵化培训工作项目组受邀参加“2026年老西门幸福集市”。\n在西藏南路肇周路路口的南六广场，项目组入驻“社区集市”摊位，为街道居民带来了丰富多彩的社群开放日体验活动。\n活动现场，居民积极参与“沪语学堂大转盘”活动，体验沪语学习。活动现场，居民踊跃咨询社群主题，工作人员也积极介绍和推广社群，为启动仪式预热。现场共招募到24名居民加入社群。\n加入社群的居民也非常期待，能在家门口参与到更多形式丰富的活动，增加凝聚力，为小区治理注入自己更多力量。","group":"全体社群","line":"天韵项目团队","signPhotos":["assets/0821/thumbs/295815cca274a9c68d831a9d6f89e72.jpg?v=202608261533","assets/0821/thumbs/a1abd8b0100bb886725a4d96e2a4bd7.jpg?v=202608261533"],"actPhotos":["assets/0821/thumbs/f29604792b5e18ce19da501e264e729.jpg?v=202608261533"],"source":"manual"},{"id":"a_2026-08-24_0","title":"项目启动仪式&社群开放日","type":"仪式","date":"2026-08-24","place":"上海市黄浦区老西门肇周路55号3楼，悦西门·零距离家园","count":88,"owner":"龚学群","status":"已完成","note":"活动主题：\n“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目——社区启动仪式&社群开放日\n活动小结：\n8月24日下午，“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目正式启动。社群主理人和社区居民代表齐聚老西门悦西门零距离家园，在展示、体验与互动中共同开启老西门社群培育的新探索。\n今年，老西门街道启动“西门荟治·社群和鸣”项目，以“盘活存量、培育增量、激活能量”为思路，将居民兴趣、社区资源与公共参与进一步连接起来。\n启动仪式上，居民代表和主理人共同拼接“社群地图”，五大社群版图逐一点亮，标志着项目正式启幕。\n五大社群通过表演、作品展示和现场访谈等方式集中亮相。古韵悠扬舞蹈队通过舞蹈展现健康活力，手工作品传递指尖巧思，《龙门谣》讲述社区故事，沪剧《燕燕做媒》唱响吴侬软语，传统礼仪展示则带大家感受老城厢文化魅力。各具特色的展示，也让现场居民更直观地认识五大社群：“杏林守艺堂”聚焦健康生活与文体兴趣；“指尖温度圈”以手作连接公益与邻里关怀；“邻里议事厅”从社区安全、环境治理等身边事出发，推动居民参与；“吴侬软语社”以沪语和海派文化连接不同人群；“里弄潮集社”则依托老城厢文化资源，探索城市漫步、文化体验等更多玩法。\n现场同步发布“双轨主理人”机制，由有经验的社区骨干与青年力量协作参与社群运营。伴随着聘书和社群授名，一批主理人正式“上岗”，从兴趣活动的参与者、组织者，进一步成为连接社群成员的重要纽带。\n五大社群专属Logo、社群视觉物料及项目期间的特色活动也在现场集中亮相，让每个社群都有了更加鲜明的“身份标识”。\n仪式之后，现场变身“社群开放日”。五大社群展位同步开放，居民可以体验互动、盖下专属“社群护照章”，也可以扫码加入感兴趣的社群。“里弄潮集社”“吴侬软语社”还现场发布首场体验活动名额，向社区居民发出第一份“组队邀请”。\n从一次体验认识一群人，从共同兴趣形成稳定连接，再从社群参与逐步走向社区参与——接下来，“社群和鸣”还将通过主理人培育、社群共创和公益反哺等方式，让更多居民在老西门找到自己的兴趣伙伴，也找到参与社区共治的新方式。","group":"全体社群","line":"天韵项目团队","signPhotos":["assets/0824/thumbs/20260824180341.jpg?v=202608261533","assets/0824/thumbs/20260824180416.jpg?v=202608261533","assets/0824/thumbs/20260824180737.jpg?v=202608261533","assets/0824/thumbs/20260824180743.jpg?v=202608261533","assets/0824/thumbs/20260824180748.jpg?v=202608261533","assets/0824/thumbs/20260824180754.jpg?v=202608261533"],"actPhotos":["assets/0824/thumbs/0c1eaf668ce057d55b65492069bad4c.jpg?v=202608261533","assets/0824/thumbs/4550b3b3e539bc654b242a4e150a82d.jpg?v=202608261533","assets/0824/thumbs/5ef335951adac437e8c2a498cc9d5cd.jpg?v=202608261533","assets/0824/thumbs/a471977b5d5cf507b3b6154e68cd498.jpg?v=202608261533","assets/0824/thumbs/total.jpg?v=202608261533"],"source":"manual"}]};
+
+const KEY={plans:'wb_plans',acts:'wb_acts',hosts:'wb_hosts',communities:'wb_communities',sop:'wb_sop',ver:'wb_ver'};
+const load=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch(e){return d;}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}};
+const uid=()=>'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const todayStr=()=>new Date().toISOString().slice(0,10);
+const esc=s=>(s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+let plans,acts,hosts,communities,sop;
+if(load(KEY.ver,null)!==BUILD_VER){
+  plans=JSON.parse(JSON.stringify(PROGRAM.plans));
+  acts=JSON.parse(JSON.stringify(PROGRAM.acts));
+  hosts=JSON.parse(JSON.stringify(PROGRAM.hosts));
+  communities=JSON.parse(JSON.stringify(PROGRAM.communities));
+  sop=JSON.parse(JSON.stringify(PROGRAM.sop||[]));
+  save(KEY.plans,plans);save(KEY.acts,acts);save(KEY.hosts,hosts);save(KEY.communities,communities);save(KEY.sop,sop);save(KEY.ver,BUILD_VER);
+}else{
+  plans=load(KEY.plans,PROGRAM.plans);
+  acts=load(KEY.acts,PROGRAM.acts);
+  hosts=load(KEY.hosts,PROGRAM.hosts);
+  communities=load(KEY.communities,PROGRAM.communities);
+  sop=load(KEY.sop,PROGRAM.sop||[]);
+}
+document.getElementById('verLabel').textContent='版本 '+BUILD_VER+' ｜ 计划 '+plans.length+' 项 / 活动 '+acts.length+' 场 / 主理人 '+hosts.length+' 人';
+
+let planFilter='all', planMonth='all', actStatusFilter='all', actMonthFilter='all';
+const TABS={'p0':0,'p1':1,'p2':2,'p3':3,'p4':4};
+
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab')[TABS[id]].classList.add('active');
+  document.getElementById(id).classList.add('active');
+  renderAll();
+}
+function statusBadge(s){
+  if(s==='已完成')return '<span class="badge b-done">已完成</span>';
+  if(s==='进行中')return '<span class="badge b-prep">进行中</span>';
+  if(s==='不适用')return '<span class="badge b-na">不适用</span>';
+  return '<span class="badge b-blue">未启动</span>';
+}
+function actBadge(s){if(s==='已开展'||s==='已完成')return '<span class="badge b-done">'+esc(s)+'</span>';return '<span class="badge b-prep">'+esc(s)+'</span>';}
+
+function renderAll(){renderOverview();renderPlans();renderActs();renderHosts();renderCommunities();}
+
+/* ---------- 总览驾驶舱 ---------- */
+function renderOverview(){
+  const done=plans.filter(p=>p.status==='已完成').length;
+  const doing=plans.filter(p=>p.status==='进行中').length;
+  const todo=plans.filter(p=>p.status==='未启动').length;
+  const na=plans.filter(p=>p.status==='不适用').length;
+  const actDone=acts.filter(a=>a.status==='已完成'||a.status==='已开展').length;
+  const people=acts.reduce((s,a)=>s+(+a.count||0),0);
+  document.getElementById('ovKpi').innerHTML=
+    `<div class="box"><div class="num">${plans.length}</div><div class="lbl">计划总数</div></div>
+     <div class="box"><div class="num green">${done}</div><div class="lbl">已完成</div></div>
+     <div class="box"><div class="num pink">${doing}</div><div class="lbl">进行中</div></div>
+     <div class="box"><div class="num">${todo}</div><div class="lbl">未启动</div></div>
+     <div class="box"><div class="num">${acts.length}</div><div class="lbl">已开展活动</div></div>
+     <div class="box"><div class="num pink">${people}</div><div class="lbl">累计参与人次</div></div>
+     <div class="box"><div class="num">${communities.length}</div><div class="lbl">孵化社群</div></div>
+     <div class="box"><div class="num">${hosts.length}</div><div class="lbl">主理人(双轨)</div></div>`;
+  const phases=[...new Set(plans.map(p=>p.phase))];
+  document.getElementById('ovProg').innerHTML='<h3>各阶段推进进度（已完成 / 总数）</h3>'+phases.map(ph=>{
+    const items=plans.filter(p=>p.phase===ph);
+    const cd=items.filter(p=>p.status==='已完成').length;
+    const pct=items.length?Math.round(cd/items.length*100):0;
+    return `<div class="prog-row"><span class="pname">${esc(ph)}</span><span class="prog-bar"><i style="width:${pct}%"></i></span><span class="pcnt">${cd}/${items.length} (${pct}%)</span></div>`;
+  }).join('');
+}
+
+/* ---------- ① 方案跟进 ---------- */
+function renderPlans(){
+  document.getElementById('planTotal').textContent=plans.length;
+  const box=document.getElementById('planList');
+  const list=plans.filter(p=>(planFilter==='all'||p.status===planFilter)&&(planMonth==='all'||(p.due||'').slice(5,7)===planMonth));
+  if(!list.length){box.innerHTML='<div class="empty">当前筛选条件下没有计划节点。</div>';return;}
+  const groups={};
+  list.forEach(p=>{const g=p.phase||'其他';(groups[g]=groups[g]||[]).push(p);});
+  const order=['社群启动','运营深化','项目结项','全程','其他'].filter(g=>groups[g]);
+  const overdue=p=>p.due&&p.due<todayStr()&&p.status!=='已完成';
+  box.innerHTML=order.map(g=>{
+    const cards=groups[g].map(p=>`<div class="pcard ${overdue(p)?'overdue':''}">
+      <div class="pc-head">
+        <div class="pc-title">${esc(p.name)}</div>
+        <div class="pc-badges">
+          <span class="badge b-pink">${esc(p.community)}</span>
+          ${statusBadge(p.status)}
+          ${p.stage?`<span class="badge b-stg">${esc(p.stage)}</span>`:''}
+        </div>
+      </div>
+      <div class="pc-meta"><span><b>牵头：</b>${esc(p.owner)}</span><span><b>协同：</b>${esc(p.coop)}</span><span><b>周期：</b>${esc(p.planStart||'-')} ~ ${esc(p.due||'-')}</span></div>
+      <button class="ntg" onclick="togglePlan('pd_${p.id}',this)">查看目标/检查点/行动点 ▾</button>
+      <div class="pc-detail" id="pd_${p.id}" style="display:none">
+        ${p.goal?`<div><b>目标：</b>${esc(p.goal)}</div>`:''}
+        ${p.checkPoint?`<div><b>检查点(C)：</b>${esc(p.checkPoint)}</div>`:''}
+        ${p.actionPoint?`<div><b>行动点(A)：</b>${esc(p.actionPoint)}</div>`:''}
+        ${p.nextPlan?`<div><b>下一步：</b>${esc(p.nextPlan)}</div>`:''}
+        ${(!p.goal&&!p.checkPoint&&!p.actionPoint&&!p.nextPlan)?'<div>暂无明细</div>':''}
+      </div>
+    </div>`).join('');
+    return `<div class="phase-group">
+      <div class="phase-head" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'grid':'none'"><span>▾ ${esc(g)}</span><span class="cnt">${groups[g].length} 项</span></div>
+      <div class="pgrid">${cards}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ---------- ② 活动台账 ---------- */
+function renderActs(){
+  const box=document.getElementById('actList');
+  const list=acts.filter(a=>(actStatusFilter==='all'||a.status===actStatusFilter)&&(actMonthFilter==='all'||(a.date||'').slice(5,7)===actMonthFilter));
+  const done=acts.filter(a=>a.status==='已完成'||a.status==='已开展').length;
+  const people=acts.reduce((s,a)=>s+(+a.count||0),0);
+  document.getElementById('actKpi').innerHTML=
+    `<div class="box"><div class="num">${acts.length}</div><div class="lbl">已开展活动</div></div>
+     <div class="box"><div class="num pink">${done}</div><div class="lbl">已完成/已开展</div></div>
+     <div class="box"><div class="num">${people}</div><div class="lbl">累计参与人次</div></div>`;
+  if(!list.length){box.innerHTML='<div class="empty">当前筛选条件下没有活动。</div>';return;}
+  box.innerHTML=list.map(a=>{
+    const photos=(a.signPhotos||[]).concat(a.actPhotos||[]);
+    const hasPhotos=photos.length>0;
+    return `<div class="card">
+    <div class="top"><div class="title">${esc(a.title)}</div>${actBadge(a.status)}</div>
+    <div class="meta"><span><b>社群：</b>${esc(a.group)}</span><span><b>形式：</b><span class="badge b-pink">${esc(a.type)}</span></span>
+      <span><b>日期：</b>${esc(a.date)}</span><span><b>负责人：</b>${esc(a.owner)}</span>
+      <span><b>人数：</b>${a.count||0}</span><span><b>归属：</b>${esc(a.line)}</span></div>
+    <div class="meta"><span><b>地点：</b>${esc(a.place)}</span></div>
+    ${a.note?`<div class="note" id="note_${a.id}">小结：${esc(a.note)}</div><button class="ntg" onclick="toggleNote('note_${a.id}',this)">展开 ▾</button>`:''}
+    ${hasPhotos?`<div class="photos">
+      <button class="ntg" data-n="${photos.length}" onclick="togglePhotos('ph_${a.id}',this)">📷 查看照片（${photos.length}）▾</button>
+      <div class="ph-body" id="ph_${a.id}" style="display:none">
+        ${(a.signPhotos&&a.signPhotos.length)?`<div class="ph-title">📋 签到表（${a.signPhotos.length}）</div><div class="ph-grid">${a.signPhotos.map(u=>`<a href="${esc(u)}" target="_blank"><img src="${esc(u)}" loading="lazy" onerror="this.parentNode.style.display='none'"></a>`).join('')}</div>`:''}
+        ${(a.actPhotos&&a.actPhotos.length)?`<div class="ph-title">📷 活动现场（${a.actPhotos.length}）</div><div class="ph-grid">${a.actPhotos.map(u=>`<a href="${esc(u)}" target="_blank"><img src="${esc(u)}" loading="lazy" onerror="this.parentNode.style.display='none'"></a>`).join('')}</div>`:''}
+      </div>
+    </div>`:''}
+  </div>`;
+  }).join('');
+}
+
+/* ---------- ③ 主理人双轨 ---------- */
+function renderHosts(){
+  const box=document.getElementById('hostList');
+  if(!hosts.length){box.innerHTML='<div class="empty">暂无主理人。</div>';return;}
+  const byComm={};
+  hosts.forEach(h=>{(byComm[h.community]=byComm[h.community]||[]).push(h);});
+  box.innerHTML=Object.keys(byComm).map(comm=>{
+    const cards=byComm[comm].map(h=>`<div class="card">
+      <div class="top"><div class="title">${esc(h.name)}</div><span class="badge ${h.role==='年长导师'?'b-pink':'b-blue'}">${esc(h.role)}</span></div>
+      <div class="meta"><span><b>所属社群：</b>${esc(h.community)}</span></div>
+      <div class="meta"><span><b>关联活动：</b>${esc(h.activity)}</span></div>
+      <div class="meta"><span><b>选拔状态：</b>${esc(h.selection)}</span><span><b>积分：</b><b style="color:var(--pink)">${esc(h.points)}</b></span></div>
+    </div>`).join('');
+    return `<div class="comm-block" style="margin-bottom:18px">
+      <div class="phase-head" style="border-radius:10px;margin-bottom:10px;cursor:default"><span>▾ ${esc(comm)} 双轨主理人</span><span class="cnt">${byComm[comm].length} 人</span></div>
+      <div class="grid">${cards}</div></div>`;
+  }).join('');
+}
+
+/* ---------- ④ 社群档案 + SOP ---------- */
+function renderCommunities(){
+  const box=document.getElementById('commList');
+  box.innerHTML=communities.map(c=>`<div class="card">
+    <div class="top"><div class="title">${esc(c.name)}</div></div>
+    <div class="meta"><span><b>方向：</b>${esc(c.direction)}</span></div>
+    <div class="meta"><span><b>牵头主理人：</b>${esc(c.lead)}</span></div>
+  </div>`).join('');
+  const sopBox=document.getElementById('sopList');
+  if(!sop.length){sopBox.innerHTML='';return;}
+  const byManual={};
+  sop.forEach(s=>{(byManual[s.manual]=byManual[s.manual]||[]).push(s);});
+  sopBox.innerHTML=Object.keys(byManual).map(m=>{
+    const items=byManual[m].map(s=>`<div class="sop-item"><span class="st">${esc(s.status)}</span><div><span class="no">No.${esc(s.no)}</span><b>${esc(s.module)}</b><span class="mod">来源：${esc(s.source)}</span></div>${s.content?`<div class="src">内容：${esc(s.content)}</div>`:''}</div>`).join('');
+    return `<div class="sop-block"><h3>📚 ${esc(m)}（${byManual[m].length} 条）</h3>${items}</div>`;
+  }).join('');
+}
+
+/* ---------- 交互 ---------- */
+function toggleNote(id,btn){const el=document.getElementById(id);const open=el.classList.toggle('open');btn.textContent=open?'收起 ▴':'展开 ▾';}
+function togglePlan(id,btn){const el=document.getElementById(id);const show=el.style.display!=='block';el.style.display=show?'block':'none';btn.textContent=show?'收起 ▴':'查看目标/检查点/行动点 ▾';}
+function togglePhotos(id,btn){const el=document.getElementById(id);const show=el.style.display!=='block';el.style.display=show?'block':'none';const n=btn.dataset.n;btn.textContent=show?`📷 收起照片（${n}）▴`:`📷 查看照片（${n}）▾`;}
+function setPlanFilter(val,el){planFilter=val;document.querySelectorAll('#planFilterBar .filter-pill').forEach((p,i)=>{if(i<6)p.classList.remove('active');});el.classList.add('active');renderPlans();}
+function setPlanFilterMonth(val,el){planMonth=val;const pills=[...document.querySelectorAll('#planFilterBar .filter-pill')];pills.slice(6).forEach(p=>p.classList.remove('active'));el.classList.add('active');renderPlans();}
+function setActFilter(kind,val,el){
+  if(kind==='status')actStatusFilter=val;else actMonthFilter=val;
+  const bar=document.getElementById('actFilterBar');const pills=[...bar.querySelectorAll('.filter-pill')];
+  const [s,e]=kind==='status'?[0,3]:[4,9];
+  pills.slice(s,e).forEach(p=>p.classList.remove('active'));el.classList.add('active');renderActs();
+}
+function resetToProgram(){
+  if(!confirm('将用最新 V5 数据覆盖本地编辑，确认同步？'))return;
+  plans=JSON.parse(JSON.stringify(PROGRAM.plans));acts=JSON.parse(JSON.stringify(PROGRAM.acts));
+  hosts=JSON.parse(JSON.stringify(PROGRAM.hosts));communities=JSON.parse(JSON.stringify(PROGRAM.communities));sop=JSON.parse(JSON.stringify(PROGRAM.sop||[]));
+  save(KEY.plans,plans);save(KEY.acts,acts);save(KEY.hosts,hosts);save(KEY.communities,communities);save(KEY.sop,sop);save(KEY.ver,BUILD_VER);
+  renderAll();toast('已同步最新 V5 数据');
+}
+function exportJSON(){const data={plans,acts,hosts,communities,sop};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='老西门总台备份_'+todayStr()+'.json';a.click();}
+function importJSON(){const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.plans)plans=d.plans;if(d.acts)acts=d.acts;if(d.hosts)hosts=d.hosts;if(d.communities)communities=d.communities;if(d.sop)sop=d.sop;save(KEY.plans,plans);save(KEY.acts,acts);save(KEY.hosts,hosts);save(KEY.communities,communities);save(KEY.sop,sop);renderAll();toast('已导入备份');}catch(err){alert('文件格式错误');}};r.readAsText(f);};inp.click();}
+function toast(msg){const t=document.createElement('div');t.textContent=msg;t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1F2A37;color:#fff;padding:10px 18px;border-radius:8px;z-index:99;font-size:13px';document.body.appendChild(t);setTimeout(()=>t.remove(),1800);}
+
+renderAll();
+</script>
+</body>
+</html>
