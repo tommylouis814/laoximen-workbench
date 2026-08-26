@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老西门街道社群孵化项目 · 伙伴看板</title>
+<style>
+
+  :root{
+    --primary:#2b6cb0; --primary2:#4299e1; --accent:#ed64a6; --accent2:#fbb6ce;
+    --done:#38a169; --doing:#dd6b20; --todo:#a0aec0;
+    --bg:#f7fafc; --card:#fff; --ink:#2d3748; --sub:#718096; --line:#e2e8f0;
+    --soft:#fff0f5;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Microsoft YaHei","微软雅黑",-apple-system,"PingFang SC",sans-serif;
+    font-size:14px;line-height:1.55;}
+  .top{max-width:1240px;margin:0 auto;padding:18px 22px 6px;}
+  h1{font-size:20px;color:var(--primary);margin:0 0 2px;font-weight:800;}
+  .sub{color:var(--sub);font-size:12.5px;margin-bottom:14px;}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+       box-shadow:0 1px 3px rgba(0,0,0,.04);border-top:3px solid var(--accent);}
+  .kpi .v{font-size:22px;font-weight:800;color:var(--primary);}
+  .kpi .l{font-size:12px;color:var(--sub);margin-top:2px;}
+  .kpi .v small{font-size:12px;color:var(--sub);font-weight:600;}
+  .tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:14px;}
+  .tab{padding:9px 18px;cursor:pointer;border:1px solid transparent;border-bottom:none;
+       border-radius:8px 8px 0 0;color:var(--sub);font-weight:600;font-size:14px;}
+  .tab.on{background:var(--card);color:var(--primary);border-color:var(--line);
+          position:relative;top:2px;border-bottom:2px solid var(--accent);}
+  .view{display:none;max-width:1240px;margin:0 auto;padding:0 22px 40px;}
+  .view.on{display:block;}
+  /* 筛选 chips */
+  .filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 12px;}
+  .filters .flabel{font-size:12px;color:var(--sub);margin-right:4px;font-weight:600;}
+  .chip{padding:5px 12px;border:1px solid var(--line);background:#fff;border-radius:20px;
+        cursor:pointer;font-size:12.5px;color:var(--sub);user-select:none;}
+  .chip:hover{border-color:var(--primary2);}
+  .chip.on{background:var(--primary);color:#fff;border-color:var(--primary);}
+  .legend{font-size:11.5px;color:var(--sub);margin:0 0 10px;display:flex;gap:14px;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  /* 活动看板：纵向大类 + 横向卡片 */
+  .board{display:flex;flex-direction:column;gap:16px;padding-bottom:8px;}
+  .cat-section{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .cat-head{font-weight:700;padding:7px 12px;border-radius:7px;color:#fff;font-size:14px;
+            background:linear-gradient(90deg,var(--primary),var(--primary2));display:inline-block;margin-bottom:12px;}
+  .status-band{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-bottom:8px;}
+  .status-band:last-child{margin-bottom:0;}
+  .status-band .slabel{font-size:12px;font-weight:700;color:var(--sub);width:58px;flex-shrink:0;display:flex;align-items:center;}
+  .status-band .cards{display:flex;flex-wrap:wrap;gap:8px;flex:1;min-width:0;}
+  .card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--primary2);
+        border-radius:7px;padding:7px 9px;box-shadow:0 1px 2px rgba(0,0,0,.04);cursor:pointer;
+        flex:1 1 160px;min-width:160px;max-width:200px;display:flex;flex-direction:column;}
+  .card:hover{box-shadow:0 3px 8px rgba(0,0,0,.1);}
+  .card .nm{font-weight:700;font-size:12.5px;color:var(--ink);margin-bottom:5px;line-height:1.35;}
+  .card .meta{font-size:11px;color:var(--sub);display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:5px;}
+  .card .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px;vertical-align:middle;}
+  .badge{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:10px;color:#fff;width:fit-content;}
+  .b-done{background:var(--done);} .b-doing{background:var(--doing);} .b-todo{background:var(--todo);}
+  .search input{width:100%;max-width:340px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-size:13px;}
+  /* 日历 */
+  .cal-nav{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+  .cal-nav button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:13px;color:var(--primary);}
+  .cal-nav .mlabel{font-weight:700;font-size:15px;color:var(--primary);min-width:120px;text-align:center;}
+  .month{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .wd{display:grid;grid-template-columns:repeat(7,1fr);background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;}
+  .wd div{padding:7px 0;text-align:center;font-size:12.5px;}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);}
+  .day{border:1px solid #eef1f6;min-height:92px;padding:4px 5px;vertical-align:top;font-size:11px;}
+  .day.other{background:#fafbfc;color:#c2c9d6;}
+  .day .dn{font-weight:700;color:#9aa4b5;font-size:11px;}
+  .day.today .dn{color:var(--accent);}
+  .ev{background:var(--primary2);color:#fff;border-radius:4px;padding:1px 5px;margin-top:3px;font-size:10.5px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;}
+  .ev.done{background:var(--done);} .ev.doing{background:var(--doing);} .ev.todo{background:var(--todo);}
+  .ev.many{background:#9aa4b5;}
+  /* 费用看板 */
+  .cost-top{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  .cost-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+  .cost-card h3{margin:0 0 8px;font-size:14px;color:var(--primary);}
+  .bar{height:14px;background:#eef1f6;border-radius:8px;overflow:hidden;margin:8px 0 4px;}
+  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--primary2),var(--done));}
+  .bar-sm > i{background:linear-gradient(90deg,var(--accent),var(--doing));}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:12.5px;}
+  th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;}
+  th{background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;font-weight:600;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  .modal{position:fixed;inset:0;background:rgba(20,30,50,.5);display:none;align-items:center;justify-content:center;z-index:50;}
+  .modal.on{display:flex;}
+  .modal .box{background:#fff;max-width:460px;width:90%;border-radius:12px;padding:20px 22px;box-shadow:0 10px 40px rgba(0,0,0,.3);}
+  .modal .box h3{margin:0 0 12px;color:var(--primary);font-size:16px;}
+  .modal .kv{display:flex;gap:8px;margin:6px 0;font-size:13px;}
+  .modal .kv b{color:var(--sub);min-width:78px;font-weight:600;}
+  .modal .close{margin-top:14px;text-align:right;}
+  .modal .close button{border:none;background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;border-radius:7px;padding:7px 16px;cursor:pointer;font-size:13px;}
+
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目</h1>
+  <div class="sub">活动看板 · 日历视图 ｜ 数据来源：进度费用融合跟进表 V5（过会版 2026-08-26）｜ 周期 2026年7月–11月</div>
+  <div class="kpis" id="kpis"></div>
+</div>
+
+<div class="top" style="padding-top:0;">
+  <div class="tabs">
+    <div class="tab on" data-v="board">活动看板</div>
+    <div class="tab" data-v="cal">日历视图</div>
+    
+  </div>
+</div>
+
+<!-- 活动看板 -->
+<div class="view on" id="view-board">
+  <div class="search"><input id="q" placeholder="搜索活动名称 / 社群 / 牵头人…"></div>
+  <div class="filters" id="board-filters">
+    <span class="flabel">板块筛选：</span>
+  </div>
+  <div class="filters" id="board-status-filters">
+    <span class="flabel">状态筛选：</span>
+  </div>
+  <div class="filters" id="board-month-filters">
+    <span class="flabel">月份筛选：</span>
+  </div>
+  <div class="legend" id="legend"></div>
+  <div class="board" id="board"></div>
+</div>
+
+<!-- 日历 -->
+<div class="view" id="view-cal">
+  <div class="filters" id="cal-filters">
+    <span class="flabel">板块筛选：</span>
+  </div>
+  <div class="filters" id="cal-status-filters">
+    <span class="flabel">状态筛选：</span>
+  </div>
+  <div class="cal-nav">
+    <button id="prev">‹ 上月</button>
+    <div class="mlabel" id="mlabel"></div>
+    <button id="next">下月 ›</button>
+    <span class="flabel" style="margin-left:14px;">展示方式：</span>
+    <button class="chip on" data-mode="start">仅开始日</button>
+    <button class="chip" data-mode="span">区间跨度</button>
+    <button class="chip" data-mode="end">仅结束日</button>
+  </div>
+  <div style="font-size:11.5px;color:var(--sub);margin:4px 0 10px;">
+    说明：日历挂靠的是 V5 表中的「计划开始 / 计划结束」字段。「仅开始日」= 活动在计划开始那天标出；「区间跨度」= 从开始到结束每天填充；「仅结束日」= 仅在计划结束那天标出。
+  </div>
+  <div class="month">
+    <div class="wd"><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div><div>日</div></div>
+    <div class="grid" id="cal-grid"></div>
+  </div>
+</div>
+
+
+
+<div class="modal" id="modal">
+  <div class="box">
+    <h3 id="m-title"></h3>
+    <div id="m-body"></div>
+    <div class="close"><button onclick="closeModal()">关闭</button></div>
+  </div>
+</div>
+
+<script>
+const DATA = {"activities": [{"row": 4, "seq": 1, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群评估与适配方案设计", "sub": "—(见子行)", "community": "", "kpi": "5类社群实地走访+项目计划书落地", "start": "", "end": "", "lead": "龚学群", "support": "孙佳鑫", "status": "已完成", "budget": 10000.0, "spent": 2500.0, "pay_status": "待支付", "smart_phase": "", "next": "", "is_parent": true}, {"row": 5, "seq": 2, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群评估与适配方案设计", "sub": "社群评估与适配方案设计 第1次", "community": "", "kpi": "", "start": "2026-07-02", "end": "2026-07-02", "lead": "龚学群", "support": "孙佳鑫", "status": "已完成", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "通过实地走访居民区，并参与社群小组的活动，充分调研和挖掘社群成员需求，居民区支持程度，以及社群对居民区治理项的贡献点", "next": "编制中", "is_parent": false}, {"row": 6, "seq": 3, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群评估与适配方案设计", "sub": "社群评估与适配方案设计 第2次", "community": "", "kpi": "", "start": "2026-07-16", "end": "2026-07-16", "lead": "龚学群", "support": "孙佳鑫", "status": "已完成", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "通过实地走访居民区，并参与社群小组的活动，充分调研和挖掘社群成员需求，居民区支持程度，以及社群对居民区治理项的贡献点", "next": "编制中", "is_parent": false}, {"row": 7, "seq": 4, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群启动仪式活动", "sub": "社群启动仪式活动", "community": "", "kpi": "启动1场,5类社群集中亮相,≥100人参与（主持人：王彼得）", "start": "2026-08-01", "end": "2026-08-24", "lead": "龚学群、孙佳鑫", "support": "天韵项目团队、街道、居民区", "status": "已完成", "budget": 5500.0, "spent": 0.0, "pay_status": "待支付", "smart_phase": "①居民区的邀约工作，以居民区书记为纽带，召集社群主理人，并发动团队成员一同参加；②素材拍摄需注意空景、领导照，及时回传", "next": "编制中", "is_parent": false}, {"row": 8, "seq": 5, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群成员标识物品制作", "sub": "—(见子行)", "community": "", "kpi": "5类标识物各≥20人份发放到位", "start": "", "end": "", "lead": "龚学群", "support": "天韵项目团队", "status": "已完成", "budget": 9000.0, "spent": 0.0, "pay_status": "待支付", "smart_phase": "", "next": "", "is_parent": true}, {"row": 9, "seq": 6, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群成员标识物品制作", "sub": "社群成员标识物品制作 第1次/5", "community": "里弄潮集社", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1800.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 10, "seq": 7, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群成员标识物品制作", "sub": "社群成员标识物品制作 第2次/5", "community": "吴侬软语坊", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1800.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 11, "seq": 8, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群成员标识物品制作", "sub": "社群成员标识物品制作 第3次/5", "community": "杏林守艺堂", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1800.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 12, "seq": 9, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群成员标识物品制作", "sub": "社群成员标识物品制作 第4次/5", "community": "指尖温度圈", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "延期", "budget": 1800.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 13, "seq": 10, "phase": "社群启动", "category": "一、社群矩阵搭建", "detail": "社群成员标识物品制作", "sub": "社群成员标识物品制作 第5次/5", "community": "邻里议事厅", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1800.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 14, "seq": 11, "phase": "社群启动", "category": "二、社群种子招募", "detail": "社群种子招募宣发设计", "sub": "—(见子行)", "community": "", "kpi": "5社群项目介绍易拉宝、招募台卡、项目手册（单页/电子版）", "start": "", "end": "", "lead": "龚学群", "support": "天韵项目团队", "status": "已完成", "budget": 8000.0, "spent": 0.0, "pay_status": "待支付", "smart_phase": "", "next": "", "is_parent": true}, {"row": 15, "seq": 12, "phase": "社群启动", "category": "二、社群种子招募", "detail": "社群种子招募宣发设计", "sub": "社群种子招募宣发设计 第1次/5", "community": "里弄潮集社", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 16, "seq": 13, "phase": "社群启动", "category": "二、社群种子招募", "detail": "社群种子招募宣发设计", "sub": "社群种子招募宣发设计 第2次/5", "community": "吴侬软语坊", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 17, "seq": 14, "phase": "社群启动", "category": "二、社群种子招募", "detail": "社群种子招募宣发设计", "sub": "社群种子招募宣发设计 第3次/5", "community": "杏林守艺堂", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 18, "seq": 15, "phase": "社群启动", "category": "二、社群种子招募", "detail": "社群种子招募宣发设计", "sub": "社群种子招募宣发设计 第4次/5", "community": "指尖温度圈", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 19, "seq": 16, "phase": "社群启动", "category": "二、社群种子招募", "detail": "社群种子招募宣发设计", "sub": "社群种子招募宣发设计 第5次/5", "community": "邻里议事厅", "kpi": "", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 20, "seq": 17, "phase": "社群启动", "category": "二、社群种子招募", "detail": "招募活动物料及场景设计", "sub": "—(见子行)", "community": "", "kpi": "5社群招募物料+招募展台布置", "start": "", "end": "", "lead": "龚学群", "support": "天韵项目团队", "status": "进行中", "budget": 7500.0, "spent": 0.0, "pay_status": "待支付", "smart_phase": "", "next": "", "is_parent": true}, {"row": 21, "seq": 18, "phase": "社群启动", "category": "二、社群种子招募", "detail": "招募活动物料及场景设计", "sub": "招募活动物料及场景设计 第1次/5", "community": "里弄潮集社", "kpi": "启动仪式同步开展社群开放日展位设计", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 22, "seq": 19, "phase": "社群启动", "category": "二、社群种子招募", "detail": "招募活动物料及场景设计", "sub": "招募活动物料及场景设计 第2次/5", "community": "吴侬软语坊", "kpi": "启动仪式同步开展社群开放日展位设计", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 23, "seq": 20, "phase": "社群启动", "category": "二、社群种子招募", "detail": "招募活动物料及场景设计", "sub": "招募活动物料及场景设计 第3次/5", "community": "杏林守艺堂", "kpi": "启动仪式同步开展社群开放日展位设计", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 24, "seq": 21, "phase": "社群启动", "category": "二、社群种子招募", "detail": "招募活动物料及场景设计", "sub": "招募活动物料及场景设计 第4次/5", "community": "指尖温度圈", "kpi": "启动仪式同步开展社群开放日展位设计", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 25, "seq": 22, "phase": "社群启动", "category": "二、社群种子招募", "detail": "招募活动物料及场景设计", "sub": "招募活动物料及场景设计 第5次/5", "community": "邻里议事厅", "kpi": "启动仪式同步开展社群开放日展位设计", "start": "2026-08-01", "end": "2026-08-17", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "已完成", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 26, "seq": 23, "phase": "社群启动", "category": "二、社群种子招募", "detail": "种子用户招募", "sub": "种子用户招募", "community": "", "kpi": "每街区≥1场,种子成员入库≥60人", "start": "2026-08-24", "end": "2026-08-30", "lead": "孙佳鑫", "support": "天韵项目团队、居民区", "status": "已完成", "budget": 3000.0, "spent": 0.0, "pay_status": "", "smart_phase": "深入挖掘社群主要活动内容，进行创作", "next": "编制中", "is_parent": false}, {"row": 27, "seq": 24, "phase": "全程", "category": "二、社群种子招募", "detail": "新媒体运营", "sub": "新媒体运营", "community": "", "kpi": "官微/视频号/公众号持续运营", "start": "2026-08-01", "end": "2026-11-15", "lead": "陈雯", "support": "天韵新媒体团队", "status": "进行中", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 28, "seq": 25, "phase": "全程", "category": "三、社群孵化活动", "detail": "活动策划与设计", "sub": "活动策划与设计", "community": "", "kpi": "5个月活动策划与视觉设计支撑", "start": "2026-07-15", "end": "2026-11-15", "lead": "龚学群、孙佳鑫", "support": "天韵项目团队", "status": "进行中", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 29, "seq": 26, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "活动物料", "sub": "活动物料", "community": "", "kpi": "5社群活动物料采购与配送", "start": "2026-07-25", "end": "2026-10-31", "lead": "龚学群、孙佳鑫", "support": "天韵项目团队", "status": "进行中", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 30, "seq": 27, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "课程策划及材料", "sub": "课程策划及材料", "community": "", "kpi": "升阶课程材料包+活动策划", "start": "2026-08-01", "end": "2026-08-29", "lead": "龚学群、孙佳鑫", "support": "天韵项目团队", "status": "进行中", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 31, "seq": 28, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "治理类道具", "sub": "治理类道具", "community": "", "kpi": "巡逻队员/议事分享会/新就业群体赋能培训材料和制作", "start": "2026-08-01", "end": "2026-09-15", "lead": "龚学群、孙佳鑫", "support": "天韵项目团队", "status": "进行中", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 32, "seq": 29, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "—(见子行)", "community": "", "kpi": "升阶课(沪语/国学/大师/中医/手作/研学)≥560人次", "start": "2026-09-01", "end": "2026-11-05", "lead": "天韵项目团队", "support": "各师资", "status": "", "budget": 67600.0, "spent": 0.0, "pay_status": "待支付", "smart_phase": "", "next": "", "is_parent": true}, {"row": 33, "seq": 30, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "国学研学与体验 第1次/4", "community": "里弄潮集社", "kpi": "≥4次研学,每次≥20人次", "start": "2026-09-26", "end": "2026-09-26", "lead": "孔令韬（国学师资）", "support": "天宇课程团队、街道（场地）", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 34, "seq": 31, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "国学研学与体验 第2次/4", "community": "里弄潮集社", "kpi": "≥4次研学,每次≥20人次", "start": "2026-10-17", "end": "2026-10-17", "lead": "孔令韬（国学师资）", "support": "天宇课程团队、街道（场地）", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 35, "seq": 32, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "国学研学与体验 第3次/4", "community": "里弄潮集社", "kpi": "≥4次研学,每次≥20人次", "start": "2026-10-24", "end": "2026-10-24", "lead": "孔令韬（国学师资）", "support": "天宇课程团队、街道（场地）", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 36, "seq": 33, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "国学研学与体验 第4次/4", "community": "里弄潮集社", "kpi": "≥4次研学,每次≥20人次", "start": "2026-10-31", "end": "2026-10-31", "lead": "孔令韬（国学师资）", "support": "天宇课程团队、街道（场地）", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 37, "seq": 34, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "老城厢漫游 第1场/2", "community": "里弄潮集社", "kpi": "≥2场,嵌入社区议事10分钟", "start": "2026-10-03", "end": "2026-10-03", "lead": "侯佳奇（漫游主理人）", "support": "天韵漫游团队/龙门邨", "status": "未启动", "budget": 3600.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 38, "seq": 35, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "老城厢漫游 第2场/2", "community": "里弄潮集社", "kpi": "≥2场,嵌入社区议事10分钟", "start": "2026-10-04", "end": "2026-10-04", "lead": "侯佳奇（漫游主理人）", "support": "天韵漫游团队/龙门邨", "status": "未启动", "budget": 3600.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 39, "seq": 36, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第1次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-衣:服饰穿搭中的吴侬软语", "start": "2026-09-11", "end": "2026-09-11", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、悦西门", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 40, "seq": 37, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第2次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-衣:服饰穿搭中的吴侬软语", "start": "2026-09-12", "end": "2026-09-12", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、联寓公寓", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 41, "seq": 38, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第3次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-食:海派美食汇总", "start": "2026-09-18", "end": "2026-09-18", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、悦西门", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 42, "seq": 39, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第4次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-食:海派美食汇总", "start": "2026-09-19", "end": "2026-09-19", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、联寓公寓", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 43, "seq": 40, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第5次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-住:里、弄、坊、邨、楼", "start": "2026-09-25", "end": "2026-09-25", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、悦西门", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 44, "seq": 41, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第6次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-行:漫步老西门", "start": "2026-10-09", "end": "2026-10-09", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、悦西门", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 45, "seq": 42, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第7次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-沪剧体验课", "start": "2026-10-16", "end": "2026-10-16", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、悦西门", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 46, "seq": 43, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第8次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-住:里、弄、坊、邨、楼", "start": "2026-10-17", "end": "2026-10-17", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、联寓公寓", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 47, "seq": 44, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第9次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-行:漫步老西门", "start": "2026-10-24", "end": "2026-10-24", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、联寓公寓", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 48, "seq": 45, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "沪语学堂 第10次/10", "community": "吴侬软语坊", "kpi": "≥10次课程-沪剧体验课", "start": "2026-10-31", "end": "2026-10-31", "lead": "侯佳奇（沪语主理人）", "support": "天宇课程团队、联寓公寓", "status": "未启动", "budget": 1200.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 49, "seq": 46, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "文体社群大师课 第1次/4", "community": "杏林守艺堂", "kpi": "≥4次(合唱1/2)", "start": "2026-09-12", "end": "2026-09-12", "lead": "龚学群", "support": "天韵文艺团队、幸运福邸", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 50, "seq": 47, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "文体社群大师课 第2次/4", "community": "杏林守艺堂", "kpi": "≥4次(合唱2/2）", "start": "2026-10-10", "end": "2026-10-10", "lead": "龚学群", "support": "天韵文艺团队、幸运福邸", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 51, "seq": 48, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "文体社群大师课 第3次/4", "community": "杏林守艺堂", "kpi": "≥4次(健身操1/2)", "start": "2026-09-19", "end": "2026-09-19", "lead": "龚学群", "support": "天韵文艺团队、古韵悠扬", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 52, "seq": 49, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "文体社群大师课 第4次/4", "community": "杏林守艺堂", "kpi": "≥4次(健身操2/2)", "start": "2026-10-17", "end": "2026-10-31", "lead": "龚学群", "support": "天韵文艺团队、古韵悠扬", "status": "未启动", "budget": 2000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 53, "seq": 50, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "中医非遗健康体验 第1次/6", "community": "杏林守艺堂", "kpi": "≥6次主题体验-汉字养生智慧普", "start": "2026-09-16", "end": "2026-09-16", "lead": "张俊（三甲医生）", "support": "天韵非遗团队、也是园", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 54, "seq": 51, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "中医非遗健康体验 第2次/6", "community": "杏林守艺堂", "kpi": "≥6次主题体验-24节气中医养生", "start": "2026-09-23", "end": "2026-09-23", "lead": "张俊（三甲医生）", "support": "天韵非遗团队、幸运福邸", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 55, "seq": 52, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "中医非遗健康体验 第3次/6", "community": "杏林守艺堂", "kpi": "≥6次主题体验-自然健康养生", "start": "2026-09-30", "end": "2026-09-30", "lead": "张俊（三甲医生）", "support": "天韵非遗团队、也是园", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 56, "seq": 53, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "中医非遗健康体验 第4次/6", "community": "杏林守艺堂", "kpi": "≥6次主题体验-日常饮食养生", "start": "2026-10-14", "end": "2026-10-14", "lead": "张俊（三甲医生）", "support": "天韵非遗团队、幸运福邸", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 57, "seq": 54, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "中医非遗健康体验 第5次/6", "community": "杏林守艺堂", "kpi": "≥6次主题体验-现场中医会诊", "start": "2026-10-21", "end": "2026-10-21", "lead": "张俊（三甲医生）", "support": "天韵非遗团队、也是园", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 58, "seq": 55, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "中医非遗健康体验 第6次/6", "community": "杏林守艺堂", "kpi": "≥6次主题体验-中医健身操", "start": "2026-10-28", "end": "2026-10-28", "lead": "张俊（三甲医生）", "support": "天韵非遗团队、幸运福邸", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 59, "seq": 56, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "跨社群联合歌舞秀", "community": "杏林守艺堂", "kpi": "1支歌舞秀,结项汇演展示", "start": "2026-09-20", "end": "2026-11-05", "lead": "龚学群", "support": "专业编导、杏林守艺堂社群", "status": "未启动", "budget": 4600.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 60, "seq": 57, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "亲子家庭健身操创编", "community": "杏林守艺堂", "kpi": "1支亲子健身操", "start": "2026-09-12", "end": "2026-10-31", "lead": "龚学群", "support": "天韵文艺团队、幸运福邸&古韵悠扬舞蹈", "status": "未启动", "budget": 2600.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 61, "seq": 58, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "非遗手作大师课 第1次/4", "community": "指尖温度圈", "kpi": "≥4次（串珠1/2）", "start": "2026-09-15", "end": "2026-09-15", "lead": "何良贤", "support": "天韵非遗团队、明日星城", "status": "未启动", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 62, "seq": 59, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "非遗手作大师课 第2次/4", "community": "指尖温度圈", "kpi": "≥4次（串珠2/2）", "start": "2026-09-22", "end": "2026-09-22", "lead": "何良贤", "support": "天韵非遗团队、大林", "status": "未启动", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 63, "seq": 60, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "非遗手作大师课 第3次/4", "community": "指尖温度圈", "kpi": "≥4次（编制1/2）", "start": "2026-09-29", "end": "2026-09-29", "lead": "何良贤", "support": "天韵非遗团队、明日星城", "status": "未启动", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 64, "seq": 61, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "非遗手作大师课 第4次/4", "community": "指尖温度圈", "kpi": "≥4次（编制2/2）", "start": "2026-10-13", "end": "2026-10-13", "lead": "何良贤", "support": "天韵非遗团队、大林", "status": "未启动", "budget": 1500.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 65, "seq": 62, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "社区议事10分钟分享会 第1场/2", "community": "邻里议事厅", "kpi": "≥2场议事分享会（嵌入老城厢漫游）", "start": "2026-10-03", "end": "2026-10-03", "lead": "侯佳奇（漫游主理人）", "support": "天韵漫游团队/龙门邨", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 66, "seq": 63, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "社区议事10分钟分享会 第2场/2", "community": "邻里议事厅", "kpi": "≥2场议事分享会（嵌入老城厢漫游）", "start": "2026-10-04", "end": "2026-10-04", "lead": "侯佳奇（漫游主理人）", "support": "天韵漫游团队/龙门邨", "status": "未启动", "budget": 1100.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 67, "seq": 64, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "租客职业技能赋能会 第1场/2", "community": "邻里议事厅", "kpi": "≥2场(主题：短视频/直播)", "start": "2026-09-15", "end": "2026-09-15", "lead": "陈雯、杨晨", "support": "天韵课程团队", "status": "未启动", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 68, "seq": 65, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "租客职业技能赋能会 第2场/2", "community": "邻里议事厅", "kpi": "≥2场(主题：技能)", "start": "2026-10-15", "end": "2026-10-15", "lead": "陈雯、杨晨", "support": "天韵课程团队", "status": "未启动", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 69, "seq": 66, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "【最美巡逻员】交流分享会", "community": "邻里议事厅", "kpi": "1次分享会+评选", "start": "2026-11-05", "end": "2026-11-05", "lead": "龚学群、卢琪", "support": "邻里议事厅社群、龙门邨", "status": "未启动", "budget": 1600.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 70, "seq": 67, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "社群主理人赋能培训 第1期/2", "community": "全体社群", "kpi": "2期培训,覆盖≥10人", "start": "2026-09-30", "end": "2026-09-30", "lead": "龚学群、卢琪", "support": "天韵课程团队", "status": "未启动", "budget": 2800.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 71, "seq": 68, "phase": "运营深化", "category": "三、社群孵化活动", "detail": "升阶课程", "sub": "社群主理人赋能培训 第2期/2", "community": "全体社群", "kpi": "2期培训,覆盖≥10人", "start": "2026-10-30", "end": "2026-10-30", "lead": "龚学群、卢琪", "support": "天韵课程团队", "status": "未启动", "budget": 2800.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 72, "seq": 69, "phase": "运营深化", "category": "四、社群项目支持与反哺", "detail": "反哺机制", "sub": "—(见子行)", "community": "", "kpi": "项目支持", "start": "2026-08-01", "end": "2026-11-30", "lead": "天韵项目团队", "support": "社群主理人、居民区", "status": "未启动", "budget": 18300.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": true}, {"row": 73, "seq": 70, "phase": "运营深化", "category": "四、社群项目支持与反哺", "detail": "沪语歌谣创排", "sub": "沪语歌谣创排", "community": "吴侬软语坊", "kpi": "1首【龙门谣】原创沪语歌谣", "start": "2026-09-10", "end": "2026-11-05", "lead": "龚学群、陈雯", "support": "天韵新媒体团队", "status": "未启动", "budget": 2900.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 74, "seq": 71, "phase": "运营深化", "category": "四、社群项目支持与反哺", "detail": "大型市集", "sub": "大型市集", "community": "里弄潮集社", "kpi": "1场市集", "start": "2026-11-14", "end": "2026-11-14", "lead": "龚学群、孙佳鑫", "support": "社群、居民区、街道", "status": "未启动", "budget": 8400.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 75, "seq": 72, "phase": "运营深化", "category": "四、社群项目支持与反哺", "detail": "城市沉浸拍摄", "sub": "城市沉浸拍摄", "community": "吴侬、邻里", "kpi": "≥1次沪语学堂主题拍摄，≥1次“城市守护人”拍摄", "start": "2026-09-01", "end": "2026-10-31", "lead": "陈雯", "support": "天韵项目团队", "status": "未启动", "budget": 3000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 76, "seq": 73, "phase": "运营深化", "category": "四、社群项目支持与反哺", "detail": "节日关怀", "sub": "节日关怀活动", "community": "指尖温度圈", "kpi": "对居民区内老人进行节日关怀活动（中秋、重阳）", "start": "2026-09-01", "end": "2026-10-31", "lead": "龚学群、孙佳鑫", "support": "居民区", "status": "未启动", "budget": 4000.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 77, "seq": 74, "phase": "运营深化", "category": "四、社群项目支持与反哺", "detail": "社群建设物料", "sub": "社群建设物料及活动物料增补", "community": "全体社群", "kpi": "社群建设物料补充及活动物料配送增补", "start": "2026-09-01", "end": "2026-11-15", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "未启动", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 78, "seq": 75, "phase": "社群启动", "category": "机制建设", "detail": "双轨主理人选拔与组建", "sub": "双轨主理人选拔与组建", "community": "", "kpi": "5组双轨主理人(年长导师+数字运营官)到位", "start": "2026-08-01", "end": "2026-08-24", "lead": "孙佳鑫", "support": "社群主理人", "status": "已完成", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "社群主要负责人和年轻人员双重确认", "next": "编制中", "is_parent": false}, {"row": 79, "seq": 76, "phase": "社群启动", "category": "机制建设", "detail": "主理人积分体系建立", "sub": "主理人积分体系建立", "community": "", "kpi": "积分规则+记录体系上线,月度公示", "start": "2026-08-01", "end": "2026-08-31", "lead": "孙佳鑫", "support": "社群主理人", "status": "已完成", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "社群主要负责人和年轻人员双重确认", "next": "编制中", "is_parent": false}, {"row": 80, "seq": 77, "phase": "项目结项", "category": "品牌输出", "detail": "SOP两本操作手册编制", "sub": "SOP两本操作手册编制", "community": "", "kpi": "《日常运营手册》《反哺激励手册》V1.0各1本", "start": "2026-10-01", "end": "2026-11-15", "lead": "孙佳鑫", "support": "天韵项目团队", "status": "未启动", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 81, "seq": 78, "phase": "全程", "category": "品牌输出", "detail": "宣传矩阵执行", "sub": "宣传矩阵执行", "community": "", "kpi": "官媒2篇+公众号4板块+视频号1主题", "start": "2026-08-01", "end": "2026-11-10", "lead": "陈雯", "support": "天韵新媒体团队", "status": "未启动", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}, {"row": 82, "seq": 79, "phase": "项目结项", "category": "品牌输出", "detail": "项目结项验收", "sub": "项目结项验收", "community": "", "kpi": "结项报告+验收通过,11月30日前完成报告", "start": "2026-11-01", "end": "2026-11-30", "lead": "龚学群、孙佳鑫", "support": "天韵项目团队、街道", "status": "未启动", "budget": 0.0, "spent": 0.0, "pay_status": "", "smart_phase": "", "next": "", "is_parent": false}], "cost_items": [{"category": "一、社群矩阵搭建", "detail": "社群评估与适配方案设计", "budget": 10000.0, "spent": 2500.0}, {"category": "一、社群矩阵搭建", "detail": "社群启动仪式活动", "budget": 5500.0, "spent": 0.0}, {"category": "一、社群矩阵搭建", "detail": "社群成员标识物品制作", "budget": 9000.0, "spent": 0.0}, {"category": "二、社群种子招募", "detail": "社群种子招募宣发设计", "budget": 8000.0, "spent": 0.0}, {"category": "二、社群种子招募", "detail": "招募活动物料及场景设计", "budget": 7500.0, "spent": 0.0}, {"category": "二、社群种子招募", "detail": "种子用户招募", "budget": 3000.0, "spent": 0.0}, {"category": "三、社群孵化活动", "detail": "升阶课程", "budget": 67600.0, "spent": 0.0}, {"category": "四、社群项目支持与反哺", "detail": "反哺机制", "budget": 18300.0, "spent": 0.0}], "summary": {"total_budget": 128900.0, "total_spent": 2500.0, "activity_count": 79, "category_budget": {"一、社群矩阵搭建": 24500.0, "二、社群种子招募": 18500.0, "三、社群孵化活动": 67600.0, "四、社群项目支持与反哺": 18300.0}, "category_spent": {"一、社群矩阵搭建": 2500.0}, "status_dist": {"已完成": 23, "延期": 1, "进行中": 6, "未定": 1, "未启动": 48}, "date_min": "2026-07-02", "date_max": "2026-11-30", "skipped_children": 53}};
+const SHOW_COST = false;
+const C = {done:'#38a169', doing:'#dd6b20', todo:'#a0aec0'};
+function statusClass(s){
+  if(!s) return 'todo';
+  if(/未|待|暂|计划|拟|排期/.test(s)) return 'todo';
+  if(/执行|完成|结项|已办|已完|验收|交付/.test(s)) return 'done';
+  if(/筹备|进行|推进|开展|在办|实施/.test(s)) return 'doing';
+  return 'todo';
+}
+function fmt(n){ return (n||0).toLocaleString('zh-CN'); }
+
+// 全局筛选状态
+const F = {cat:new Set(), month:new Set(), status:new Set(), q:''};
+function passFilter(a){
+  if(F.cat.size && !F.cat.has(a.category)) return false;
+  if(F.status.size && !F.status.has(statusClass(a.status))) return false;
+  if(F.month.size){
+    let ok=false;
+    for(const ym of F.month){
+      const [y,m]=ym.split('-').map(Number);
+      const ms=new Date(y,m-1,1), me=new Date(y,m,0);
+      const as=new Date(a.start), ae=new Date(a.end||a.start);
+      if(!(ae<ms || as>me)){ ok=true; break; }
+    }
+    if(!ok) return false;
+  }
+  if(F.q){
+    const t=(a.sub+a.community+a.lead+a.detail).toLowerCase();
+    if(!t.includes(F.q.toLowerCase())) return false;
+  }
+  return true;
+}
+
+// KPI
+const sm = DATA.summary;
+document.getElementById('kpis').innerHTML = `  <div class="kpi"><div class="v">${sm.status_dist["\u5df2\u5b8c\u6210"]||0}<small> 项</small></div><div class="l">已完成</div></div>
+  <div class="kpi"><div class="v">${sm.status_dist["\u5ef6\u671f"]||0}<small> 项</small></div><div class="l">延期</div></div>
+  <div class="kpi"><div class="v">${sm.status_dist["\u8fdb\u884c\u4e2d"]||0}<small> 项</small></div><div class="l">进行中</div></div>
+  <div class="kpi"><div class="v">${sm.status_dist["\u672a\u5b9a"]||0}<small> 项</small></div><div class="l">未定</div></div>
+  <div class="kpi"><div class="v">${sm.status_dist["\u672a\u542f\u52a8"]||0}<small> 项</small></div><div class="l">未启动</div></div>
+  <div class="kpi"><div class="v">${sm.date_min||''} ~ ${sm.date_max||''}</div><div class="l">活动排期范围</div></div>
+`;
+
+const acts = DATA.activities;
+const bySeq = {}; acts.forEach(a=>bySeq[a.seq]=a);
+
+// 板块（大类）与社群选项
+const catOrder = ['一、社群矩阵搭建','二、社群种子招募','三、社群孵化活动','四、社群项目支持与反哺','机制建设','品牌输出'];
+function bucketLabel(b){
+  const w = Object.keys(DATA.summary.status_dist).find(x=>statusClass(x)===b);
+  return w || ({done:'已完成',doing:'进行中',todo:'未启动'}[b]);
+}
+function renderLegend(){
+  const order=[['done','var(--done)'],['doing','var(--doing)'],['todo','var(--todo)']];
+  const el=document.getElementById('legend');
+  if(!el) return;
+  el.innerHTML = order.map(([b,c])=>`<span><i style="background:${c}"></i>${bucketLabel(b)}</span>`).join('')
+    + '<span style="margin-left:8px;color:var(--primary);">（每个板块纵向排列，活动卡片横向排列）</span>';
+}
+const statusOptions = [
+  {k:'done', l:bucketLabel('done')},
+  {k:'doing', l:bucketLabel('doing')},
+  {k:'todo', l:bucketLabel('todo')}
+];
+
+function cardHtml(a){
+  const badge = (SHOW_COST && a.budget) ? `<span class="badge b-${statusClass(a.status)}">预算 ${fmt(a.budget)}元</span>` : '';
+  return `<div class="card" onclick="openDetail(${a.seq})">
+    <div class="nm">${a.sub}</div>
+    <div class="meta">
+      <span><span class="dot" style="background:${C[statusClass(a.status)]}"></span>${a.status||'—'}</span>
+      ${a.start?`<span>📅 ${a.start}${a.end&&a.end!==a.start?'~'+a.end:''}</span>`:''}
+      ${a.community?`<span>👥 ${a.community}</span>`:''}
+      ${a.lead?`<span>👤 ${a.lead}</span>`:''}
+    </div>
+    ${badge}
+  </div>`;
+}
+
+// 活动看板：纵向大类，每个大类内按状态分组，卡片横向排列
+function renderBoard(){
+  const box=document.getElementById('board');
+  const present = Array.from(new Set(acts.map(a=>a.category||'其他')));
+  const cats = [...catOrder.filter(c=>present.includes(c)), ...present.filter(c=>!catOrder.includes(c))]
+    .filter(c => (!F.cat.size || F.cat.has(c)));
+  const labels={done:'已完成',doing:'进行中',todo:'未启动'};
+  let html='';
+  cats.forEach(c=>{
+    const items = acts.filter(a=>a.category===c && passFilter(a));
+    if(!items.length) return;
+    html += `<div class="cat-section"><div class="cat-head">${c}（${items.length}）</div>`;
+    ['done','doing','todo'].forEach(s=>{
+      const g = items.filter(a=>statusClass(a.status)===s);
+      if(g.length){
+        html += `<div class="status-band"><div class="slabel">${labels[s]}</div><div class="cards">${g.map(cardHtml).join('')}</div></div>`;
+      }
+    });
+    html += `</div>`;
+  });
+  if(!cats.length || !html) html='<div style="color:#b3bac6;padding:12px;">（未选择任何板块或无匹配活动）</div>';
+  box.innerHTML = html;
+}
+
+// 通用 chips 渲染
+function renderChips(containerId, items, set){
+  const box=document.getElementById(containerId);
+  box.querySelectorAll('.chip').forEach(x=>x.remove());
+  items.forEach(it=>{
+    const c=document.createElement('span');
+    c.className='chip'+(set.has(it)?' on':'');
+    c.textContent=it;
+    c.onclick=()=>{
+      if(set.has(it)) set.delete(it); else set.add(it);
+      renderChips('board-filters',catOrder,F.cat);
+      renderStatusChips();
+      renderChips('cal-filters',catOrder,F.cat);
+      renderBoard(); renderCal();
+    };
+    box.appendChild(c);
+  });
+  const r=document.createElement('span');
+  r.className='chip'; r.textContent='清空板块';
+  r.onclick=()=>{ set.clear(); renderChips('board-filters',catOrder,F.cat); renderChips('cal-filters',catOrder,F.cat); renderBoard(); renderCal(); };
+  box.appendChild(r);
+}
+// 状态 chips
+function renderStatusChips(){
+  ['board-status-filters','cal-status-filters'].forEach(id=>{
+    const box=document.getElementById(id);
+    if(!box) return;
+    box.querySelectorAll('.chip').forEach(x=>x.remove());
+    statusOptions.forEach(o=>{
+      const c=document.createElement('span');
+      c.className='chip'+(F.status.has(o.k)?' on':'');
+      c.textContent=o.l;
+      c.onclick=()=>{
+        if(F.status.has(o.k)) F.status.delete(o.k); else F.status.add(o.k);
+        renderStatusChips();
+        renderBoard(); renderCal();
+      };
+      box.appendChild(c);
+    });
+    const r=document.createElement('span');
+    r.className='chip'; r.textContent='全部状态';
+    r.onclick=()=>{ F.status.clear(); renderStatusChips(); renderBoard(); renderCal(); };
+    box.appendChild(r);
+  });
+}
+// 月份筛选 chips
+function renderMonthChips(){
+  const box=document.getElementById('board-month-filters');
+  box.querySelectorAll('.chip').forEach(x=>x.remove());
+  MONTHS.forEach(ym=>{
+    const c=document.createElement('span');
+    c.className='chip'+(F.month.has(ym)?' on':'');
+    c.textContent=ym.replace('-','年')+'月';
+    c.onclick=()=>{ if(F.month.has(ym)) F.month.delete(ym); else F.month.add(ym); renderMonthChips(); renderBoard(); renderCal(); };
+    box.appendChild(c);
+  });
+  const r=document.createElement('span');
+  r.className='chip'; r.textContent='全部月份';
+  r.onclick=()=>{ F.month.clear(); renderMonthChips(); renderBoard(); renderCal(); };
+  box.appendChild(r);
+}
+
+// 详情弹窗
+function openDetail(seq){
+  const a=bySeq[seq]; if(!a) return;
+  document.getElementById('m-title').textContent = a.sub;
+  const rows = [
+    ['大类', a.category],['预算细项', a.detail],['当前状态', a.status],
+    ['计划开始', a.start],['计划结束', a.end],['关联社群', a.community||'—'],
+    ['牵头人', a.lead||'—'],['协同', a.support||'—'],['活动目标KPI', a.kpi||'—']
+  ];
+  if(SHOW_COST){
+    rows.push(['预算金额', a.budget?fmt(a.budget)+' 元':'—']);
+    rows.push(['已登记支出', a.spent?fmt(a.spent)+' 元':'—']);
+    rows.push(['支付状态', a.pay_status||'—']);
+  }
+  rows.push(['下一步待办', a.next||'—']);
+  document.getElementById('m-body').innerHTML = rows.map(r=>`<div class="kv"><b>${r[0]}</b><span>${r[1]||'—'}</span></div>`).join('');
+  document.getElementById('modal').classList.add('on');
+}
+function openDayList(ds, total){
+  const list = acts.filter(a=>{
+    if(!passFilter(a)) return false;
+    if(calMode==='start') return a.start===ds;
+    if(calMode==='end')   return a.end && a.end===ds && a.end!==a.start;
+    return a.start && a.start<=ds && (!a.end || a.end>=ds);
+  });
+  document.getElementById('m-title').textContent = `${ds} 共 ${total} 项活动`;
+  document.getElementById('m-body').innerHTML = list.map(a=>`
+    <div style="margin:7px 0;padding:8px 10px;border:1px solid var(--line);border-radius:6px;border-left:3px solid ${C[statusClass(a.status)]};cursor:pointer;" onclick="openDetail(${a.seq})">
+      <div style="font-weight:700;font-size:13px;">${a.sub}</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:3px;">
+        <span><span class="dot" style="background:${C[statusClass(a.status)]}"></span>${a.status}</span>
+        ${a.community?`· ${a.community}`:''}
+        ${a.lead?`· ${a.lead}`:''}
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+
+// 日历
+const MONTHS = ['2026-07','2026-08','2026-09','2026-10','2026-11'];
+let mi = 1; // 默认 2026-08
+let calMode = 'start'; // start | span | end
+const TODAY = new Date().toISOString().slice(0,10);
+function renderCal(){
+  const ym = MONTHS[mi];
+  const [y,m] = ym.split('-').map(Number);
+  document.getElementById('mlabel').textContent = `${y}年${m}月`;
+  const first = new Date(y, m-1, 1);
+  let startDow = (first.getDay()+6)%7;
+  const daysInMonth = new Date(y, m, 0).getDate();
+  const cells = [];
+  for(let i=0;i<startDow;i++) cells.push(null);
+  for(let d=1;d<=daysInMonth;d++) cells.push(d);
+  while(cells.length%7!==0) cells.push(null);
+  let html='';
+  cells.forEach(d=>{
+    if(d===null){ html+='<div class="day other"></div>'; return; }
+    const ds = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const evs = acts.filter(a=>{
+      if(!passFilter(a)) return false;
+      if(calMode==='start') return a.start===ds;
+      if(calMode==='end')   return a.end && a.end===ds && a.end!==a.start;
+      return a.start && a.start<=ds && (!a.end || a.end>=ds); // span
+    });
+    const evHtml = evs.slice(0,4).map(a=>`<div class="ev ${statusClass(a.status)}" title="${a.sub}｜${a.status}｜${a.community||''}" onclick="openDetail(${a.seq})">${a.sub.length>12?a.sub.slice(0,12)+'…':a.sub}</div>`).join('')
+      + (evs.length>4?`<div class="ev many" onclick="openDayList('${ds}',${evs.length})">+${evs.length-4}项</div>`:'');
+    html += `<div class="day${ds===TODAY?' today':''}"><div class="dn">${d}</div>${evHtml}</div>`;
+  });
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+// 日历展示方式切换
+document.querySelectorAll('.cal-nav .chip[data-mode]').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.cal-nav .chip[data-mode]').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); calMode=b.dataset.mode; renderCal();
+  };
+});
+document.getElementById('prev').onclick=()=>{ mi=(mi-1+MONTHS.length)%MONTHS.length; renderCal(); };
+document.getElementById('next').onclick=()=>{ mi=(mi+1)%MONTHS.length; renderCal(); };
+
+
+
+// Tab 切换
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+    t.classList.add('on');
+    document.getElementById('view-'+t.dataset.v).classList.add('on');
+  };
+});
+
+document.getElementById('q').addEventListener('input',e=>{ F.q=e.target.value; renderBoard(); });
+renderChips('board-filters', catOrder, F.cat);
+renderStatusChips();
+renderLegend();
+renderChips('cal-filters', catOrder, F.cat);
+renderMonthChips();
+renderBoard();
+renderCal();
+</script>
+</body>
+</html>
