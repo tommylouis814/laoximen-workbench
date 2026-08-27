@@ -296,7 +296,7 @@ function renderBoard(){
     ['done','doing','todo'].forEach(s=>{
       const g = items.filter(a=>statusClass(a.status)===s);
       if(g.length){
-        bands += `<div class="status-band"><div class="slabel" onclick="this.parentElement.classList.toggle('collapsed')">${labels[s]}（${g.length}）</div><div class="cards">${g.map(cardHtml).join('')}</div></div>`;
+        bands += `<div class="status-band collapsed"><div class="slabel" onclick="this.parentElement.classList.toggle('collapsed')">${labels[s]}（${g.length}）</div><div class="cards">${g.map(cardHtml).join('')}</div></div>`;
       }
     });
     html += `<div class="cat-section"><div class="cat-head" onclick="this.parentElement.classList.toggle('collapsed')">${c}（${items.length}）</div><div class="cat-body">${bands}</div></div>`;
