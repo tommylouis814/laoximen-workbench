@@ -157,7 +157,7 @@
     <span class="chip" onclick="collapseAll(true)">全部折叠</span>
     <span class="chip" onclick="collapseAll(false)">全部展开</span>
   </div>
-  <div class="search"><input id="q" placeholder="搜索活动名称 / 社群 / 牵头人…"></div>
+  <div class="search"><input id="q" placeholder="搜索活动名称 / 社群 / 授课导师…"></div>
   <div class="filters" id="board-filters">
     <span class="flabel">板块筛选：</span>
   </div>
@@ -176,6 +176,15 @@
 
 <!-- 日历 -->
 <div class="view" id="view-cal">
+  <div class="filters" id="cal-scope-filters">
+    <span class="flabel">课程范围：</span>
+    <span class="chip on" data-scope="all" onclick="setCalScope('all')">课程总览</span>
+    <span class="chip" data-scope="mine" onclick="setCalScope('mine')">我的课程</span>
+    <span class="flabel" style="margin-left:12px;">当前导师：</span>
+    <select id="current-mentor" onchange="setCurrentMentor(this.value)" style="font-size:12px;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:#fff;">
+      <option value="">请选择你的名字</option>
+    </select>
+  </div>
   <div class="filters" id="cal-filters">
     <span class="flabel">板块筛选：</span>
   </div>
@@ -224,10 +233,60 @@ function statusClass(s){
   if(/筹备|进行|推进|开展|在办|实施/.test(s)) return 'doing';
   return 'todo';
 }
+function fmtDate(ds){
+  if(!ds) return '—';
+  const d = new Date(ds+'T00:00:00');
+  if(isNaN(d)) return ds;
+  const w = ['日','一','二','三','四','五','六'][d.getDay()];
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return `${m}-${dd} 周${w}`;
+}
+function fmtRange(s,e){
+  if(!s) return '—';
+  if(!e || e===s) return fmtDate(s);
+  return `${fmtDate(s)} ~ ${fmtDate(e)}`;
+}
 function fmt(n){ return (n||0).toLocaleString('zh-CN'); }
 
 // 全局筛选状态
 const F = {cat:new Set(), month:new Set(), status:new Set(), mentor:new Set(), q:''};
+let calScope = 'all';
+let currentMentor = '';
+
+function setCalScope(v){
+  calScope = v;
+  document.querySelectorAll('#cal-scope-filters .chip[data-scope]').forEach(c=>{
+    c.classList.toggle('on', c.dataset.scope===v);
+  });
+  if(v==='mine'){
+    if(!currentMentor && MENTORS.length) currentMentor = MENTORS[0];
+    F.mentor.clear();
+    if(currentMentor) F.mentor.add(currentMentor);
+  } else {
+    F.mentor.clear();
+  }
+  renderMentorChips();
+  renderBoard(); renderCal();
+}
+function setCurrentMentor(v){
+  currentMentor = v;
+  const sel = document.getElementById('current-mentor');
+  if(sel) sel.value = v;
+  if(calScope==='mine'){
+    F.mentor.clear();
+    if(v) F.mentor.add(v);
+    renderMentorChips();
+    renderBoard(); renderCal();
+  }
+}
+function initCurrentMentor(){
+  const sel = document.getElementById('current-mentor');
+  if(!sel) return;
+  sel.innerHTML = '<option value="">请选择你的名字</option>' + MENTORS.map(n=>`<option value="${n}">${n}</option>`).join('');
+  if(currentMentor) sel.value = currentMentor;
+}
+
 function passFilter(a){
   if(F.cat.size && !F.cat.has(a.category)) return false;
   if(F.status.size && !F.status.has(statusClass(a.status))) return false;
@@ -289,10 +348,10 @@ function cardHtml(a){
     <div class="nm">${a.sub}</div>
     <div class="meta">
       <span><span class="dot" style="background:${C[sc]}"></span>${a.status||'—'}</span>
-      ${a.start?`<span>📅 ${a.start}${a.end&&a.end!==a.start?'~'+a.end:''}</span>`:''}
+      ${a.start?`<span>📅 ${fmtRange(a.start,a.end)}</span>`:''}
       ${a.timeNote?`<span>⏰ ${a.timeNote}</span>`:''}
       ${a.community?`<span>👥 ${a.community}</span>`:''}
-      ${a.lead?`<span>👤 ${a.lead}</span>`:''}
+      ${a.lead?`<span>👤 授课导师：${a.lead}</span>`:''}
       ${a.location?`<span>📍 ${a.location}</span>`:''}
     </div>
     ${badge}
@@ -389,7 +448,7 @@ function renderMonthChips(){
   box.appendChild(r);
 }
 
-// 导师（牵头人）筛选 chips —— 按活动执行卡「牵头人(lead)」字段；多人联合牵头(顿号/、/，/ 分隔)时按人匹配
+// 导师（授课导师）筛选 chips —— 按活动执行卡「授课导师(lead)」字段；多人联合授课(顿号/、/，/ 分隔)时按人匹配
 const MENTORS = Array.from(new Set(acts.flatMap(a=>(a.lead||'').split(/[、,，/]/).map(x=>x.trim()).filter(Boolean)))).sort();
 function renderMentorChips(){
   ['board-mentor-filters','cal-mentor-filters'].forEach(id=>{
@@ -416,9 +475,9 @@ function openDetail(seq){
   document.getElementById('m-title').textContent = a.sub;
   const rows = [
     ['大类', a.category],['预算细项', a.detail],['当前状态', a.status],
-    ['计划开始', a.start],['计划结束', a.end],['活动时段', a.timeNote||'—'],['活动地点', a.location||'—'],
+    ['计划开始', fmtDate(a.start)],['计划结束', fmtDate(a.end)],['活动时段', a.timeNote||'—'],['活动地点', a.location||'—'],
     ['关联社群', a.community||'—'],
-    ['牵头人', a.lead||'—'],['协同', a.support||'—'],['活动目标KPI', a.kpi||'—']
+    ['授课导师', a.lead||'—'],['协同', a.support||'—'],['活动目标KPI', a.kpi||'—']
   ];
   if(SHOW_COST){
     rows.push(['预算金额', a.budget?fmt(a.budget)+' 元':'—']);
@@ -436,7 +495,7 @@ function openDayList(ds, total){
     if(calMode==='end')   return a.end && a.end===ds;
     return a.start && a.start<=ds && (!a.end || a.end>=ds);
   });
-  document.getElementById('m-title').textContent = `${ds} 共 ${total} 项活动`;
+  document.getElementById('m-title').textContent = `${fmtDate(ds)} 共 ${total} 项活动`;
   document.getElementById('m-body').innerHTML = list.map(a=>`
     <div style="margin:7px 0;padding:8px 10px;border:1px solid var(--line);border-radius:6px;border-left:3px solid ${C[statusClass(a.status)]};cursor:pointer;" onclick="openDetail(${a.seq})">
       <div style="font-weight:700;font-size:13px;">${a.sub}</div>
@@ -513,6 +572,7 @@ renderMentorChips();
 renderLegend();
 renderChips('cal-filters', catOrder, F.cat);
 renderMonthChips();
+initCurrentMentor();
 renderBoard();
 renderCal();
 </script>
