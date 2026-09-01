@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老西门项目 · 看板使用手册（内部）</title>
+<style>
+  :root{
+    --blue:#2b6cb0; --blue2:#4299e1; --pink:#e07aa8; --ink:#1f2937;
+    --sub:#6b7280; --line:#e5e7eb; --card:#ffffff; --bg:#f4f6fa;
+    --red:#c41e3a; --amber:#d69e2e; --green:#2f855a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    line-height:1.75;font-size:15px;}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px;}
+  header.top{background:linear-gradient(135deg,#2b6cb0 0%,#4299e1 60%,#e07aa8 100%);
+    color:#fff;border-radius:16px;padding:32px 32px 28px;margin-bottom:24px;}
+  header.top h1{margin:0 0 8px;font-size:26px;letter-spacing:1px;}
+  header.top .sub{opacity:.95;font-size:14px;}
+  header.top .meta{margin-top:16px;font-size:13px;opacity:.9;border-top:1px solid rgba(255,255,255,.25);padding-top:12px;}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin-bottom:24px;}
+  .toc h2{margin:0 0 12px;font-size:15px;color:var(--blue);}
+  .toc ol{margin:0;padding-left:20px;}
+  .toc li{margin:4px 0;}
+  .toc a{color:var(--ink);text-decoration:none;}
+  .toc a:hover{color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:28px 30px;margin-bottom:22px;}
+  h2.sec{font-size:20px;margin:0 0 6px;color:var(--blue);
+    border-left:4px solid var(--pink);padding-left:12px;}
+  .sec-desc{color:var(--sub);font-size:13.5px;margin:0 0 20px;padding-left:16px;}
+  h3{font-size:16px;margin:24px 0 10px;color:var(--ink);}
+  h3:first-of-type{margin-top:6px;}
+  p{margin:8px 0;}
+  ul,ol{margin:8px 0;padding-left:24px;}
+  li{margin:5px 0;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;}
+  th{background:#eef3fb;color:var(--blue);font-weight:600;white-space:nowrap;}
+  tr:nth-child(even) td{background:#fafbfd;}
+  .tag{display:inline-block;padding:1px 8px;border-radius:6px;font-size:12px;
+    font-weight:600;margin-right:4px;}
+  .tag.blue{background:#e8f0fc;color:var(--blue);}
+  .tag.pink{background:#fdeef4;color:var(--pink);}
+  .tag.red{background:#fdeaea;color:var(--red);}
+  .tag.amber{background:#fdf3e0;color:#b7791f;}
+  .tag.green{background:#e6f4ec;color:var(--green);}
+  .tag.gray{background:#eef0f3;color:var(--sub);}
+  .card-link{display:flex;align-items:center;gap:10px;background:#f2f6fc;
+    border:1px dashed var(--blue2);border-radius:10px;padding:12px 16px;margin:12px 0;
+    font-size:14px;}
+  .card-link .ic{flex:0 0 auto;width:40px;height:40px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;}
+  .card-link .txt{flex:1;}
+  .card-link .txt b{display:block;color:var(--ink);}
+  .card-link .txt span{color:var(--sub);font-size:13px;word-break:break-all;}
+  .card-link a{color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap;}
+  .card-link a:hover{text-decoration:underline;}
+  .note{background:#fff8e6;border-left:4px solid var(--amber);border-radius:8px;
+    padding:12px 16px;margin:14px 0;font-size:13.5px;}
+  .warn{background:#fdeaea;border-left:4px solid var(--red);border-radius:8px;
+    padding:12px 16px;margin:14px 0;font-size:13.5px;}
+  .tip{background:#e6f4ec;border-left:4px solid var(--green);border-radius:8px;
+    padding:12px 16px;margin:14px 0;font-size:13.5px;}
+  .steps{counter-reset:step;list-style:none;padding-left:0;}
+  .steps li{position:relative;padding-left:40px;margin:12px 0;}
+  .steps li::before{counter-increment:step;content:counter(step);
+    position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;
+    background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+  .field-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0;}
+  .field{background:#f8fafd;border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13.5px;}
+  .field b{color:var(--blue);display:block;font-size:14px;}
+  .field .req{color:var(--red);font-weight:600;font-size:12px;}
+  .field .opt{color:var(--sub);font-size:12px;}
+  .mono{font-family:Consolas,"Courier New",monospace;background:#f2f6fc;padding:1px 6px;border-radius:4px;font-size:13px;}
+  @media print{
+    body{background:#fff;}
+    .wrap{max-width:100%;padding:0;}
+    section,header.top{box-shadow:none;}
+    .card-link a{color:var(--blue);}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>老西门街道「西门荟治·社群和鸣」项目 · 看板使用手册</h1>
+  <div class="sub">社群孵化与社区共治培育项目 · 内部人员使用说明（怎么看 · 登记什么 · 怎么登记）</div>
+  <div class="meta">适用对象：项目负责人 / 活动执行 / 授课老师 / 社群主理人 ｜ 编制：天韵公益服务中心 ｜ 版本 v1.0（2026-09-01）</div>
+</header>
+
+<div class="toc">
+  <h2>📖 目录</h2>
+  <ol>
+    <li><a href="#s1">一、看板总览：两个看板分别给谁看</a></li>
+    <li><a href="#s2">二、伙伴看板（天韵内部人员 · 合作方 · 伙伴视角）</a></li>
+    <li><a href="#s3">三、课程计划看板（双 Tab）</a></li>
+    <li><a href="#s4">四、要登记什么：两类必登事项</a></li>
+    <li><a href="#s5">五、怎么登记：活动反馈问卷</a></li>
+    <li><a href="#s6">六、怎么登记：待办事项台账</a></li>
+    <li><a href="#s7">七、三件套与数据闭环规则</a></li>
+  </ol>
+</div>
+
+<!-- ==================== 一、看板总览 ==================== -->
+<section id="s1">
+  <h2 class="sec">一、看板总览：两个看板分别给谁看</h2>
+  <p class="sec-desc">项目对内部人员开放 2 个看板，按「给谁看」区分内容口径。</p>
+
+  <table>
+    <tr><th>看板</th><th>链接</th><th>面向谁</th><th>核心内容</th></tr>
+    <tr>
+      <td><b>伙伴看板</b><br><span class="tag pink">合作方 · 内部</span></td>
+      <td class="mono">/partner/</td>
+      <td>天韵内部人员、合作方、授课老师、社群主理人</td>
+      <td>活动看板 + 日历视图 + 待办事项（3 个 tab）+ 顶部反馈问卷入口</td>
+    </tr>
+    <tr>
+      <td><b>课程计划看板</b><br><span class="tag pink">合作方 · 内部</span></td>
+      <td class="mono">/courses/</td>
+      <td>天韵内部人员、授课老师</td>
+      <td>课程计划 · 日历版 + 社群版（双 Tab）</td>
+    </tr>
+  </table>
+
+  <div class="card-link">
+    <div class="ic" style="background:linear-gradient(135deg,#dd6b20,#ed8936)">伴</div>
+    <div class="txt"><b>伙伴看板</b><span>tommylouis814.github.io/laoximen-workbench/partner/</span></div>
+    <a href="https://tommylouis814.github.io/laoximen-workbench/partner/" target="_blank">打开 ↗</a>
+  </div>
+  <div class="card-link">
+    <div class="ic" style="background:linear-gradient(135deg,#38a169,#48bb78)">课</div>
+    <div class="txt"><b>课程计划看板（双 Tab）</b><span>tommylouis814.github.io/laoximen-workbench/courses/</span></div>
+    <a href="https://tommylouis814.github.io/laoximen-workbench/courses/" target="_blank">打开 ↗</a>
+  </div>
+
+  <div class="note">
+    <b>一句话记忆：</b>「伙伴看板」看活动安排与自己的待办；「课程计划看板」按日历或社群两种方式看课程排期。两个看板都只看项目内容本身。
+  </div>
+</section>
+
+<!-- ==================== 二、伙伴看板 ==================== -->
+<section id="s2">
+  <h2 class="sec">二、伙伴看板（天韵内部人员 · 合作方 · 伙伴视角）</h2>
+  <p class="sec-desc">链接：<span class="mono">/partner/</span> ｜ 面向天韵内部人员、合作方、授课老师、社群主理人。</p>
+
+  <h3>2.1 页面结构</h3>
+  <p>伙伴看板从上到下、从左到右分为三块：</p>
+  <table>
+    <tr><th>区域</th><th>内容</th><th>说明</th></tr>
+    <tr><td><b>顶部横幅</b></td><td>📝 活动反馈问卷入口</td><td>每场活动结束后的「填写活动反馈」按钮就在这里（详见第五章）</td></tr>
+    <tr><td><b>Tab ① 活动看板</b></td><td>按社群/板块分组的活动卡片</td><td>可折叠/展开、按板块筛选、关键词搜索活动</td></tr>
+    <tr><td><b>Tab ② 日历视图</b></td><td>以月历形式展示活动排期</td><td>跨天活动以活动条横跨显示，一眼看清 7–11 月节奏</td></tr>
+    <tr><td><b>Tab ③ 待办事项</b></td><td>待办分档预警清单</td><td>顶部有「➕ 登记待办」按钮直达台账（详见第六章）</td></tr>
+  </table>
+
+  <h3>2.2 怎么看</h3>
+  <ol>
+    <li><b>看活动</b>：进入「活动看板」Tab，点「全部展开」看全部活动，或点某个板块只展开该社群；用顶部搜索框输入活动名/社群/导师快速定位。</li>
+    <li><b>看排期</b>：切到「日历视图」Tab，看每个月的活动密度，跨天活动会横向拉长。</li>
+    <li><b>看自己要做的事</b>：切到「待办事项」Tab，看分档预警——优先处理「已逾期」「3天内」的事项。</li>
+  </ol>
+
+  <div class="tip">
+    <b>一句话说明：</b>这个看板只展示活动安排和你的待办，专注项目内容本身，可以放心转发给内部伙伴与合作方。
+  </div>
+</section>
+
+<!-- ==================== 三、课程计划看板 ==================== -->
+<section id="s3">
+  <h2 class="sec">三、课程计划看板（双 Tab）</h2>
+  <p class="sec-desc">链接：<span class="mono">/courses/</span> ｜ 面向天韵内部人员与授课老师。</p>
+
+  <h3>3.1 两个 Tab 的区别</h3>
+  <table>
+    <tr><th>Tab</th><th>视角</th><th>适合谁</th></tr>
+    <tr><td><b>📅 日历版</b></td><td>按时间轴（月历 + 逐场明细）看活动节奏</td><td>需要把握整体排期节奏的人（负责人、街道审核）</td></tr>
+    <tr><td><b>👥 社群版</b></td><td>按社群分类看各社群的课程/活动清单</td><td>授课老师、社群主理人（只看自己社群的安排）</td></tr>
+  </table>
+
+  <h3>3.2 五大社群图例（社群版用颜色区分）</h3>
+  <table>
+    <tr><th>社群名称</th><th>图例色</th></tr>
+    <tr><td>里弄潮集社</td><td><span style="display:inline-block;width:14px;height:14px;background:#1f4e8c;border-radius:3px;vertical-align:middle"></span> 深蓝</td></tr>
+    <tr><td>吴侬软语坊</td><td><span style="display:inline-block;width:14px;height:14px;background:#e07aa8;border-radius:3px;vertical-align:middle"></span> 粉红</td></tr>
+    <tr><td>指尖温度圈</td><td><span style="display:inline-block;width:14px;height:14px;background:#e6a23c;border-radius:3px;vertical-align:middle"></span> 橙黄</td></tr>
+    <tr><td>杏林守艺堂</td><td><span style="display:inline-block;width:14px;height:14px;background:#2e8b57;border-radius:3px;vertical-align:middle"></span> 绿色</td></tr>
+    <tr><td>邻里议事厅</td><td><span style="display:inline-block;width:14px;height:14px;background:#7b5ea7;border-radius:3px;vertical-align:middle"></span> 紫色</td></tr>
+    <tr><td>面向全体 / 跨社群</td><td><span style="display:inline-block;width:14px;height:14px;background:#6b7280;border-radius:3px;vertical-align:middle"></span> 灰色</td></tr>
+  </table>
+
+  <h3>3.3 项目三阶段</h3>
+  <ul>
+    <li><b>社群启动（7–8 月）</b>：社群评估与适配、启动仪式、成员标识、种子招募、双轨主理人组建。</li>
+    <li><b>运营深化（9–11 月）</b>：各社群升阶课程 / 活动开展。</li>
+    <li><b>成果展示</b>：项目收尾展示。</li>
+  </ul>
+</section>
+
+<!-- ==================== 四、要登记什么 ==================== -->
+<section id="s4">
+  <h2 class="sec">四、要登记什么：两类必登事项</h2>
+  <p class="sec-desc">内部人员日常要在两个入口登记，缺一不可。</p>
+
+  <table>
+    <tr><th>登记项</th><th>入口</th><th>谁登记</th><th>时机</th></tr>
+    <tr>
+      <td><b>① 活动反馈</b></td>
+      <td>腾讯问卷（伙伴看板顶部横幅 / 伙伴看板「填写活动反馈」）</td>
+      <td>每场活动的执行老师 / 主理人</td>
+      <td><b>每场活动结束后当天</b></td>
+    </tr>
+    <tr>
+      <td><b>② 待办事项</b></td>
+      <td>腾讯文档智能表「待办事项」台账</td>
+      <td>各事项的责任人</td>
+      <td><b>产生待办时登记、完成时更新状态</b></td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <b>两者关系：</b>活动反馈记录「这一场做完了、做得怎么样」；待办台账记录「接下来要做什么、谁负责、何时截止」。一个往回看，一个往前推，合起来就是完整的项目闭环。
+  </div>
+</section>
+
+<!-- ==================== 五、活动反馈问卷 ==================== -->
+<section id="s5">
+  <h2 class="sec">五、怎么登记：活动反馈问卷</h2>
+  <p class="sec-desc">入口：<span class="mono">https://wj.qq.com/s2/27647616/pg6d/</span>（伙伴看板顶部横幅「填写活动反馈 ↗」直达）</p>
+
+  <h3>5.1 什么时候填</h3>
+  <p>每场活动结束后<b>当天</b>填写提交。不要拖到第二天，否则「三件套」里的现场信息容易遗漏。</p>
+
+  <h3>5.2 必须提交的「三件套」</h3>
+  <div class="field-grid">
+    <div class="field"><b>① 签到表</b> <span class="req">必填</span><br>参加活动人员的签到记录（照片或文件）</div>
+    <div class="field"><b>② 活动照片</b> <span class="req">必填</span><br>现场活动照片（清晰、能反映活动开展情况）</div>
+    <div class="field"><b>③ 现场小结</b> <span class="req">必填</span><br>本场活动的简要文字小结（做了什么、效果如何）</div>
+  </div>
+  <p>以上三件套<b>缺一不可</b>，问卷填写时请特别注意提交完整性。</p>
+
+  <h3>5.3 填写步骤</h3>
+  <ol class="steps">
+    <li>打开伙伴看板，点顶部横幅右侧「<b>填写活动反馈 ↗</b>」。</li>
+    <li>按问卷提示填写本场活动信息（活动名称、社群、日期等）。</li>
+    <li>上传「三件套」：签到表、活动照片、现场小结。</li>
+    <li>检查无误后<b>提交</b>。</li>
+  </ol>
+
+  <div class="warn">
+    <b>红线：</b>「三件套」任缺一件即视为提交不完整，需退回补交。这是活动台账与结项材料的关键依据，务必当日完成。
+  </div>
+</section>
+
+<!-- ==================== 六、待办事项台账 ==================== -->
+<section id="s6">
+  <h2 class="sec">六、怎么登记：待办事项台账</h2>
+  <p class="sec-desc">入口：<span class="mono">https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN</span>（伙伴看板「➕ 登记待办」直达）</p>
+
+  <h3>6.1 台账字段说明（共 10 个登记字段）</h3>
+  <table>
+    <tr><th>字段</th><th>类型</th><th>是否必填</th><th>填写说明</th></tr>
+    <tr><td><b>事项</b></td><td>文本</td><td><span class="req">必填</span></td><td>一句话说清要做什么，如「联寓公寓沪语课程场地确认」</td></tr>
+    <tr><td><b>责任人</b></td><td>多选</td><td><span class="req">必填</span></td><td>谁负责这件事，可多选</td></tr>
+    <tr><td><b>截止时间</b></td><td>日期</td><td><span class="req">必填</span></td><td>到期日期，看板据此自动分档预警</td></tr>
+    <tr><td><b>关联方</b></td><td>多选</td><td><span class="req">必填</span></td><td>内部 / 授课老师 / 街道 / 居民区书记 / 社群主理人 / 场地方（决定这条待办分流到哪个视角）</td></tr>
+    <tr><td><b>关联对象</b></td><td>文本</td><td><span class="opt">选填</span></td><td>具体对接的人，如「黄老师（街道）」</td></tr>
+    <tr><td><b>关联活动</b></td><td>关联</td><td><span class="opt">选填</span></td><td>关联到具体某场活动</td></tr>
+    <tr><td><b>类型</b></td><td>单选</td><td><span class="opt">选填</span></td><td>如「沟通确认」等分类</td></tr>
+    <tr><td><b>优先级</b></td><td>单选</td><td><span class="opt">选填</span></td><td>高 / 中 / 低</td></tr>
+    <tr><td><b>状态</b></td><td>单选</td><td><span class="req">必填</span></td><td>未启动 / 进行中 / 已完成（完成时务必改状态）</td></tr>
+    <tr><td><b>跟进摘要</b></td><td>文本</td><td><span class="opt">选填</span></td><td>记录跟进过程，便于交接</td></tr>
+  </table>
+
+  <h3>6.2 预警分档规则（看板自动计算）</h3>
+  <table>
+    <tr><th>分档</th><th>触发条件（相对截止时间）</th><th>提醒</th></tr>
+    <tr><td><b>已逾期</b></td><td>今天 &gt; 截止时间 且未完成</td><td><span class="tag red">立即处理</span></td></tr>
+    <tr><td><b>3 天内催办</b></td><td>0 ≤ 距截止 ≤ 3 天</td><td><span class="tag red">抓紧</span></td></tr>
+    <tr><td><b>7 天截止</b></td><td>3 &lt; 距截止 ≤ 7 天</td><td><span class="tag amber">临近</span></td></tr>
+    <tr><td><b>10 天预警</b></td><td>7 &lt; 距截止 ≤ 10 天</td><td><span class="tag blue">提前关注</span></td></tr>
+    <tr><td><b>远期</b></td><td>距截止 &gt; 10 天</td><td><span class="tag gray">正常</span></td></tr>
+  </table>
+
+  <h3>6.3 登记步骤</h3>
+  <ol class="steps">
+    <li>打开伙伴看板，点「<b>➕ 登记待办 ↗</b>」直达腾讯文档台账。</li>
+    <li>点「新增记录」，逐项填写：事项、责任人、截止时间、关联方、状态（至少这 5 项）。</li>
+    <li>如有对接人、关联活动，补填「关联对象」「关联活动」。</li>
+    <li>事项完成后，把「状态」改为<b>已完成</b>，该条会自动归档到「已完成」分档。</li>
+  </ol>
+
+  <div class="note">
+    <b>关联方的作用：</b>待办台账里的「关联方」字段，决定这条待办会分流到哪个视角展示（内部 / 授课老师 / 街道 / 居民区书记 / 社群主理人 / 场地方）。填的时候务必选对，才能让该看到的人看到、该跟进的跟进。
+  </div>
+</section>
+
+<!-- ==================== 七、三件套与数据闭环 ==================== -->
+<section id="s7">
+  <h2 class="sec">七、三件套与数据闭环规则</h2>
+
+  <h3>7.1 数据从哪来、到哪去</h3>
+  <table>
+    <tr><th>数据源</th><th>流向</th></tr>
+    <tr><td>《项目进度融合跟进表 V5》Excel</td><td>→ 活动 / 方案 / 主理人 / SOP 数据 → 伙伴看板、课程计划看板</td></tr>
+    <tr><td>腾讯问卷（活动反馈）</td><td>→ 活动执行留痕（反馈记录，作为结项材料）</td></tr>
+    <tr><td>腾讯文档「待办事项」台账</td><td>→ 待办分档预警 → 伙伴看板（按关联方分流）</td></tr>
+  </table>
+
+  <h3>7.2 闭环铁律</h3>
+  <ul>
+    <li><b>当日反馈</b>：活动结束当天提交问卷 + 三件套。</li>
+    <li><b>即时登记</b>：有新的待办，第一时间进台账登记。</li>
+    <li><b>完成即改</b>：待办做完，立刻把状态改为「已完成」，否则会一直挂着触发预警。</li>
+    <li><b>选对关联方</b>：待办的「关联方」选错，会导致该条分流到错误的视角（比如内部事项误归到街道）。</li>
+  </ul>
+</section>
+
+</div>
+</body>
+</html>
