@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老西门项目·五大看板分享页</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #1e3a5f 0%, #2b6cb0 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #1a202c;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+  .header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2b6cb0 100%);
+    color: #fff;
+    padding: 32px 28px 24px;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+  .header .subtitle {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+  }
+  .header .meta {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+  .map-wrap {
+    padding: 24px 20px 12px;
+    background: #f7fafc;
+    text-align: center;
+  }
+  .map-wrap img {
+    width: 100%;
+    max-width: 560px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .map-caption {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #718096;
+  }
+  .boards {
+    padding: 24px 20px;
+  }
+  .board {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #f7fafc;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .board:hover {
+    background: #edf2f7;
+    border-color: #2b6cb0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(43,108,176,0.15);
+  }
+  .board-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    color: #fff;
+  }
+  .icon-workbench { background: linear-gradient(135deg, #2b6cb0 0%, #4299e1 100%); }
+  .icon-leader    { background: linear-gradient(135deg, #c41e3a 0%, #e53e3e 100%); }
+  .icon-todo      { background: linear-gradient(135deg, #d69e2e 0%, #ecc94b 100%); }
+  .icon-calendar  { background: linear-gradient(135deg, #38a169 0%, #48bb78 100%); }
+  .icon-plan      { background: linear-gradient(135deg, #805ad5 0%, #9f7aea 100%); }
+  .board-body { flex: 1; min-width: 0; }
+  .board-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 2px;
+  }
+  .board-desc {
+    font-size: 12px;
+    color: #718096;
+    line-height: 1.5;
+  }
+  .board-url {
+    font-size: 11px;
+    color: #a0aec0;
+    margin-top: 2px;
+    word-break: break-all;
+  }
+  .board-arrow {
+    font-size: 18px;
+    color: #cbd5e0;
+    flex-shrink: 0;
+  }
+  .footer {
+    padding: 16px 20px 28px;
+    text-align: center;
+    font-size: 12px;
+    color: #a0aec0;
+    border-top: 1px solid #edf2f7;
+  }
+  .footer strong { color: #2b6cb0; }
+  .section-title {
+    font-size: 14px;
+    color: #4a5568;
+    margin: 0 0 14px;
+    padding-left: 8px;
+    border-left: 3px solid #2b6cb0;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>西门荟治·社群和鸣</h1>
+      <div class="subtitle">老西门街道社群孵化与社区共治培育项目 · 五大看板</div>
+      <div class="meta" id="buildMeta">🕐 数据每日 9:00 自动同步 · BUILD_VER 加载中…</div>
+    </div>
+
+    <div class="map-wrap">
+      <img src="https://tommylouis814.github.io/laoximen-workbench/share-thumb.jpg" alt="老西门街道社群分区地图">
+      <div class="map-caption">老西门街道·五社群分区地图（吴佬轶话坊 / 里弄·潮集社 / 邻里议事厅 / 杏林守艺堂 / 龙门邨味觉场）</div>
+    </div>
+
+    <div class="boards">
+      <div class="section-title">📊 三个工作看板</div>
+
+      <a class="board" href="https://tommylouis814.github.io/laoximen-workbench/workbench/" target="_blank">
+        <div class="board-icon icon-workbench">总</div>
+        <div class="board-body">
+          <div class="board-name">① 项目负责人总台</div>
+          <div class="board-desc">项目总览 · 方案跟进 · 活动台账 · 主理人 · 社群档案 · 费用驾驶舱 · 待办事项</div>
+          <div class="board-url">tommylouis814.github.io/laoximen-workbench/workbench/</div>
+        </div>
+        <div class="board-arrow">›</div>
+      </a>
+
+      <a class="board" href="https://tommylouis814.github.io/laoximen-workbench/leader/" target="_blank">
+        <div class="board-icon icon-leader">街</div>
+        <div class="board-body">
+          <div class="board-name">② 街道看板</div>
+          <div class="board-desc">面向街道办·居民区书记的项目进度看板（仅显示街道相关待办/活动）</div>
+          <div class="board-url">tommylouis814.github.io/laoximen-workbench/leader/</div>
+        </div>
+        <div class="board-arrow">›</div>
+      </a>
+
+      <a class="board" href="https://tommylouis814.github.io/laoximen-workbench/" target="_blank">
+        <div class="board-icon icon-todo">待</div>
+        <div class="board-body">
+          <div class="board-name">③ 待办预警看板</div>
+          <div class="board-desc">分档显示待办：7天内 / 10天内 / 远期 / 已完成，含截止日期/责任人/状态/进度</div>
+          <div class="board-url">tommylouis814.github.io/laoximen-workbench/</div>
+        </div>
+        <div class="board-arrow">›</div>
+      </a>
+
+      <div class="section-title" style="margin-top: 18px;">📅 两个课程计划</div>
+
+      <a class="board" href="https://tommylouis814.github.io/laoximen-workbench/calendar/" target="_blank">
+        <div class="board-icon icon-calendar">日</div>
+        <div class="board-body">
+          <div class="board-name">④ 课程计划·日历版</div>
+          <div class="board-desc">活动按日历展示（含跨天活动条），9月-12月项目全周期一目了然</div>
+          <div class="board-url">tommylouis814.github.io/laoximen-workbench/calendar/</div>
+        </div>
+        <div class="board-arrow">›</div>
+      </a>
+
+      <a class="board" href="https://tommylouis814.github.io/laoximen-workbench/plan/" target="_blank">
+        <div class="board-icon icon-plan">群</div>
+        <div class="board-body">
+          <div class="board-name">⑤ 课程计划·社群版</div>
+          <div class="board-desc">按 5 个社群（吴佬/里弄/邻里/杏林/龙门邨）分类展示活动实施计划</div>
+          <div class="board-url">tommylouis814.github.io/laoximen-workbench/plan/</div>
+        </div>
+        <div class="board-arrow">›</div>
+      </a>
+    </div>
+
+    <div class="footer">
+      <div>📌 主办单位：黄浦区老西门街道办事处</div>
+      <div>🤝 协办单位：上海徐汇天韵公益服务中心</div>
+      <div style="margin-top: 8px;">数据源：腾讯文档智能表 + V5 进度费用融合跟进表 · <strong>每日 9:00 自动同步</strong></div>
+    </div>
+  </div>
+
+  <script>
+    // 显示当前构建时间戳
+    fetch('https://tommylouis814.github.io/laoximen-workbench/workbench/', {method:'HEAD'})
+      .then(() => {
+        const now = new Date();
+        const ts = now.getFullYear() + '-' +
+                   String(now.getMonth()+1).padStart(2,'0') + '-' +
+                   String(now.getDate()).padStart(2,'0') + ' ' +
+                   String(now.getHours()).padStart(2,'0') + ':' +
+                   String(now.getMinutes()).padStart(2,'0');
+        document.getElementById('buildMeta').textContent = '🕐 分享页生成于 ' + ts + ' · 每日 9:00 自动同步';
+      });
+  </script>
+</body>
+</html>
