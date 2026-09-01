@@ -147,6 +147,7 @@
     <div class="tab on" data-v="board">活动看板</div>
     <div class="tab" data-v="cal">日历视图</div>
     
+    <div class="tab" data-v="todo">待办事项</div>
   </div>
 </div>
 
@@ -213,6 +214,17 @@
 </div>
 
 
+
+<!-- 待办事项 -->
+<div class="view" id="view-todo">
+  <div class="qn-banner" style="margin-bottom:12px">
+    <span class="qn-t">📋 待办事项</span>
+    <span>按截止时间自动分档预警（前10天预警 · 前7天截止 · 前3天催办 · 已逾期）。内部人员可一键直达台账登记。</span>
+    <a href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办 ↗</a>
+  </div>
+  <div class="kpis" id="todo-kpis" style="grid-template-columns:repeat(5,1fr)"></div>
+  <div id="todo-list"></div>
+</div>
 
 <div class="modal" id="modal">
   <div class="box">
@@ -554,6 +566,72 @@ document.getElementById('prev').onclick=()=>{ mi=(mi-1+MONTHS.length)%MONTHS.len
 document.getElementById('next').onclick=()=>{ mi=(mi+1)%MONTHS.length; renderCal(); };
 
 
+
+// 待办事项渲染
+const TODO_DATA = {
+  "syncedAt": "2026-09-01 12:50",
+  "todoDocUrl": "https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN",
+  "total": 1,
+  "buckets": {
+    "overdue": [],
+    "d3": [],
+    "d7": [],
+    "d10": [],
+    "far": [],
+    "nodue": []
+  }
+};
+const TODO_DEFS=[
+  {key:'overdue',label:'🔴 已逾期',color:'#e53e3e'},
+  {key:'d3',label:'🟠 3天内',color:'#dd6b20'},
+  {key:'d7',label:'🟡 7天内',color:'#b7791f'},
+  {key:'d10',label:'🔵 10天内',color:'#2b6cb0'},
+  {key:'far',label:'⚪ 远期',color:'#a0aec0'},
+  {key:'nodue',label:'⚪ 无截止',color:'#a0aec0'},
+];
+function todoDaysTxt(d){
+  if(d===null||d===undefined)return '';
+  if(d<0)return `已逾期 ${-d} 天`;
+  if(d===0)return '今天截止';
+  return `剩 ${d} 天`;
+}
+function renderTodo(){
+  const b=(TODO_DATA&&TODO_DATA.buckets)||{};
+  const ov=(b.overdue||[]).length,d3=(b.d3||[]).length,d7=(b.d7||[]).length,d10=(b.d10||[]).length;
+  document.getElementById('todo-kpis').innerHTML=
+    `<div class="kpi"><div class="v" style="color:#e53e3e">${ov}</div><div class="l">已逾期</div></div>
+     <div class="kpi"><div class="v" style="color:#dd6b20">${d3}</div><div class="l">3天内</div></div>
+     <div class="kpi"><div class="v" style="color:#b7791f">${d7}</div><div class="l">7天内</div></div>
+     <div class="kpi"><div class="v" style="color:#2b6cb0">${d10}</div><div class="l">10天内</div></div>
+     <div class="kpi"><div class="v">${TODO_DATA?TODO_DATA.total||0:0}</div><div class="l">待办总数</div></div>`;
+  let html='';
+  TODO_DEFS.forEach(def=>{
+    const items=b[def.key]||[];
+    html+=`<div style="margin-bottom:14px;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden">`;
+    html+=`<div style="padding:9px 16px;color:#fff;font-weight:700;font-size:14px;background:${def.color};display:flex;justify-content:space-between"><span>${def.label}</span><span style="font-weight:600;font-size:12.5px;opacity:.95">${items.length} 项</span></div>`;
+    if(!items.length){html+='<div style="color:#a9b0bd;padding:16px;text-align:center;font-size:13px">该档暂无事项</div>';}
+    else{
+      items.forEach(t=>{
+        const owner=(t.owner||[]).join('、');
+        const party=(t.party||[]).join('、');
+        const acts=(t.activities||[]).map(a=>a.title).join('、');
+        html+=`<div style="padding:10px 16px;border-top:1px solid var(--line)">
+          <div style="font-weight:700;font-size:13.5px;color:var(--ink)">${esc(t.title)}</div>
+          <div style="font-size:12px;color:var(--sub);margin-top:3px;display:flex;flex-wrap:wrap;gap:4px 12px">
+            <span>📅 截止 ${t.due?t.due.slice(5):'—'}</span>
+            ${t.days!==null&&t.days!==undefined?`<span>${todoDaysTxt(t.days)}</span>`:''}
+            ${owner?`<span>👤 ${esc(owner)}</span>`:''}
+            ${acts?`<span>🎯 ${esc(acts)}</span>`:''}
+            ${party?`<span>🏛 ${esc(party)}</span>`:''}
+          </div>
+        </div>`;
+      });
+    }
+    html+='</div>';
+  });
+  document.getElementById('todo-list').innerHTML=html;
+}
+renderTodo();
 
 // Tab 切换
 document.querySelectorAll('.tab').forEach(t=>{
