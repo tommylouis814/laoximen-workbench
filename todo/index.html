@@ -37,6 +37,7 @@ color:#fff;}
 .sec-h.d10{background:var(--primary2);}
 .sec-h.far{background:#a0aec0;}
 .sec-h.nodue{background:#a0aec0;}
+.sec-h.done{background:var(--green);}
 .sec-h .n{float:right;font-weight:600;font-size:13px;opacity:.92;}
 .card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--primary2);
 border-radius:10px;padding:12px 14px;margin-bottom:10px;}
@@ -57,6 +58,10 @@ gap:8px;flex-wrap:wrap;}
 .pri.low{color:var(--sub);background:#f7fafc;}
 .follow{font-size:12px;color:var(--sub);margin-top:6px;padding-top:6px;
 border-top:1px dashed var(--line);}
+.what{font-size:12.5px;color:#4a5568;margin-top:6px;padding:6px 8px;background:#f0f7ff;
+border-radius:6px;border-left:3px solid var(--primary2);}
+.card.done{border-left-color:var(--green);opacity:.92;}
+.card.done .nm{color:#5a6b82;}
 .empty{color:#a9b0bd;padding:18px;text-align:center;font-size:13px;
 background:var(--card);border:1px dashed var(--line);border-radius:10px;}
 .note{background:#fff8e6;border:1px solid #f0d8a8;border-radius:10px;padding:12px 14px;
@@ -69,14 +74,14 @@ font-size:12.5px;color:#7a5b12;margin-bottom:16px;}
 <div class="wrap">
   <div class="hd">
     <h1>老西门项目 · 待办预警看板</h1>
-    <div class="sub">按截止时间自动分档 ｜ 数据来源：腾讯文档「待办事项」台账（同步于 2026-09-01 14:30）｜ 预警规则：前10天预警 · 前7天截止 · 前3天催办</div>
+    <div class="sub">按截止时间自动分档 ｜ 数据来源：腾讯文档「待办事项」台账（同步于 2026-09-01 15:35）｜ 预警规则：前10天预警 · 前7天截止 · 前3天催办</div>
     <div class="reg-link"><a href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办（内部直达台账）</a></div>
   </div>
   <div class="note">
     说明：本看板按「截止时间」自动分档，<b>已逾期</b>优先处理；「3天内截止」需催办责任人；「7天内截止」进入冲刺；「10天内预警」提前准备。已完成事项不显示。
   </div>
-  <div class="stats"><div class="stat overdue"><div class="v">0</div><div class="l">已逾期</div></div><div class="stat d3"><div class="v">0</div><div class="l">3天内催办</div></div><div class="stat d7"><div class="v">0</div><div class="l">7天内截止</div></div><div class="stat d10"><div class="v">0</div><div class="l">10天内预警</div></div><div class="stat"><div class="v">3</div><div class="l">待办总数</div></div></div>
-  <div class="sec-h overdue">🔴 已逾期（需尽快处理）<span class="n">0 项</span></div><div class="empty">暂无逾期事项，一切正常</div><div class="sec-h d3">🟠 3 天内截止（催办）<span class="n">0 项</span></div><div class="empty">暂无 3 天内到期事项</div><div class="sec-h d7">🟡 7 天内截止<span class="n">0 项</span></div><div class="empty">暂无 7 天内到期事项</div><div class="sec-h d10">🔵 10 天内预警<span class="n">0 项</span></div><div class="empty">暂无 10 天内预警事项</div><div class="sec-h far">⚪ 10 天以上（正常）<span class="n">0 项</span></div><div class="empty">暂无远期事项</div><div class="sec-h nodue">⚪ 无截止时间<span class="n">2 项</span></div><div class="card nodue"><div class="nm">联寓公寓沪语课程场地确认 <span class="pri high">高</span></div><div class="meta"><span>📅 截止 —</span><span>👤 孙佳鑫</span><span>🏛 街道、内部、居民区书记</span><span>📌 沟通确认</span></div></div><div class="card nodue"><div class="nm">中医非遗健康养生体验活动配送 <span class="pri high">高</span></div><div class="meta"><span>📅 截止 —</span><span>👤 孙佳鑫</span><span>🏛 街道、居民区书记、内部</span><span>📌 沟通确认</span></div></div>
+  <div class="stats"><div class="stat overdue"><div class="v">0</div><div class="l">已逾期</div></div><div class="stat d3"><div class="v">1</div><div class="l">3天内催办</div></div><div class="stat d7"><div class="v">0</div><div class="l">7天内截止</div></div><div class="stat d10"><div class="v">1</div><div class="l">10天内预警</div></div><div class="stat"><div class="v">8</div><div class="l">待办总数</div></div><div class="stat"><div class="v">2</div><div class="l">已完成</div></div></div>
+  <div class="sec-h overdue">🔴 已逾期（需尽快处理）<span class="n">0 项</span></div><div class="empty">暂无逾期事项，一切正常</div><div class="sec-h d3">🟠 3 天内截止（催办）<span class="n">1 项</span></div><div class="card d3"><div class="nm">联寓公寓沪语课程场地确认 <span class="pri high">高</span><span class="badge b-blue">进行中</span></div><div class="meta"><span>📅 截止 09-04 周五</span><span>剩 3 天</span><span>👤 孙佳鑫</span><span>📌 沟通确认</span><span>🏛 街道、内部、居民区书记</span></div><div class="what"><span>📝 沟通联寓公寓是否作为沪语学堂授课点</span></div></div><div class="sec-h d7">🟡 7 天内截止<span class="n">0 项</span></div><div class="empty">暂无 7 天内到期事项</div><div class="sec-h d10">🔵 10 天内预警<span class="n">1 项</span></div><div class="card d10"><div class="nm">亲子健身操队伍招募 <span class="pri mid">中</span><span class="badge b-gray">待办</span></div><div class="meta"><span>📅 截止 09-09 周三</span><span>剩 8 天</span><span>👤 孙佳鑫</span><span>🎯 亲子家庭健身操创编-暖暖/疯狂动物城（09-19~09-19）</span><span>📌 沟通确认</span><span>🏛 内部、街道、居民区书记、社群主理人、场地方、授课老师</span></div><div class="what"><span>📝 亲子健身操人员募集</span></div></div><div class="sec-h far">⚪ 10 天以上（正常）<span class="n">4 项</span></div><div class="card far"><div class="nm">国学课程场地确认 <span class="pri high">高</span><span class="badge b-gray">待办</span></div><div class="meta"><span>📅 截止 09-12 周六</span><span>剩 11 天</span><span>👤 孙佳鑫</span><span>🎯 国学研学与体验 第1次/4（09-19~09-19）</span><span>📌 沟通确认</span><span>🏛 街道、场地方、内部、授课老师</span></div><div class="what"><span>📝 国学课程场地需确定</span></div></div><div class="card far"><div class="nm">中医非遗健康养生体验活动配送 <span class="pri high">高</span><span class="badge b-blue">进行中</span></div><div class="meta"><span>📅 截止 09-16 周三</span><span>剩 15 天</span><span>👤 孙佳鑫</span><span>📌 沟通确认</span><span>🏛 街道、居民区书记、内部</span></div><div class="what"><span>📝 中医非遗健康养生课程配送居民区需确定</span></div></div><div class="card far"><div class="nm">古韵悠扬舞蹈队节目排演时间 <span class="pri low">低</span><span class="badge b-blue">进行中</span></div><div class="meta"><span>📅 截止 10-09 周五</span><span>剩 38 天</span><span>👤 孙佳鑫</span><span>🎯 文体社群大师课 第1次/4-古典爵士舞（10-17~10-17）</span><span>📌 沟通确认</span><span>🏛 授课老师、内部、社群主理人、场地方</span></div><div class="what"><span>📝 古韵悠扬舞蹈队2次大师课授课时间确定</span></div></div><div class="card far"><div class="nm">citywalk第二场带队老师确认 <span class="pri low">低</span><span class="badge b-blue">进行中</span></div><div class="meta"><span>📅 截止 10-18 周日</span><span>剩 47 天</span><span>👤 侯佳奇</span><span>🎯 老城厢漫游 第2场/2-老西门文化（10-25~10-25）</span><span>📌 沟通确认</span><span>🏛 授课老师、内部</span></div><div class="what"><span>📝 10/25场citywalk带队老师确认</span></div></div><div class="sec-h nodue">⚪ 无截止时间<span class="n">0 项</span></div><div class="empty">所有事项均已设置截止时间</div><div class="sec-h done">✅ 已完成（工作量台账）<span class="n">2 项</span></div><div class="card done"><div class="nm">也是园合唱团大师课时间确认 <span class="pri high">高</span><span class="badge b-green">已完成</span></div><div class="meta"><span>📅 截止 09-06 周日</span><span>👤 孙佳鑫</span><span>🎯 文体社群大师课 第3次/4-《同一首歌》舞（09-13~09-13）</span><span>📌 沟通确认</span><span>🏛 授课老师、内部、居民区书记、社群主理人</span></div><div class="what"><span>📝 也是园合唱团大师课时间沟通</span></div></div><div class="card done"><div class="nm">悦西门9月25日场地是否开放的询问 <span class="pri mid">中</span><span class="badge b-green">已完成</span></div><div class="meta"><span>📅 截止 09-18 周五</span><span>👤 孙佳鑫</span><span>🎯 沪语学堂 第5次/10-住:里、弄、坊、邨、楼（10-09~10-09）</span><span>📌 沟通确认</span><span>🏛 内部、授课老师、场地方</span></div><div class="what"><span>📝 确认9月25日悦西门是否开放</span></div></div>
   <div class="confidential">仅供天韵公益内部 · 老西门项目组查阅，请勿外传</div>
 </div>
 </body>
