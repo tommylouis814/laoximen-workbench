@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老西门项目 · 待办预警看板</title>
+<style>
+:root{--primary:#2b6cb0;--primary2:#4299e1;--accent:#ed64a6;
+--red:#e53e3e;--orange:#dd6b20;--yellow:#b7791f;--green:#38a169;
+--bg:#f7fafc;--card:#fff;--ink:#2d3748;--sub:#718096;--line:#e2e8f0;}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.6;
+font-family:"Microsoft YaHei","微软雅黑",-apple-system,"PingFang SC",sans-serif;}
+.wrap{max-width:1080px;margin:0 auto;padding:16px 16px 60px;}
+.hd{background:var(--card);border:1px solid var(--line);border-radius:12px;
+padding:16px 20px;margin-bottom:16px;}
+.hd h1{font-size:20px;color:var(--primary);margin:0 0 4px;font-weight:800;}
+.hd .sub{font-size:12px;color:var(--sub);}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;
+padding:12px 14px;border-top:3px solid var(--primary2);}
+.stat .v{font-size:22px;font-weight:800;color:var(--primary);}
+.stat .l{font-size:12px;color:var(--sub);}
+.stat.overdue .v{color:var(--red);} .stat.overdue{border-top-color:var(--red);}
+.stat.d3 .v{color:var(--orange);} .stat.d3{border-top-color:var(--orange);}
+.stat.d7 .v{color:var(--yellow);} .stat.d7{border-top-color:var(--yellow);}
+.sec{margin-bottom:20px;}
+.sec-h{font-size:15px;font-weight:700;margin:0 0 10px;padding:8px 14px;border-radius:8px;
+color:#fff;}
+.sec-h.overdue{background:var(--red);}
+.sec-h.d3{background:var(--orange);}
+.sec-h.d7{background:var(--yellow);}
+.sec-h.d10{background:var(--primary2);}
+.sec-h.far{background:#a0aec0;}
+.sec-h.nodue{background:#a0aec0;}
+.sec-h .n{float:right;font-weight:600;font-size:13px;opacity:.92;}
+.card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--primary2);
+border-radius:10px;padding:12px 14px;margin-bottom:10px;}
+.card.overdue{border-left-color:var(--red);}
+.card.d3{border-left-color:var(--orange);}
+.card.d7{border-left-color:var(--yellow);}
+.card.d10{border-left-color:var(--primary2);}
+.card .nm{font-weight:700;font-size:14px;margin-bottom:6px;display:flex;align-items:center;
+gap:8px;flex-wrap:wrap;}
+.card .meta{font-size:12px;color:var(--sub);display:flex;flex-wrap:wrap;gap:4px 14px;}
+.badge{font-size:11px;padding:2px 9px;border-radius:10px;color:#fff;white-space:nowrap;}
+.b-red{background:var(--red);} .b-orange{background:var(--orange);}
+.b-yellow{background:var(--yellow);} .b-blue{background:var(--primary2);}
+.b-gray{background:#a0aec0;} .b-green{background:var(--green);}
+.pri{font-size:11px;padding:2px 8px;border-radius:8px;border:1px solid var(--line);}
+.pri.high{color:var(--red);border-color:#fbd0d0;background:#fff5f5;}
+.pri.mid{color:var(--yellow);border-color:#f0e0b0;background:#fffdf0;}
+.pri.low{color:var(--sub);background:#f7fafc;}
+.follow{font-size:12px;color:var(--sub);margin-top:6px;padding-top:6px;
+border-top:1px dashed var(--line);}
+.empty{color:#a9b0bd;padding:18px;text-align:center;font-size:13px;
+background:var(--card);border:1px dashed var(--line);border-radius:10px;}
+.note{background:#fff8e6;border:1px solid #f0d8a8;border-radius:10px;padding:12px 14px;
+font-size:12.5px;color:#7a5b12;margin-bottom:16px;}
+.confidential{text-align:center;font-size:12px;color:#8a94a6;padding:24px 12px 10px;}
+@media (max-width:600px){.stats{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <h1>老西门项目 · 待办预警看板</h1>
+    <div class="sub">按截止时间自动分档 ｜ 数据来源：腾讯文档「待办事项」台账（同步于 2026-09-01 11:42）｜ 预警规则：前10天预警 · 前7天截止 · 前3天催办</div>
+  </div>
+  <div class="note">
+    说明：本看板按「截止时间」自动分档，<b>已逾期</b>优先处理；「3天内截止」需催办责任人；「7天内截止」进入冲刺；「10天内预警」提前准备。已完成事项不显示。
+  </div>
+  <div class="stats"><div class="stat overdue"><div class="v">0</div><div class="l">已逾期</div></div><div class="stat d3"><div class="v">0</div><div class="l">3天内催办</div></div><div class="stat d7"><div class="v">0</div><div class="l">7天内截止</div></div><div class="stat d10"><div class="v">0</div><div class="l">10天内预警</div></div><div class="stat"><div class="v">1</div><div class="l">待办总数</div></div></div>
+  <div class="sec-h overdue">🔴 已逾期（需尽快处理）<span class="n">0 项</span></div><div class="empty">暂无逾期事项，一切正常</div><div class="sec-h d3">🟠 3 天内截止（催办）<span class="n">0 项</span></div><div class="empty">暂无 3 天内到期事项</div><div class="sec-h d7">🟡 7 天内截止<span class="n">0 项</span></div><div class="empty">暂无 7 天内到期事项</div><div class="sec-h d10">🔵 10 天内预警<span class="n">0 项</span></div><div class="empty">暂无 10 天内预警事项</div><div class="sec-h far">⚪ 10 天以上（正常）<span class="n">0 项</span></div><div class="empty">暂无远期事项</div><div class="sec-h nodue">⚪ 无截止时间<span class="n">1 项</span></div><div class="card nodue"><div class="nm">（未命名事项）</div><div class="meta"><span>📅 截止 —</span></div></div>
+  <div class="confidential">仅供天韵公益内部 · 老西门项目组查阅，请勿外传</div>
+</div>
+</body>
+</html>
