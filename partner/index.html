@@ -25,10 +25,11 @@
   .top{max-width:1240px;margin:0 auto;padding:18px 22px 6px;}
   h1{font-size:20px;color:var(--primary);margin:0 0 2px;font-weight:800;}
   .sub{color:var(--sub);font-size:12.5px;margin-bottom:14px;}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
-  .kpi{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;}
-  .kpi .v{font-size:24px;font-weight:800;color:var(--primary);line-height:1.2;}
-  .kpi .l{font-size:12px;color:var(--sub);margin-top:4px;font-weight:500;}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+       box-shadow:0 1px 3px rgba(0,0,0,.04);border-top:3px solid var(--accent);}
+  .kpi .v{font-size:22px;font-weight:800;color:var(--primary);}
+  .kpi .l{font-size:12px;color:var(--sub);margin-top:2px;}
   .kpi .v small{font-size:12px;color:var(--sub);font-weight:600;}
   .tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:14px;}
   .tab{padding:9px 18px;cursor:pointer;border:1px solid transparent;border-bottom:none;
@@ -48,26 +49,11 @@
   .legend span{display:inline-flex;align-items:center;gap:5px;}
   .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
   /* 问卷横幅 */
-  .qn-banner{display:flex;align-items:center;gap:10px;background:#f5f7fa;
-    border:1px solid #e2e8f0;border-left:3px solid var(--primary);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--ink);}
-  .qn-banner .qn-t{font-weight:700;color:var(--primary);font-size:13px;}
-  .qn-banner a{margin-left:auto;background:var(--primary);color:#fff;text-decoration:none;padding:6px 14px;border-radius:6px;font-weight:600;white-space:nowrap;font-size:12.5px;}
+  .qn-banner{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,#eaf2fb,#fdeef6);
+    border:1px solid #dbe7f3;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13.5px;color:var(--ink);}
+  .qn-banner .qn-t{font-weight:800;color:var(--primary);}
+  .qn-banner a{margin-left:auto;background:var(--primary);color:#fff;text-decoration:none;padding:7px 16px;border-radius:8px;font-weight:700;white-space:nowrap;}
   .qn-banner a:hover{background:var(--primary2);}
-  /* 新手引导条 */
-  .guide-bar{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;
-    border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;color:var(--sub);}
-  .guide-bar .g-t{font-weight:700;color:var(--ink);font-size:13px;}
-  .guide-bar a{color:var(--primary);text-decoration:none;font-weight:600;margin:0 6px;border-bottom:1px dashed transparent;}
-  .guide-bar a:hover{border-bottom-color:var(--primary);}
-  .guide-bar .g-close{margin-left:auto;cursor:pointer;color:var(--sub);font-size:14px;background:none;border:none;padding:0 4px;}
-  .guide-bar .g-close:hover{color:var(--ink);}
-  /* 快速摘要卡 */
-  .quick-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
-  .qs-item{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 12px;}
-  .qs-item .qs-v{font-size:18px;font-weight:800;color:var(--ink);line-height:1.2;}
-  .qs-item .qs-l{font-size:11.5px;color:var(--sub);margin-top:3px;}
-  .qs-item.acc .qs-v{color:var(--primary);}
-  .qs-item.warn .qs-v{color:var(--doing);}
   /* 活动细项按状态着色 */
   .card.s-done{border-left-color:var(--done);background:#f3fcf6;}
   .card.s-doing{border-left-color:var(--doing);background:#fffaf0;}
@@ -84,8 +70,8 @@
   /* 活动看板：纵向大类 + 横向卡片 */
   .board{display:flex;flex-direction:column;gap:16px;padding-bottom:8px;}
   .cat-section{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
-  .cat-head{font-weight:700;padding:7px 12px;border-radius:6px;color:#fff;font-size:13.5px;
-            background:var(--primary);display:inline-block;margin-bottom:12px;}
+  .cat-head{font-weight:700;padding:7px 12px;border-radius:7px;color:#fff;font-size:14px;
+            background:linear-gradient(90deg,var(--primary),var(--primary2));display:inline-block;margin-bottom:12px;}
   .status-band{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
   .status-band:last-child{margin-bottom:0;}
   .status-band .slabel{font-size:12px;font-weight:700;color:#fff;background:var(--sub);border-radius:6px;padding:5px 10px;width:fit-content;cursor:pointer;user-select:none;display:inline-flex;align-items:center;}
@@ -110,7 +96,7 @@
   .cal-nav button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:13px;color:var(--primary);}
   .cal-nav .mlabel{font-weight:700;font-size:15px;color:var(--primary);min-width:120px;text-align:center;}
   .month{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
-  .wd{display:grid;grid-template-columns:repeat(7,1fr);background:var(--primary);color:#fff;}
+  .wd{display:grid;grid-template-columns:repeat(7,1fr);background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;}
   .wd div{padding:7px 0;text-align:center;font-size:12.5px;}
   .grid{display:grid;grid-template-columns:repeat(7,1fr);}
   .day{border:1px solid #eef1f6;min-height:92px;padding:4px 5px;vertical-align:top;font-size:11px;}
@@ -148,16 +134,9 @@
 <div class="top">
   <h1>“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目</h1>
   <div class="sub">活动看板 · 日历视图 ｜ 数据来源：进度费用融合跟进表 V5（过会版 2026-08-26）｜ 周期 2026年7月–11月</div>
-  <div class="guide-bar" id="guide-bar">
-    <span class="g-t">30 秒看懂看板</span>
-    <span>看活动进度用 <b>活动看板</b>，按日期找场次用 <b>日历视图</b>，跟踪准备工作用 <b>待办事项</b></span>
-    <a href="#manual-quick" onclick="document.getElementById('guide-bar').style.display='none'">三件套说明</a>
-    <button class="g-close" onclick="document.getElementById('guide-bar').style.display='none'" title="知道了，关闭">×</button>
-  </div>
-  <div class="quick-summary" id="quick-summary"></div>
   <div class="qn-banner">
     <span class="qn-t">📝 活动反馈问卷</span>
-    <span>每场活动结束后，请各位老师当日填写活动反馈、提交问卷，并特别注意"三件套"（签到表、活动照片、现场小结）内容提交的完整性。</span>
+    <span>每场活动结束后，请各位老师当日填写活动反馈、提交问卷，并特别注意“三件套”（签到表、活动照片、现场小结）内容提交的完整性。</span>
     <a href="https://wj.qq.com/s2/27647616/pg6d/" target="_blank" rel="noopener">填写活动反馈 ↗</a>
   </div>
   <div class="kpis" id="kpis"></div>
@@ -313,7 +292,6 @@ function setCurrentMentor(v){
     renderMentorChips();
     renderBoard(); renderCal();
   }
-  if(window.renderQuickSummary) renderQuickSummary();
 }
 function initCurrentMentor(){
   const sel = document.getElementById('current-mentor');
@@ -353,50 +331,6 @@ document.getElementById('kpis').innerHTML = `  <div class="kpi"><div class="v">$
   <div class="kpi"><div class="v">${sm.status_dist["\u672a\u542f\u52a8"]||0}<small> 项</small></div><div class="l">未启动</div></div>
   <div class="kpi"><div class="v">2026.07-2026.11</div><div class="l">项目期</div></div>
 `;
-
-// 快速摘要（4 维：我的待办 / 本周活动 / 下次活动 / 整体进度）
-function renderQuickSummary(){
-  const el = document.getElementById('quick-summary');
-  if(!el) return;
-  const acts = DATA.activities;
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  // 本周（周一~周日）
-  const ws = new Date(today); ws.setDate(today.getDate()-((today.getDay()+6)%7));
-  const we = new Date(ws); we.setDate(ws.getDate()+6);
-  // 整体进度
-  const total = acts.length;
-  const done = acts.filter(a=>/完成|结项|已办|已完|验收|交付/.test(a.status||'')).length;
-  const pct = total ? Math.round(done*100/total) : 0;
-  // 本周活动
-  const weekActs = acts.filter(a=>{
-    const s = new Date(a.start); s.setHours(0,0,0,0);
-    const e = new Date(a.end||a.start); e.setHours(0,0,0,0);
-    return !(e<ws || s>we);
-  });
-  // 下次未启动活动（最早未结束的未启动活动）
-  const upcoming = acts.filter(a=>{
-    const s = new Date(a.start); s.setHours(0,0,0,0);
-    return s>=today && !/完成|结项/.test(a.status||'');
-  }).sort((a,b)=>new Date(a.start)-new Date(b.start));
-  const nextA = upcoming[0];
-  // 我的待办（仅当选了当前导师）
-  let myTodo = 0;
-  if(currentMentor){
-    myTodo = (window.TODO_DATA||[]).filter(t=>{
-      const ps = (t.owner||'').split(/[、,，/]/);
-      return ps.some(p=>p.trim()===currentMentor) && !t.is_done;
-    }).length;
-  }
-  el.innerHTML = `
-    <div class="qs-item acc"><div class="qs-v">${pct}%</div><div class="qs-l">整体进度（${done}/${total}）</div></div>
-    <div class="qs-item"><div class="qs-v">${weekActs.length}</div><div class="qs-l">本周活动</div></div>
-    <div class="qs-item"><div class="qs-v" style="font-size:13px;line-height:1.35;">${nextA ? esc((nextA.sub||nextA.detail||'').slice(0,18)) : '—'}</div><div class="qs-l">下次活动 · ${nextA ? esc(fmtDate(nextA.start)) : '暂无'}</div></div>
-    <div class="qs-item warn"><div class="qs-v">${currentMentor ? myTodo : (window.TODO_DATA||[]).filter(t=>!t.is_done).length}<small style="font-size:12px;color:var(--sub);font-weight:600;"> 项</small></div><div class="qs-l">${currentMentor ? '我的待办' : '未完成待办'}</div></div>
-  `;
-}
-renderQuickSummary();
-window.renderQuickSummary = renderQuickSummary;
 
 const acts = DATA.activities;
 const bySeq = {}; acts.forEach(a=>bySeq[a.seq]=a);
@@ -636,20 +570,19 @@ document.getElementById('next').onclick=()=>{ mi=(mi+1)%MONTHS.length; renderCal
 
 // 待办事项渲染
 const TODO_DATA = {
-  "syncedAt": "2026-09-01 21:43",
+  "syncedAt": "2026-09-02 10:05",
   "todoDocUrl": "https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN",
   "total": 16,
   "buckets": {
     "overdue": [],
-    "d3": [],
-    "d7": [
+    "d3": [
       {
         "title": "联寓公寓沪语课程场地确认",
         "owner": [
           "孙佳鑫"
         ],
         "due": "2026-09-05",
-        "days": 4,
+        "days": 3,
         "party": [
           "街道",
           "内部",
@@ -676,14 +609,16 @@ const TODO_DATA = {
           "进行中"
         ],
         "follow_count": 0
-      },
+      }
+    ],
+    "d7": [
       {
         "title": "明日星城非遗课程沟通",
         "owner": [
           "孙佳鑫"
         ],
         "due": "2026-09-07",
-        "days": 6,
+        "days": 5,
         "party": [
           "内部",
           "授课老师",
@@ -718,7 +653,7 @@ const TODO_DATA = {
           "杨森林"
         ],
         "due": "2026-09-07",
-        "days": 6,
+        "days": 5,
         "party": [
           "内部",
           "授课老师"
@@ -751,7 +686,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-07",
-        "days": 6,
+        "days": 5,
         "party": [
           "内部",
           "街道",
@@ -786,7 +721,7 @@ const TODO_DATA = {
           "杨森林"
         ],
         "due": "2026-09-07",
-        "days": 6,
+        "days": 5,
         "party": [
           "内部"
         ],
@@ -818,7 +753,7 @@ const TODO_DATA = {
           "龚学群"
         ],
         "due": "2026-09-08",
-        "days": 7,
+        "days": 6,
         "party": [
           "内部",
           "授课老师",
@@ -846,16 +781,14 @@ const TODO_DATA = {
           "待办"
         ],
         "follow_count": 0
-      }
-    ],
-    "d10": [
+      },
       {
         "title": "亲子健身操队伍招募",
         "owner": [
           "孙佳鑫"
         ],
         "due": "2026-09-09",
-        "days": 8,
+        "days": 7,
         "party": [
           "内部",
           "街道",
@@ -887,14 +820,14 @@ const TODO_DATA = {
         "follow_count": 0
       }
     ],
-    "far": [
+    "d10": [
       {
         "title": "国学课程场地确认",
         "owner": [
           "孙佳鑫"
         ],
         "due": "2026-09-12",
-        "days": 11,
+        "days": 10,
         "party": [
           "街道",
           "场地方",
@@ -922,14 +855,16 @@ const TODO_DATA = {
           "待办"
         ],
         "follow_count": 0
-      },
+      }
+    ],
+    "far": [
       {
         "title": "中医非遗健康养生体验活动配送",
         "owner": [
           "孙佳鑫"
         ],
         "due": "2026-09-16",
-        "days": 15,
+        "days": 14,
         "party": [
           "街道",
           "居民区书记",
@@ -963,7 +898,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-10-09",
-        "days": 38,
+        "days": 37,
         "party": [
           "授课老师",
           "内部",
@@ -998,7 +933,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-10-11",
-        "days": 40,
+        "days": 39,
         "party": [
           "内部",
           "居民区书记",
@@ -1032,7 +967,7 @@ const TODO_DATA = {
           "侯佳奇"
         ],
         "due": "2026-10-18",
-        "days": 47,
+        "days": 46,
         "party": [
           "授课老师",
           "内部"
@@ -1068,7 +1003,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-06",
-        "days": 5,
+        "days": 4,
         "party": [
           "授课老师",
           "内部",
@@ -1103,7 +1038,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-09",
-        "days": 8,
+        "days": 7,
         "party": [
           "授课老师",
           "内部",
@@ -1138,7 +1073,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-10",
-        "days": 9,
+        "days": 8,
         "party": [
           "居民区书记",
           "社群主理人",
@@ -1173,7 +1108,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-18",
-        "days": 17,
+        "days": 16,
         "party": [
           "内部",
           "授课老师",
