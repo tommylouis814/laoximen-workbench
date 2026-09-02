@@ -54,6 +54,14 @@
   .qn-banner .qn-t{font-weight:800;color:var(--primary);}
   .qn-banner a{margin-left:auto;background:var(--primary);color:#fff;text-decoration:none;padding:7px 16px;border-radius:8px;font-weight:700;white-space:nowrap;}
   .qn-banner a:hover{background:var(--primary2);}
+  /* 各 tab 顶部行动入口条（填写反馈 + 登记待办） */
+  .action-strip{display:flex;align-items:center;gap:8px;background:var(--card);
+    border:1px solid var(--line);border-radius:10px;padding:9px 14px;margin-bottom:14px;flex-wrap:wrap;}
+  .action-strip .as-btn{background:var(--primary);color:#fff;text-decoration:none;padding:7px 16px;border-radius:8px;
+    font-weight:700;font-size:13px;white-space:nowrap;transition:background .15s;}
+  .action-strip .as-btn:hover{background:var(--primary2);}
+  .action-strip .as-feedback{background:var(--accent,var(--primary));}
+  .action-strip .as-tip{font-size:12px;color:var(--sub);margin-left:2px;}
   /* 顶部引导条 */
   .guide-bar{display:flex;align-items:center;gap:8px;background:var(--card);
     border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:8px;
@@ -65,10 +73,12 @@
   /* 快速摘要卡 */
   .quick-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;}
   .quick-sum .qs{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;
-                 box-shadow:0 1px 3px rgba(0,0,0,.04);}
+                 box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:box-shadow .15s,border-color .15s,transform .15s;}
+  .quick-sum .qs:hover{box-shadow:0 4px 12px rgba(31,78,140,.14);border-color:var(--primary);transform:translateY(-2px);}
   .quick-sum .qs .qv{font-size:19px;font-weight:800;color:var(--ink);}
   .quick-sum .qs .ql{font-size:11.5px;color:var(--sub);margin-top:2px;}
   .quick-sum .qs .qd{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.4;}
+  .quick-sum .qs .qh{font-size:10px;color:var(--primary);margin-top:5px;font-weight:600;opacity:.85;}
   /* 活动细项按状态着色 */
   .card.s-done{border-left-color:var(--done);background:#f3fcf6;}
   .card.s-doing{border-left-color:var(--doing);background:#fffaf0;}
@@ -174,6 +184,11 @@
 
 <!-- 活动看板 -->
 <div class="view on" id="view-board">
+  <div class="action-strip">
+    <a class="as-btn as-feedback" href="https://wj.qq.com/s2/27647616/pg6d/" target="_blank" rel="noopener">📝 填写活动反馈</a>
+    <a class="as-btn as-todo" href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办</a>
+    <span class="as-tip">每场活动结束后当日填写反馈，并提交「三件套」（签到表·活动照片·现场小结）</span>
+  </div>
   <div class="filters" id="board-ops">
     <span class="flabel">看板操作：</span>
     <span class="chip" onclick="collapseAll(true)">全部折叠</span>
@@ -198,6 +213,11 @@
 
 <!-- 日历 -->
 <div class="view" id="view-cal">
+  <div class="action-strip">
+    <a class="as-btn as-feedback" href="https://wj.qq.com/s2/27647616/pg6d/" target="_blank" rel="noopener">📝 填写活动反馈</a>
+    <a class="as-btn as-todo" href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办</a>
+    <span class="as-tip">每场活动结束后当日填写反馈，并提交「三件套」（签到表·活动照片·现场小结）</span>
+  </div>
   <div class="filters" id="cal-scope-filters">
     <span class="flabel">课程范围：</span>
     <span class="chip on" data-scope="all" onclick="setCalScope('all')">课程总览</span>
@@ -238,10 +258,10 @@
 
 <!-- 待办事项 -->
 <div class="view" id="view-todo">
-  <div class="qn-banner" style="margin-bottom:12px">
-    <span class="qn-t">📋 待办事项</span>
-    <span>按截止时间自动分档预警（前10天预警 · 前7天截止 · 前3天催办 · 已逾期）。内部人员可一键直达台账登记。</span>
-    <a href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办 ↗</a>
+  <div class="action-strip">
+    <a class="as-btn as-feedback" href="https://wj.qq.com/s2/27647616/pg6d/" target="_blank" rel="noopener">📝 填写活动反馈</a>
+    <a class="as-btn as-todo" href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办</a>
+    <span class="as-tip">按截止时间自动分档预警，内部人员可一键直达台账登记</span>
   </div>
   <div class="kpis" id="todo-kpis" style="grid-template-columns:repeat(5,1fr)"></div>
   <div id="todo-list"></div>
@@ -378,11 +398,12 @@ function renderQuickSummary(){
     });
   }
   const nextTxt = nextA ? `${nextA.start.slice(5).replace('-','-')} ${nextA.sub||''}` : '暂无安排';
+  const nextSeq = nextA ? esc(nextA.seq||'') : '';
   box.innerHTML = `
-    <div class="qs"><div class="qv">${pct}%</div><div class="ql">整体进度</div><div class="qd">${done}/${total} 项已完成</div></div>
-    <div class="qs"><div class="qv">${inWeek}<small style="font-size:11px;color:var(--sub)"> 场</small></div><div class="ql">本周活动</div><div class="qd">${(mon.getMonth()+1)}月${mon.getDate()}日—${(sun.getMonth()+1)}月${sun.getDate()}日</div></div>
-    <div class="qs"><div class="qv" style="font-size:15px;">${esc(nextA?nextA.sub:'—')}</div><div class="ql">下次活动</div><div class="qd">${nextA?fmtDate(nextA.start):'暂无安排'}</div></div>
-    <div class="qs"><div class="qv">${pending}<small style="font-size:11px;color:var(--sub)"> 项</small></div><div class="ql">未完成待办</div><div class="qd">详见「待办事项」页签</div></div>
+    <div class="qs" onclick="switchTab('board')" title="点击查看全部活动进度"><div class="qv">${pct}%</div><div class="ql">整体进度</div><div class="qd">${done}/${total} 项已完成</div><div class="qh">点击查看活动总览 ›</div></div>
+    <div class="qs" onclick="switchTab('cal')" title="点击查看本周日程"><div class="qv">${inWeek}<small style="font-size:11px;color:var(--sub)"> 场</small></div><div class="ql">本周活动</div><div class="qd">${(mon.getMonth()+1)}月${mon.getDate()}日—${(sun.getMonth()+1)}月${sun.getDate()}日</div><div class="qh">点击查看日历 ›</div></div>
+    <div class="qs" onclick="openDetail('${nextSeq}')" title="点击查看该活动详情"><div class="qv" style="font-size:15px;">${esc(nextA?nextA.sub:'—')}</div><div class="ql">下次活动</div><div class="qd">${nextA?fmtDate(nextA.start):'暂无安排'}</div><div class="qh">点击查看详情 ›</div></div>
+    <div class="qs" onclick="switchTab('todo')" title="点击查看待办事项"><div class="qv">${pending}<small style="font-size:11px;color:var(--sub)"> 项</small></div><div class="ql">未完成待办</div><div class="qd">详见「待办事项」页签</div><div class="qh">点击查看待办 ›</div></div>
   `;
 }
 // 引导条：显示/关闭
@@ -1276,14 +1297,19 @@ function renderTodo(){
 }
 renderTodo();
 
-// Tab 切换
+// Tab 切换（供 .tab 点击与摘要卡跳转共用）
+function switchTab(v){
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  const t = document.querySelector('.tab[data-v="'+v+'"]');
+  if(t) t.classList.add('on');
+  const view = document.getElementById('view-'+v);
+  if(view) view.classList.add('on');
+  // 切到日历 tab 时确保日历已渲染（若尚未渲染则补一次）
+  if(v==='cal' && !document.getElementById('cal-grid').innerHTML) renderCal();
+}
 document.querySelectorAll('.tab').forEach(t=>{
-  t.onclick=()=>{
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-    document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
-    t.classList.add('on');
-    document.getElementById('view-'+t.dataset.v).classList.add('on');
-  };
+  t.onclick=()=>switchTab(t.dataset.v);
 });
 
 document.getElementById('q').addEventListener('input',e=>{ F.q=e.target.value; renderBoard(); });
