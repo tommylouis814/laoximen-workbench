@@ -26,6 +26,12 @@
   .toc li{margin:4px 0;}
   .toc a{color:var(--ink);text-decoration:none;}
   .toc a:hover{color:var(--blue);}
+  .toc-update{display:flex;gap:12px;background:#eef5fd;border:1px solid #cfe1f5;border-radius:10px;padding:12px 14px;margin:0 0 14px;align-items:flex-start;}
+  .toc-update .tu-badge{flex:0 0 auto;background:var(--blue);color:#fff;border-radius:6px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap;}
+  .toc-update .tu-body{flex:1;min-width:0;}
+  .toc-update .tu-ver{font-size:12.5px;font-weight:700;color:var(--blue);margin-bottom:4px;}
+  .toc-update ul{margin:0;padding-left:18px;}
+  .toc-update li{font-size:12.5px;line-height:1.6;color:var(--ink);margin:3px 0;}
   section{background:var(--card);border:1px solid var(--line);border-radius:12px;
     padding:28px 30px;margin-bottom:22px;}
   h2.sec{font-size:20px;margin:0 0 6px;color:var(--blue);
@@ -90,11 +96,28 @@
 <header class="top">
   <h1>老西门街道「西门荟治·社群和鸣」项目 · 看板使用手册</h1>
   <div class="sub">社群孵化与社区共治培育项目 · 内部人员使用说明（怎么看 · 登记什么 · 怎么登记）</div>
-  <div class="meta">适用对象：项目负责人 / 活动执行 / 授课老师 / 社群主理人 ｜ 编制：天韵公益服务中心 ｜ 版本 v1.0（2026-09-01）</div>
+  <div class="meta">适用对象：项目负责人 / 活动执行 / 授课老师 / 社群主理人 ｜ 编制：天韵公益服务中心 ｜ 版本 v1.2（2026-09-02）</div>
+<div class="note" style="background:#e6f0fb;border-left-color:var(--blue);">
+  <b>v1.2 版本变更（2026-09-02）</b>
+  <ul style="margin:6px 0 0 18px;padding:0;font-size:13px;">
+    <li><b>去掉 Tab 内重复入口</b>：原「活动看板 / 日历视图 / 待办事项」每个 Tab 顶部的「填写反馈+登记待办」按钮行撤掉——两处登记入口已经固定在看板 H1 下方的横幅区，KPI 卡下方也有一行快捷 CTA，不再重复陈列。</li>
+    <li><b>版本提示按看板区分</b>：伙伴看板 / 课程计划看板各自打开时弹一次「本看板本轮更新要点」，内容互不复用。</li>
+  </ul>
+</div>
 </header>
 
 <div class="toc">
   <h2>📖 目录</h2>
+  <div class="toc-update">
+    <span class="tu-badge">最新更新</span>
+    <div class="tu-body">
+      <div class="tu-ver">v1.2 · 2026-09-02</div>
+      <ul>
+        <li>去掉 3 个 Tab 顶部重复的「填写反馈 + 登记待办」按钮行（登记入口固定在 H1 下方横幅区 + KPI 卡下方 CTA）</li>
+        <li>伙伴看板 / 课程计划看板各自弹「本看板本轮更新要点」，内容互不复用</li>
+      </ul>
+    </div>
+  </div>
   <ol>
     <li><a href="#s1">一、看板总览：两个看板分别给谁看</a></li>
     <li><a href="#s2">二、伙伴看板（天韵内部人员 · 合作方 · 伙伴视角）</a></li>
@@ -149,20 +172,24 @@
   <p class="sec-desc">链接：<span class="mono">/partner/</span> ｜ 面向天韵内部人员、合作方、授课老师、社群主理人。</p>
 
   <h3>2.1 页面结构</h3>
-  <p>伙伴看板从上到下、从左到右分为三块：</p>
+  <p>伙伴看板从上到下、从左到右分为四块：</p>
   <table>
     <tr><th>区域</th><th>内容</th><th>说明</th></tr>
-    <tr><td><b>顶部横幅</b></td><td>📝 活动反馈问卷入口</td><td>每场活动结束后的「填写活动反馈」按钮就在这里（详见第五章）</td></tr>
-    <tr><td><b>Tab ① 活动看板</b></td><td>按社群/板块分组的活动卡片</td><td>可折叠/展开、按板块筛选、关键词搜索活动</td></tr>
-    <tr><td><b>Tab ② 日历视图</b></td><td>以月历形式展示活动排期</td><td>跨天活动以活动条横跨显示，一眼看清 7–11 月节奏</td></tr>
-    <tr><td><b>Tab ③ 待办事项</b></td><td>待办分档预警清单</td><td>顶部有「➕ 登记待办」按钮直达台账（详见第六章）</td></tr>
+    <tr><td><b>顶部横幅区</b></td><td>📝 活动反馈问卷 + 📋 登记待办（两个入口都在标题下方）</td><td>每场活动结束后的「填写活动反馈」按钮，以及运营中待办的「登记待办」按钮，都在这里——所有伙伴看到的第一眼就在这（详见第五 / 六章）</td></tr>
+    <tr><td><b>4 张快速摘要卡</b></td><td>整体进度 · 本周活动 · 下次活动 · 未完成待办</td><td>四张卡都<b>可点击</b>——整体进度跳到「活动看板」tab、本周活动跳到「日历视图」tab、下次活动直接弹出该活动详情、未完成待办跳到「待办事项」tab</td></tr>
+    <tr><td><b>4 张 KPI 卡 + 登记 CTA</b></td><td>已完成 / 进行中 / 未启动 / 项目期</td><td>KPI 卡下方紧跟一行「📋 项目运营中的待办 · 跟进 / 协调 / 物料 / 反馈等」快捷 CTA，按钮直达台账——这是 KPI 区下唯一的登记入口</td></tr>
+    <tr><td><b>Tab ① 活动看板</b></td><td>按社群/板块分组的活动卡片</td><td>可折叠/展开、按板块筛选、关键词搜索活动；不再重复陈列登记入口</td></tr>
+    <tr><td><b>Tab ② 日历视图</b></td><td>以月历形式展示活动排期</td><td>跨天活动横向拉长显示，一眼看清 7–11 月节奏</td></tr>
+    <tr><td><b>Tab ③ 待办事项</b></td><td>待办分档预警清单</td><td>按截止时间分档（已逾期 / 3天内 / 7天内 / 10天内 / 远期）预警，优先处理「已逾期」「3天内」</td></tr>
   </table>
 
   <h3>2.2 怎么看</h3>
   <ol>
+    <li><b>先看 4 张快速摘要卡</b>：整页头部并排 4 张（整体进度 · 本周活动 · 下次活动 · 未完成待办），每张都是<b>可点击的快捷入口</b>——点哪张直接跳到对应 tab 或活动详情。</li>
     <li><b>看活动</b>：进入「活动看板」Tab，点「全部展开」看全部活动，或点某个板块只展开该社群；用顶部搜索框输入活动名/社群/导师快速定位。</li>
     <li><b>看排期</b>：切到「日历视图」Tab，看每个月的活动密度，跨天活动会横向拉长。</li>
     <li><b>看自己要做的事</b>：切到「待办事项」Tab，看分档预警——优先处理「已逾期」「3天内」的事项。</li>
+    <li><b>登记随时</b>：两处登记入口固定在 H1 下方横幅区（活动反馈问卷 + 登记待办），KPI 卡下方还有一行「登记待办」快捷 CTA，不必切来切去找入口。</li>
   </ol>
 
   <div class="tip">
@@ -177,9 +204,9 @@
 
   <h3>3.1 两个 Tab 的区别</h3>
   <table>
-    <tr><th>Tab</th><th>视角</th><th>适合谁</th></tr>
-    <tr><td><b>📅 日历版</b></td><td>按时间轴（月历 + 逐场明细）看活动节奏</td><td>需要把握整体排期节奏的人（负责人、街道审核）</td></tr>
-    <tr><td><b>👥 社群版</b></td><td>按社群分类看各社群的课程/活动清单</td><td>授课老师、社群主理人（只看自己社群的安排）</td></tr>
+    <tr><th>Tab</th><th>视角</th><th>适合谁</th><th>交互</th></tr>
+    <tr><td><b>📅 日历版</b></td><td>按时间轴（月历 + 逐场明细）看活动节奏</td><td>需要把握整体排期节奏的人（负责人、街道审核）</td><td><b>点击日历上的活动条目</b>直接弹窗查看完整信息：所属社群、活动大类、计划起止日期、时段、讲师、地点、课程核心 KPI、跨天说明</td></tr>
+    <tr><td><b>👥 社群版</b></td><td>按社群分类看各社群的课程/活动清单</td><td>授课老师、社群主理人（只看自己社群的安排）</td><td>按社群色块归类，一眼看清各社群的活动密度</td></tr>
   </table>
 
   <h3>3.2 五大社群图例（社群版用颜色区分）</h3>
