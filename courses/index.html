@@ -312,14 +312,13 @@
   <div class="cl-box">
     <div class="cl-head">
       <span class="cl-badge">v2026-09-02</span>
-      <h3>本轮更新要点</h3>
+      <h3>课程计划看板 · 本轮更新要点</h3>
     </div>
     <ul class="cl-list">
-      <li><b>顶部顺序调整</b>：「活动反馈问卷」+「登记待办」两个入口上移到标题下方，活动结束后第一时间能找到。</li>
-      <li><b>快速摘要卡可点击跳转</b>：「整体进度」「本周活动」「下次活动」「未完成待办」4 张卡现在会跳到对应的页签或活动详情。</li>
-      <li><b>每个 Tab 顶部都有行动入口</b>：「活动看板」「日历视图」「待办事项」三个页签里都加了「填写反馈+登记待办」。</li>
-      <li><b>课程计划日历可点开详情</b>：点击日历上的活动条目直接弹窗看完整信息（社群、讲师、地点、KPI、跨天说明）。</li>
-      <li><b>视觉降噪</b>：去掉了原本的紫粉渐变背景，统一蓝/绿基调，更清爽专业。</li>
+      <li><b>日历视图活动可点击弹详情</b>：点击日历上任意活动条直接弹出完整信息卡（所属社群、活动大类、计划起止日期、活动时段、讲师、活动地点、课程核心 KPI、跨天说明）。</li>
+      <li><b>双 Tab 合并展示</b>：日历视图（实施排期）与社群版实施计划已合并为同一个看板的两个页签，横向对比更直观；两版都不再含费用信息。</li>
+      <li><b>月份筛选+月份导航</b>：日历视图保留月份切换、「仅开始日 / 区间跨度 / 仅结束日」三种展示方式，便于老师对照排期。</li>
+      <li><b>视觉降噪</b>：去掉冗余渐变，统一蓝/绿色调，与伙伴看板/总台/街道看板配色一致。</li>
     </ul>
     <div class="cl-foot">
       <span class="cl-tip">此提示每次更新会出现一次，24 小时内不再展示。</span>
@@ -362,10 +361,10 @@ function openCourseDetail(el){
 }
 function closeChangelog(){
   document.getElementById('changelog').classList.remove('on');
-  try{ localStorage.setItem('cl-courses-20260902', new Date().toISOString()); }catch(e){}
+  try{ localStorage.setItem('cl-courses-20260902b', new Date().toISOString()); }catch(e){}
 }
 function maybeShowChangelog(){
-  var key='cl-courses-20260902';
+  var key='cl-courses-20260902b';
   var last=null;
   try{ last = localStorage.getItem(key); }catch(e){}
   if(!last){
