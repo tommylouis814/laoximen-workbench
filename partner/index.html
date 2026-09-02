@@ -65,14 +65,6 @@
   .kpi-todo-cta .kt-text{flex:1;}
   .kpi-todo-cta a{background:#2c8a4f;color:#fff;text-decoration:none;padding:5px 14px;border-radius:6px;font-weight:700;white-space:nowrap;font-size:12px;}
   .kpi-todo-cta a:hover{background:#236b3d;}
-  /* 各 tab 顶部行动入口条（填写反馈 + 登记待办） */
-  .action-strip{display:flex;align-items:center;gap:8px;background:var(--card);
-    border:1px solid var(--line);border-radius:10px;padding:9px 14px;margin-bottom:14px;flex-wrap:wrap;}
-  .action-strip .as-btn{background:var(--primary);color:#fff;text-decoration:none;padding:7px 16px;border-radius:8px;
-    font-weight:700;font-size:13px;white-space:nowrap;transition:background .15s;}
-  .action-strip .as-btn:hover{background:var(--primary2);}
-  .action-strip .as-feedback{background:var(--accent,var(--primary));}
-  .action-strip .as-tip{font-size:12px;color:var(--sub);margin-left:2px;}
   /* 顶部引导条 */
   .guide-bar{display:flex;align-items:center;gap:8px;background:var(--card);
     border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:8px;
@@ -219,11 +211,6 @@
 
 <!-- 活动看板 -->
 <div class="view on" id="view-board">
-  <div class="action-strip">
-    <a class="as-btn as-feedback" href="https://wj.qq.com/s2/27647616/pg6d/" target="_blank" rel="noopener">📝 填写活动反馈</a>
-    <a class="as-btn as-todo" href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办</a>
-    <span class="as-tip">每场活动结束后当日填写反馈，并提交「三件套」（签到表·活动照片·现场小结）</span>
-  </div>
   <div class="filters" id="board-ops">
     <span class="flabel">看板操作：</span>
     <span class="chip" onclick="collapseAll(true)">全部折叠</span>
@@ -248,11 +235,6 @@
 
 <!-- 日历 -->
 <div class="view" id="view-cal">
-  <div class="action-strip">
-    <a class="as-btn as-feedback" href="https://wj.qq.com/s2/27647616/pg6d/" target="_blank" rel="noopener">📝 填写活动反馈</a>
-    <a class="as-btn as-todo" href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办</a>
-    <span class="as-tip">每场活动结束后当日填写反馈，并提交「三件套」（签到表·活动照片·现场小结）</span>
-  </div>
   <div class="filters" id="cal-scope-filters">
     <span class="flabel">课程范围：</span>
     <span class="chip on" data-scope="all" onclick="setCalScope('all')">课程总览</span>
@@ -293,11 +275,6 @@
 
 <!-- 待办事项 -->
 <div class="view" id="view-todo">
-  <div class="action-strip">
-    <a class="as-btn as-feedback" href="https://wj.qq.com/s2/27647616/pg6d/" target="_blank" rel="noopener">📝 填写活动反馈</a>
-    <a class="as-btn as-todo" href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办</a>
-    <span class="as-tip">按截止时间自动分档预警，内部人员可一键直达台账登记</span>
-  </div>
   <div class="kpis" id="todo-kpis" style="grid-template-columns:repeat(5,1fr)"></div>
   <div id="todo-list"></div>
 </div>
@@ -315,14 +292,13 @@
   <div class="cl-box">
     <div class="cl-head">
       <span class="cl-badge">v2026-09-02</span>
-      <h3>本轮更新要点</h3>
+      <h3>伙伴看板 · 本轮更新要点</h3>
     </div>
     <ul class="cl-list">
-      <li><b>顶部顺序调整</b>：「活动反馈问卷」+「登记待办」两个入口上移到标题下方，活动结束后第一时间能找到。</li>
-      <li><b>快速摘要卡可点击跳转</b>：「整体进度」「本周活动」「下次活动」「未完成待办」4 张卡现在会跳到对应的页签或活动详情。</li>
-      <li><b>每个 Tab 顶部都有行动入口</b>：「活动看板」「日历视图」「待办事项」三个页签里都加了「填写反馈+登记待办」。</li>
-      <li><b>课程计划日历可点开详情</b>：点击日历上的活动条目直接弹窗看完整信息（社群、讲师、地点、KPI、跨天说明）。</li>
-      <li><b>视觉降噪</b>：去掉了原本的紫粉渐变背景，统一蓝/绿基调，更清爽专业。</li>
+      <li><b>4 张快速摘要卡可点击跳转</b>：「整体进度」「本周活动」「下次活动」「未完成待办」点击后会跳到对应的页签（活动看板 / 日历视图 / 待办事项）或弹出现场活动详情。</li>
+      <li><b>KPI 卡上移</b>：原本独立的「整体进度」tab 合并入主区域，4 张进度卡（已完成 / 进行中 / 未启动 / 项目期）上移到摘要卡下方、所有页签上方，进度一眼可见。</li>
+      <li><b>顶部顺序调整</b>：「活动反馈问卷」+「登记待办」两个入口上移到 H1 下方、活动反馈引导条上方，活动结束后第一时间能找到。</li>
+      <li><b>视觉降噪</b>：去掉了原本的紫粉渐变背景，统一蓝/绿基调；KPI 卡下方保留一行「登记待办」快捷 CTA，但页面其它区域不再重复摆按钮行。</li>
     </ul>
     <div class="cl-foot">
       <span class="cl-tip">此提示每次更新会出现一次，24 小时内不再展示。</span>
@@ -333,10 +309,10 @@
 <script>
 function closeChangelog(){
   document.getElementById('changelog').classList.remove('on');
-  try{ localStorage.setItem('cl-partner-20260902', new Date().toISOString()); }catch(e){}
+  try{ localStorage.setItem('cl-partner-20260902b', new Date().toISOString()); }catch(e){}
 }
 function maybeShowChangelog(){
-  var key='cl-partner-20260902';
+  var key='cl-partner-20260902b';
   var last=null;
   try{ last = localStorage.getItem(key); }catch(e){}
   if(!last){
