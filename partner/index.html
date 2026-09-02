@@ -48,12 +48,27 @@
   .legend{font-size:11.5px;color:var(--sub);margin:0 0 10px;display:flex;gap:14px;flex-wrap:wrap;}
   .legend span{display:inline-flex;align-items:center;gap:5px;}
   .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
-  /* 问卷横幅 */
-  .qn-banner{display:flex;align-items:center;gap:10px;background:linear-gradient(90deg,#eaf2fb,#fdeef6);
-    border:1px solid #dbe7f3;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13.5px;color:var(--ink);}
+  /* 问卷横幅（克制版：无渐变，纯色边框） */
+  .qn-banner{display:flex;align-items:center;gap:10px;background:var(--card);
+    border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13.5px;color:var(--ink);}
   .qn-banner .qn-t{font-weight:800;color:var(--primary);}
   .qn-banner a{margin-left:auto;background:var(--primary);color:#fff;text-decoration:none;padding:7px 16px;border-radius:8px;font-weight:700;white-space:nowrap;}
   .qn-banner a:hover{background:var(--primary2);}
+  /* 顶部引导条 */
+  .guide-bar{display:flex;align-items:center;gap:8px;background:var(--card);
+    border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:8px;
+    padding:9px 14px;margin-bottom:12px;font-size:13px;color:var(--ink);}
+  .guide-bar .g-t{font-weight:800;color:var(--primary);white-space:nowrap;}
+  .guide-bar .g-x{margin-left:auto;cursor:pointer;color:var(--sub);font-weight:700;font-size:16px;
+    background:none;border:none;padding:0 4px;line-height:1;}
+  .guide-bar .g-x:hover{color:var(--ink);}
+  /* 快速摘要卡 */
+  .quick-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;}
+  .quick-sum .qs{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;
+                 box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .quick-sum .qs .qv{font-size:19px;font-weight:800;color:var(--ink);}
+  .quick-sum .qs .ql{font-size:11.5px;color:var(--sub);margin-top:2px;}
+  .quick-sum .qs .qd{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.4;}
   /* 活动细项按状态着色 */
   .card.s-done{border-left-color:var(--done);background:#f3fcf6;}
   .card.s-doing{border-left-color:var(--doing);background:#fffaf0;}
@@ -71,7 +86,7 @@
   .board{display:flex;flex-direction:column;gap:16px;padding-bottom:8px;}
   .cat-section{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
   .cat-head{font-weight:700;padding:7px 12px;border-radius:7px;color:#fff;font-size:14px;
-            background:linear-gradient(90deg,var(--primary),var(--primary2));display:inline-block;margin-bottom:12px;}
+            background:var(--primary);display:inline-block;margin-bottom:12px;}
   .status-band{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
   .status-band:last-child{margin-bottom:0;}
   .status-band .slabel{font-size:12px;font-weight:700;color:#fff;background:var(--sub);border-radius:6px;padding:5px 10px;width:fit-content;cursor:pointer;user-select:none;display:inline-flex;align-items:center;}
@@ -96,7 +111,7 @@
   .cal-nav button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:5px 12px;cursor:pointer;font-size:13px;color:var(--primary);}
   .cal-nav .mlabel{font-weight:700;font-size:15px;color:var(--primary);min-width:120px;text-align:center;}
   .month{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;}
-  .wd{display:grid;grid-template-columns:repeat(7,1fr);background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;}
+  .wd{display:grid;grid-template-columns:repeat(7,1fr);background:var(--primary);color:#fff;}
   .wd div{padding:7px 0;text-align:center;font-size:12.5px;}
   .grid{display:grid;grid-template-columns:repeat(7,1fr);}
   .day{border:1px solid #eef1f6;min-height:92px;padding:4px 5px;vertical-align:top;font-size:11px;}
@@ -116,7 +131,7 @@
   .bar-sm > i{background:linear-gradient(90deg,var(--accent),var(--doing));}
   table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;font-size:12.5px;}
   th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;}
-  th{background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;font-weight:600;}
+  th{background:var(--primary);color:#fff;font-weight:600;}
   tr:nth-child(even) td{background:#fafbfc;}
   .modal{position:fixed;inset:0;background:rgba(20,30,50,.5);display:none;align-items:center;justify-content:center;z-index:50;}
   .modal.on{display:flex;}
@@ -125,7 +140,7 @@
   .modal .kv{display:flex;gap:8px;margin:6px 0;font-size:13px;}
   .modal .kv b{color:var(--sub);min-width:78px;font-weight:600;}
   .modal .close{margin-top:14px;text-align:right;}
-  .modal .close button{border:none;background:linear-gradient(90deg,var(--primary),var(--primary2));color:#fff;border-radius:7px;padding:7px 16px;cursor:pointer;font-size:13px;}
+  .modal .close button{border:none;background:var(--primary);color:#fff;border-radius:7px;padding:7px 16px;cursor:pointer;font-size:13px;}
   .confidential{text-align:center;font-size:12px;color:#8a94a6;padding:18px 12px 24px;}
 
 </style>
@@ -134,6 +149,12 @@
 <div class="top">
   <h1>“西门荟治·社群和鸣”老西门街道社群孵化与社区共治培育项目</h1>
   <div class="sub">活动看板 · 日历视图 ｜ 数据来源：进度费用融合跟进表 V5（过会版 2026-08-26）｜ 周期 2026年7月–11月</div>
+  <div class="guide-bar" id="guide-bar" style="display:none;">
+    <span class="g-t">👋 30 秒看懂看板</span>
+    <span>顶部是「活动看板 / 日历视图 / 待办事项」三个页签，先看下方 4 张摘要卡掌握全貌，再点进页签看细节。</span>
+    <button class="g-x" id="guide-close" title="关闭引导">×</button>
+  </div>
+  <div class="quick-sum" id="quick-summary"></div>
   <div class="qn-banner">
     <span class="qn-t">📝 活动反馈问卷</span>
     <span>每场活动结束后，请各位老师当日填写活动反馈、提交问卷，并特别注意“三件套”（签到表、活动照片、现场小结）内容提交的完整性。</span>
@@ -326,6 +347,60 @@ function passFilter(a){
 
 // KPI
 const sm = DATA.summary;
+
+// 快速摘要卡：整体进度 / 本周活动 / 下次活动 / 未完成待办
+function renderQuickSummary(){
+  const box = document.getElementById('quick-summary');
+  if(!box) return;
+  const done = sm.status_dist['已完成']||0;
+  const total = sm.activity_count||0;
+  const pct = total? Math.round(done/total*100):0;
+  // 本周（周一~周日）
+  const now = new Date();
+  const day = (now.getDay()+6)%7; // 周一=0
+  const mon = new Date(now); mon.setDate(now.getDate()-day); mon.setHours(0,0,0,0);
+  const sun = new Date(mon); sun.setDate(mon.getDate()+6); sun.setHours(23,59,59,0);
+  const inWeek = DATA.activities.filter(a=>{
+    if(!a.start) return false;
+    const s = new Date(a.start+'T00:00:00');
+    return s>=mon && s<=sun;
+  }).length;
+  // 下次活动：start >= 今天 的最早一场
+  const today = new Date(); today.setHours(0,0,0,0);
+  const upcoming = DATA.activities.filter(a=>a.start && new Date(a.start+'T00:00:00')>=today)
+                       .sort((a,b)=>a.start.localeCompare(b.start));
+  const nextA = upcoming[0];
+  // 未完成待办（TODO_DATA 分档中非 done 的数量）
+  let pending = 0;
+  if(typeof TODO_DATA!=='undefined' && TODO_DATA && TODO_DATA.buckets){
+    ['overdue','d3','d7','d10','far','nodue'].forEach(k=>{
+      pending += (TODO_DATA.buckets[k]||[]).length;
+    });
+  }
+  const nextTxt = nextA ? `${nextA.start.slice(5).replace('-','-')} ${nextA.sub||''}` : '暂无安排';
+  box.innerHTML = `
+    <div class="qs"><div class="qv">${pct}%</div><div class="ql">整体进度</div><div class="qd">${done}/${total} 项已完成</div></div>
+    <div class="qs"><div class="qv">${inWeek}<small style="font-size:11px;color:var(--sub)"> 场</small></div><div class="ql">本周活动</div><div class="qd">${(mon.getMonth()+1)}月${mon.getDate()}日—${(sun.getMonth()+1)}月${sun.getDate()}日</div></div>
+    <div class="qs"><div class="qv" style="font-size:15px;">${esc(nextA?nextA.sub:'—')}</div><div class="ql">下次活动</div><div class="qd">${nextA?fmtDate(nextA.start):'暂无安排'}</div></div>
+    <div class="qs"><div class="qv">${pending}<small style="font-size:11px;color:var(--sub)"> 项</small></div><div class="ql">未完成待办</div><div class="qd">详见「待办事项」页签</div></div>
+  `;
+}
+// 引导条：显示/关闭
+function showGuideBar(){
+  const g = document.getElementById('guide-bar');
+  if(!g) return;
+  try{
+    if(!localStorage.getItem('lxm-guide-closed')) g.style.display='flex';
+  }catch(e){ g.style.display='flex'; }
+}
+const gc = document.getElementById('guide-close');
+if(gc) gc.onclick=()=>{
+  const g = document.getElementById('guide-bar');
+  if(g) g.style.display='none';
+  try{ localStorage.setItem('lxm-guide-closed','1'); }catch(e){}
+};
+showGuideBar();
+
 document.getElementById('kpis').innerHTML = `  <div class="kpi"><div class="v">${sm.status_dist["\u5df2\u5b8c\u6210"]||0}<small> 项</small></div><div class="l">已完成</div></div>
   <div class="kpi"><div class="v">${sm.status_dist["\u8fdb\u884c\u4e2d"]||0}<small> 项</small></div><div class="l">进行中</div></div>
   <div class="kpi"><div class="v">${sm.status_dist["\u672a\u542f\u52a8"]||0}<small> 项</small></div><div class="l">未启动</div></div>
@@ -1221,6 +1296,7 @@ renderMonthChips();
 initCurrentMentor();
 renderBoard();
 renderCal();
+renderQuickSummary();
 </script>
 <div class="confidential">仅供天韵公益内部 · 老西门项目组查阅，请勿外传</div>
 </body>
