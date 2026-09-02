@@ -59,12 +59,6 @@
   .qn-banner.qn-todo .qn-t{color:#2c8a4f;}
   .qn-banner.qn-todo a{background:#2c8a4f;}
   .qn-banner.qn-todo a:hover{background:#236b3d;}
-  /* KPI 卡下方的登记待办入口（紧凑版） */
-  .kpi-todo-cta{display:flex;align-items:center;gap:10px;background:#f3faf5;
-    border:1px dashed #b8d8c4;border-radius:8px;padding:8px 14px;margin-top:8px;font-size:12.5px;color:#2c8a4f;}
-  .kpi-todo-cta .kt-text{flex:1;}
-  .kpi-todo-cta a{background:#2c8a4f;color:#fff;text-decoration:none;padding:5px 14px;border-radius:6px;font-weight:700;white-space:nowrap;font-size:12px;}
-  .kpi-todo-cta a:hover{background:#236b3d;}
   /* 顶部引导条 */
   .guide-bar{display:flex;align-items:center;gap:8px;background:var(--card);
     border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:8px;
@@ -194,10 +188,6 @@
   </div>
   <div class="quick-sum" id="quick-summary"></div>
   <div class="kpis" id="kpis"></div>
-  <div class="kpi-todo-cta">
-    <span class="kt-text">📋 项目运营中的待办 · 跟进 / 协调 / 物料 / 反馈等</span>
-    <a href="https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN" target="_blank" rel="noopener">➕ 登记待办 ↗</a>
-  </div>
 </div>
 
 <div class="top" style="padding-top:0;">
@@ -298,7 +288,7 @@
       <li><b>4 张快速摘要卡可点击跳转</b>：「整体进度」「本周活动」「下次活动」「未完成待办」点击后会跳到对应的页签（活动看板 / 日历视图 / 待办事项）或弹出现场活动详情。</li>
       <li><b>KPI 卡上移</b>：原本独立的「整体进度」tab 合并入主区域，4 张进度卡（已完成 / 进行中 / 未启动 / 项目期）上移到摘要卡下方、所有页签上方，进度一眼可见。</li>
       <li><b>顶部顺序调整</b>：「活动反馈问卷」+「登记待办」两个入口上移到 H1 下方、活动反馈引导条上方，活动结束后第一时间能找到。</li>
-      <li><b>视觉降噪</b>：去掉了原本的紫粉渐变背景，统一蓝/绿基调；KPI 卡下方保留一行「登记待办」快捷 CTA，但页面其它区域不再重复摆按钮行。</li>
+      <li><b>视觉降噪</b>：去掉了原本的紫粉渐变背景，统一蓝/绿基调；登记入口统一在 H1 下方两个横幅（活动反馈 + 登记待办），KPI 卡下方那行重复的 CTA 取消，全页不再放第三处。</li>
     </ul>
     <div class="cl-foot">
       <span class="cl-tip">此提示每次更新会出现一次，24 小时内不再展示。</span>
@@ -309,10 +299,10 @@
 <script>
 function closeChangelog(){
   document.getElementById('changelog').classList.remove('on');
-  try{ localStorage.setItem('cl-partner-20260902b', new Date().toISOString()); }catch(e){}
+  try{ localStorage.setItem('cl-partner-20260902c', new Date().toISOString()); }catch(e){}
 }
 function maybeShowChangelog(){
-  var key='cl-partner-20260902b';
+  var key='cl-partner-20260902c';
   var last=null;
   try{ last = localStorage.getItem(key); }catch(e){}
   if(!last){
