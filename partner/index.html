@@ -1451,13 +1451,23 @@ var sjsScript = document.createElement('script');
 sjsScript.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
 document.head.appendChild(sjsScript);
 
-function parsePeriod(timeNote){
+// 推断时段标签：5:00-11:59 上午 / 12:00-17:59 下午 / 18:00 之后 晚上
+function periodOf(hhmm){
+  var m = String(hhmm).match(/(\d{1,2}):(\d{2})/);
+  if(!m) return '';
+  var h = parseInt(m[1], 10);
+  if(h >= 5 && h < 12) return '上午';
+  if(h >= 12 && h < 18) return '下午';
+  return '晚上';
+}
+// 拼成"上午9:00-10:30"格式（V5 时间安排原值 timeNote 已含具体时间段，无前缀）
+function formatPeriod(timeNote){
   if(!timeNote) return '';
-  var t = String(timeNote);
-  if(/上午|早上|晨/.test(t)) return '上午';
-  if(/下午|午后|傍晚/.test(t)) return '下午';
-  if(/晚上|夜|19|20|21|22|23/.test(t)) return '晚上';
-  return '';
+  var s = String(timeNote).trim();
+  // 跳过"发生时"、"-"等非时段值
+  if(/发生时/.test(s)) return s;
+  if(s === '-') return '';
+  return periodOf(s) + s;
 }
 function weekdayCn(ds){
   if(!ds) return '';
@@ -1472,7 +1482,7 @@ function exportPartnerExcel(){
   }
   var s = (document.getElementById('exp-start')||{}).value || '';
   var e = (document.getElementById('exp-end')||{}).value || '';
-  var rows = [['序号','星期','时间','上午下午晚上','活动名称','地点','授课老师','志愿者']];
+  var rows = [['序号','星期','时间','时段','活动名称','地点','授课老师','志愿者']];
   DATA.activities.forEach(function(a){
     var iso = a.start || '';
     if(s && iso < s) return;
@@ -1481,7 +1491,7 @@ function exportPartnerExcel(){
       a.seq || '',
       weekdayCn(iso),
       iso,
-      parsePeriod(a.timeNote),
+      formatPeriod(a.timeNote),
       a.sub || a.title || '',
       a.location || '',
       a.lead || '',
