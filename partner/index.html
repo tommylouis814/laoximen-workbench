@@ -715,19 +715,18 @@ document.getElementById('next').onclick=()=>{ mi=(mi+1)%MONTHS.length; renderCal
 
 // 待办事项渲染
 const TODO_DATA = {
-  "syncedAt": "2026-09-04 17:03",
+  "syncedAt": "2026-09-05 10:41",
   "todoDocUrl": "https://docs.qq.com/smartsheet/DRkJvbE9yY1h1cmxN",
   "total": 25,
   "buckets": {
-    "overdue": [],
-    "d3": [
+    "overdue": [
       {
         "title": "沪语学堂课件发送街道审核",
         "owner": [
           "侯佳奇"
         ],
         "due": "2026-09-04",
-        "days": 0,
+        "days": -1,
         "party": [
           "内部",
           "街道",
@@ -755,7 +754,7 @@ const TODO_DATA = {
           "侯佳奇"
         ],
         "due": "2026-09-04",
-        "days": 0,
+        "days": -1,
         "party": [
           "内部",
           "授课老师",
@@ -776,14 +775,16 @@ const TODO_DATA = {
           "待办"
         ],
         "follow_count": 0
-      },
+      }
+    ],
+    "d3": [
       {
         "title": "大林、明日星城非遗课程材料确认",
         "owner": [
           "杨森林"
         ],
         "due": "2026-09-07",
-        "days": 3,
+        "days": 2,
         "party": [
           "内部",
           "授课老师"
@@ -810,7 +811,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-07",
-        "days": 3,
+        "days": 2,
         "party": [
           "内部",
           "街道",
@@ -839,7 +840,7 @@ const TODO_DATA = {
           "杨森林"
         ],
         "due": "2026-09-07",
-        "days": 3,
+        "days": 2,
         "party": [
           "内部"
         ],
@@ -865,7 +866,7 @@ const TODO_DATA = {
           "杨森林"
         ],
         "due": "2026-09-07",
-        "days": 3,
+        "days": 2,
         "party": [
           "内部"
         ],
@@ -891,7 +892,7 @@ const TODO_DATA = {
           "卢琪"
         ],
         "due": "2026-09-07",
-        "days": 3,
+        "days": 2,
         "party": [
           "内部",
           "街道"
@@ -920,7 +921,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-09",
-        "days": 5,
+        "days": 4,
         "party": [
           "内部",
           "街道",
@@ -951,7 +952,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-09",
-        "days": 5,
+        "days": 4,
         "party": [
           "内部",
           "授课老师",
@@ -972,16 +973,14 @@ const TODO_DATA = {
           "进行中"
         ],
         "follow_count": 0
-      }
-    ],
-    "d10": [
+      },
       {
         "title": "国学课程场地确认",
         "owner": [
           "孙佳鑫"
         ],
         "due": "2026-09-12",
-        "days": 8,
+        "days": 7,
         "party": [
           "街道",
           "场地方",
@@ -1005,6 +1004,7 @@ const TODO_DATA = {
         "follow_count": 0
       }
     ],
+    "d10": [],
     "far": [
       {
         "title": "古韵悠扬舞蹈队节目排演时间",
@@ -1012,7 +1012,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-10-09",
-        "days": 35,
+        "days": 34,
         "party": [
           "授课老师",
           "内部",
@@ -1041,7 +1041,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-10-11",
-        "days": 37,
+        "days": 36,
         "party": [
           "内部",
           "居民区书记",
@@ -1069,7 +1069,7 @@ const TODO_DATA = {
           "侯佳奇"
         ],
         "due": "2026-10-18",
-        "days": 44,
+        "days": 43,
         "party": [
           "授课老师",
           "内部"
@@ -1099,7 +1099,7 @@ const TODO_DATA = {
           "卢琪"
         ],
         "due": "2026-09-03",
-        "days": -1,
+        "days": -2,
         "party": [
           "内部",
           "场地方"
@@ -1126,7 +1126,7 @@ const TODO_DATA = {
           "卢琪"
         ],
         "due": "2026-09-03",
-        "days": -1,
+        "days": -2,
         "party": [
           "内部",
           "街道"
@@ -1153,7 +1153,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-04",
-        "days": 0,
+        "days": -1,
         "party": [
           "内部",
           "授课老师",
@@ -1182,7 +1182,7 @@ const TODO_DATA = {
           "杨森林"
         ],
         "due": "2026-09-04",
-        "days": 0,
+        "days": -1,
         "party": [
           "内部",
           "居民区书记"
@@ -1209,7 +1209,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-05",
-        "days": 1,
+        "days": 0,
         "party": [
           "街道",
           "内部",
@@ -1237,7 +1237,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-06",
-        "days": 2,
+        "days": 1,
         "party": [
           "授课老师",
           "内部",
@@ -1266,7 +1266,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-07",
-        "days": 3,
+        "days": 2,
         "party": [
           "内部",
           "授课老师",
@@ -1295,7 +1295,7 @@ const TODO_DATA = {
           "龚学群"
         ],
         "due": "2026-09-08",
-        "days": 4,
+        "days": 3,
         "party": [
           "内部",
           "授课老师",
@@ -1324,7 +1324,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-09",
-        "days": 5,
+        "days": 4,
         "party": [
           "授课老师",
           "内部",
@@ -1353,7 +1353,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-10",
-        "days": 6,
+        "days": 5,
         "party": [
           "居民区书记",
           "社群主理人",
@@ -1382,7 +1382,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-16",
-        "days": 12,
+        "days": 11,
         "party": [
           "街道",
           "居民区书记",
@@ -1410,7 +1410,7 @@ const TODO_DATA = {
           "孙佳鑫"
         ],
         "due": "2026-09-18",
-        "days": 14,
+        "days": 13,
         "party": [
           "内部",
           "授课老师",
