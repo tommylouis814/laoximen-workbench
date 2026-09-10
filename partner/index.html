@@ -230,10 +230,12 @@
   <div class="quick-sum" id="quick-summary"></div>
   <div class="kpis" id="kpis"></div>
   <div class="export-bar" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0 8px;padding:12px 14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.04)">
-    <span style="font-weight:600;color:var(--primary)">📤 导出活动排期表（Excel）</span>
-    <label style="font-size:13px;color:var(--sub)">起始日期 <input type="date" id="exp-start" style="margin-left:4px;padding:4px 6px;border:1px solid var(--line);border-radius:6px"></label>
-    <label style="font-size:13px;color:var(--sub)">结束日期 <input type="date" id="exp-end" style="margin-left:4px;padding:4px 6px;border:1px solid var(--line);border-radius:6px"></label>
-    <button onclick="exportPartnerExcel()" style="padding:6px 14px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 导出 Excel</button>
+    <span id="exp-title" style="font-weight:600;color:var(--primary)">📤 导出活动排期表（Excel）</span>
+    <span id="exp-dates" style="display:contents">
+      <label style="font-size:13px;color:var(--sub)">起始日期 <input type="date" id="exp-start" style="margin-left:4px;padding:4px 6px;border:1px solid var(--line);border-radius:6px"></label>
+      <label style="font-size:13px;color:var(--sub)">结束日期 <input type="date" id="exp-end" style="margin-left:4px;padding:4px 6px;border:1px solid var(--line);border-radius:6px"></label>
+    </span>
+    <button id="exp-btn" onclick="exportPartnerExcel()" style="padding:6px 14px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:600">⬇️ 导出 Excel</button>
     <span id="exp-hint" style="font-size:12px;color:var(--sub)">按日期段筛选后导出；不选 = 全量</span>
   </div>
 </div>
@@ -1980,6 +1982,18 @@ function switchTab(v){
   if(t) t.classList.add('on');
   const view = document.getElementById('view-'+v);
   if(view) view.classList.add('on');
+  // 顶部导出工具条随页签切换：街道交付页签 = 导出交付清单（走页签内筛选），其余页签 = 导出活动排期表
+  var expTitle = document.getElementById('exp-title');
+  if(expTitle){
+    var isDv = (v === 'delivery');
+    expTitle.textContent = isDv ? '📤 导出交付清单（Excel）' : '📤 导出活动排期表（Excel）';
+    var expDates = document.getElementById('exp-dates');
+    if(expDates) expDates.style.display = isDv ? 'none' : 'contents';
+    var expBtn = document.getElementById('exp-btn');
+    if(expBtn) expBtn.onclick = isDv ? exportDeliveryExcel : exportPartnerExcel;
+    var expHint = document.getElementById('exp-hint');
+    if(expHint) expHint.textContent = isDv ? '按页签内筛选条件导出（交付物类型 / 状态 / 月份，含真实完成情况）' : '按日期段筛选后导出；不选 = 全量';
+  }
   // 切到日历 tab 时确保日历已渲染（若尚未渲染则补一次）
   if(v==='cal' && !document.getElementById('cal-grid').innerHTML) renderCal();
 }
