@@ -96,7 +96,15 @@
 <header class="top">
   <h1>老西门街道「西门荟治·社群和鸣」项目 · 看板使用手册</h1>
   <div class="sub">社群孵化与社区共治培育项目 · 内部人员使用说明（怎么看 · 登记什么 · 怎么登记）</div>
-  <div class="meta">适用对象：项目负责人 / 活动执行 / 授课老师 / 社群主理人 ｜ 编制：天韵公益服务中心 ｜ 版本 v1.11（2026-09-17）</div>
+  <div class="meta">适用对象：项目负责人 / 活动执行 / 授课老师 / 社群主理人 ｜ 编制：天韵公益服务中心 ｜ 版本 v1.12（2026-09-17）</div>
+<div class="note" style="background:#e6f0fb;border-left-color:var(--blue);color:var(--ink);">
+  <b>v1.12 版本变更（2026-09-17）</b>
+  <ul style="margin:6px 0 0 18px;padding:0;font-size:13px;">
+    <li><b>两次调研小结改为逐居民区展开、并与 V5 落地活动对应</b>：不再只写"了解了居民需求"这类概述，而是逐个居民区写明人群特点、居民诉求，以及这些诉求最终落成哪个社群的哪些活动（含场次数），全部可与 V5 的「场地」「合作方」两列逐条对上。</li>
+    <li><b>新增对照表</b> <span class="mono">_调研点位与V5落地活动对照.md</span>：7 个走访点位 × V5 关联活动明细，由脚本按权威表字段自动生成（不手工维护），便于复核。</li>
+    <li><b>小结按段落呈现</b>：看板卡片默认折叠 4 行、点「展开」看全文；打印件中按段落整幅显示。</li>
+  </ul>
+</div>
 <div class="note" style="background:#e6f0fb;border-left-color:var(--blue);color:var(--ink);">
   <b>v1.11 版本变更（2026-09-17）</b>
   <ul style="margin:6px 0 0 18px;padding:0;font-size:13px;">
@@ -167,10 +175,10 @@
   <div class="toc-update">
     <span class="tu-badge">最新更新</span>
     <div class="tu-body">
-      <div class="tu-ver">v1.11 · 2026-09-17</div>
+      <div class="tu-ver">v1.12 · 2026-09-17</div>
       <ul>
-        <li>新增活动内容补充入口 manual_act_overrides.json（形式/地点/参与/小结/照片）</li>
-        <li>两次前期调研（7/2、7/16）内容与现场照片已补充；看板卡片新增「地点」</li>
+        <li>两次调研小结改为逐居民区展开，并与 V5 落地活动一一对应（可核验）</li>
+        <li>新增「调研点位 × V5 落地活动」对照表，由脚本自动生成</li>
       </ul>
     </div>
   </div>
@@ -506,6 +514,11 @@
   </table>
   <div class="tip">
     <b>已登记示例：</b>两次前期调研（2026-07-02 走访也是园、明日星城、小西门、幸运福邸；2026-07-16 走访龙门邨、联寓公寓、大林）的形式=调研、地点=老西门街道全域、参与=20 人、活动小结与现场照片（3 张 / 4 张），均在该文件中维护。
+  </div>
+  <div class="tip" style="background:#fff8e6;border-left-color:#e8a33d">
+    <b>小结怎么写才「有据可查」：</b>建议对照 V5 表的 <b>「场地」</b>与 <b>「合作方」</b>两列来写 —— 这两列已经把每个居民区与最终落地的活动直接挂了钩（例如「非遗手作大师课 第 1、3 次的场地是明日星城」「老城厢漫游两场的合作方是龙门邨」「沪语学堂 10 次中有 5 次在联寓公寓」）。
+    把居民区的需求与这些<b>已落地的具体活动</b>对应起来写，小结就既具体、又能逐条回溯到权威表，不会出现「写得漂亮但查不到依据」的情况。
+    对照表见 <span class="mono">_调研点位与V5落地活动对照.md</span>（由 <span class="mono">_gen_research_mapping.py</span> 按 V5 的场地/合作方字段自动生成，可随时重跑）。
   </div>
 
   <div class="note">
